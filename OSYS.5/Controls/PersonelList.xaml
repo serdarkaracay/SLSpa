@@ -42,7 +42,7 @@
             <Grid x:Name="gridPersonelEkle">
                 <ListBox x:Name="listboxPersonelEkle" ItemTemplate="{StaticResource PersonelListBox}" Foreground="Black" SelectionChanged="listboxPersonelEkle_SelectionChanged" Margin="5,29,5,5" BorderThickness="2" BorderBrush="#FF3978DE" Height="302" Width="572" />
                 <sdk:AutoCompleteBox x:Name="autoComPersonelAdi" Width="572" BorderThickness="2" BorderBrush="#FF4C4CDA" Height="25"
-                                     VerticalAlignment="Top" HorizontalAlignment="Left" MinimumPrefixLength="4" IsDropDownOpen="True" Margin="5" />
+                                     VerticalAlignment="Top" HorizontalAlignment="Left" MinimumPrefixLength="1" IsDropDownOpen="True" Margin="5" />
 
             </Grid>
         </Border>
