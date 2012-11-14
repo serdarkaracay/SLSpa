@@ -1,0 +1,77 @@
+﻿   #region CustomQuery
+
+
+        Guid TKMBayanDepartman = Guid.Parse("80A41632-1815-46A4-8D46-0F70DB0CC2D0");
+        Guid TKMErkekDepartman = Guid.Parse("9E84B9A1-D5EF-4A20-BB46-3DFC39EF53EA");
+        public void LoginUser(string username, string password)
+        {
+            string applicationName = "Spa";
+            NUtils.Login.Authentication newAuthentication = new NUtils.Login.Authentication(applicationName);
+            Kullanici userLogin = newAuthentication.KullaniciKontrol(username, password);
+            //userLogin nesnesini sessiona aktar
+
+        }
+        public IQueryable<DTO.DbLogin> GetLogin(string userName, string password)
+        {
+            IQueryable<DTO.DbLogin> result = from p in ObjectContext.Personel
+                                             join u in ObjectContext.User on p.OID equals u.EmployeeId
+                                             where (u.LoginName == userName && u.Password == password ||
+                                             p.DepartmanID == TKMBayanDepartman && p.DepartmanID == TKMErkekDepartman)
+                                             select new DTO.DbLogin()
+                                             {
+                                                 PersonelID = p.OID,
+                                                 Username = u.LoginName,
+                                                 Password = u.Password,
+                                                 DepartmanID = p.DepartmanID ?? Guid.Empty,
+                                                 PersonelName = p.Adi
+                                             };
+            return result.AsQueryable();
+        }
+
+        DTO.DbLogin dl = new DTO.DbLogin();
+
+        public void UpdateDLogin(DTO.DbLogin login)
+        {
+            dl = login;
+        }
+
+        /// <summary>
+        /// AutoComplete için Kullanılan Methot
+        /// </summary>
+        /// <param name="personelAdi">Personel Adı</param>
+        /// <returns>List</returns>
+        public IQueryable<DTO.DbPersonel> GetPersonelByPersonelAdi(string personelAdi)
+        {
+            IQueryable<DTO.DbPersonel> result = from p in ObjectContext.Personel
+                                                where p.Adi.StartsWith(personelAdi) || p.DepartmanID == TKMBayanDepartman && p.DepartmanID == TKMErkekDepartman
+                                                select new DbPersonel()
+                                                {
+
+                                                    PersonelAdi = p.Adi,
+                                                    ID = p.OID
+
+                                                };
+            return result.AsQueryable();
+        }
+
+        DTO.DbPersonel dbPersonel = new DbPersonel();
+        public void UpdateDPersonel(DTO.DbPersonel Personel)
+        {
+            dbPersonel = Personel;
+        }
+
+        //27.08.2012
+        public IQueryable<Personel> GetPersonelByFizyoterapist()
+        {
+            string fizyo = "67CD2921-FE0B-48BA-B920-20BE504E5EC5";
+            Guid _fizyo = new Guid(fizyo);
+
+            return ObjectContext.Personel.Where(p => p.GorevID == _fizyo);
+        }
+
+        //19.07.2012 Resimdosyaları için ve AutoComplete için ViewOluşturuldu.
+        public IQueryable<View_SPA_PersonelProfil> GetViewPersonelProfil(string Adi)
+        {
+            return ObjectContext.View_SPA_PersonelProfil.Where(p => p.Adi.StartsWith(Adi));
+        }
+        #endregion

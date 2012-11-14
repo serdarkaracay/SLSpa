@@ -1,0 +1,235 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Windows.Navigation;
+using iDeal.silverlight;
+using System.Windows.Threading;
+using VesselTracking.Classes;
+
+namespace VesselTracking.Pages
+{
+
+
+
+    public partial class pageLogon : BasePage
+    {
+
+        public event AuthenticatedHandler AuthenticationSucceded;
+        public event EventHandler AuthenticationFailed;
+        public CUser AuthenticatedUser { get; set; }
+
+        DispatcherTimer timer = new DispatcherTimer();
+        public pageLogon()
+        {
+            InitializeComponent();
+            Security.CurrentUser = null;
+            timer.Interval = new TimeSpan(0, 0, 3);
+            timer.Tick += (s, e) =>
+            {
+                borderMessage.Visibility =
+               label.Visibility = Visibility.Collapsed;
+                timer.Stop();
+            };
+
+            Loaded += (s, ex) =>
+            {
+                borderMessage.Visibility =
+                  label.Visibility = Visibility.Collapsed;
+                Focus();
+                SetFocus();
+                txtUserName.Text = CService.LoadData("Username");
+                if (txtUserName.Text != "")
+                {
+                    txtPassword.Focus();
+                }
+            };
+        }
+
+        public void SetFocus()
+        {
+            container.Focus();
+            this.Focus();
+
+         
+            txtUserName.Focus();
+
+        }
+
+
+
+
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Authenticate();
+            }
+        }
+
+        void AuthenticateUser(string userName, string password)
+        {
+            container.BusyStart("Checking security...");
+
+            CUser.Authenticate(this, userName.ToLower(), password,
+                (s, aea) => //SUCCESS
+                {
+
+                    AuthenticatedUser = aea.AuthenticatedUser as CUser;
+                    container.SetBusyText("Checking profile...");
+                    AuthenticatedUser.GetProfile(this, 
+                        (se, a) =>
+                        {
+
+                            if (AuthenticationSucceded != null) AuthenticationSucceded(this, new AuthenticationEventArgs(AuthenticatedUser));
+                            container.BusyEnd();
+
+                        },
+                        (ss, msg) => //FAIL
+                        {
+                            container.BusyEnd();
+                            container.MsgBox(msg + "\nProfile was set to default.", EIcon.Warning, (r) =>
+                             {
+                                 if (AuthenticationSucceded != null) AuthenticationSucceded(this, new AuthenticationEventArgs(AuthenticatedUser));
+                             });
+
+                        },
+                        (b, c) =>
+                        {
+                            container.SetBusyText("Checking profile error...");
+                            if (AuthenticationSucceded != null) AuthenticationSucceded(this, new AuthenticationEventArgs(AuthenticatedUser));
+                            container.BusyEnd();
+                        }
+                    );
+
+                },
+                (s, msg) => //FAIL
+                {
+
+                    if (AuthenticationFailed != null) AuthenticationFailed(this, null);
+                    container.BusyEnd();
+                    container.MsgBox(msg, EIcon.Error, (r) =>
+                    {
+                       
+                        txtPassword.Focus();
+                    });
+
+                },
+                (s, ex) => //ERROR
+                {
+
+                    if (AuthenticationFailed != null) AuthenticationFailed(this, null);
+
+                    container.BusyEnd();
+                    container.MsgBox("Unknown error occured.\nPlease try again later."
+#if DEBUG
+ + "\n" + ex.Message
+#endif
+, EIcon.Error, (r) =>
+{
+    txtPassword.Focus();
+});
+
+                }
+               );
+
+
+
+
+            //if (userName.ToLower() == "demo" && password.Equals("12345"))
+            //{
+            //    AuthenticatedUser.Name = "Demo User";
+            //    CService.SaveData(AuthenticatedUser.UserName, "Username");
+            //}
+            //else
+            //{
+            //    timer.Start();
+            //    label.Content = "Authentication error";
+            //    txtPassword.Password = "";
+            //    borderMessage.Visibility = label.Visibility = Visibility.Visible;
+            //}
+        }
+
+
+
+
+
+        void Authenticate()
+        {
+            timer.Stop();
+            if (string.IsNullOrEmpty(txtUserName.Text.Trim()))
+            {
+                borderMessage.Visibility = label.Visibility = Visibility.Visible;
+                label.Content = "Enter the username";
+                txtUserName.Focus();
+                timer.Start();
+                // btnEnter.IsEnabled = true;
+                return;
+            }
+            if (txtPassword.Password.Trim() == "")
+            {
+                borderMessage.Visibility = label.Visibility = Visibility.Visible;
+                label.Content = "Enter the password";
+                txtPassword.Focus();
+                timer.Start();
+                // btnEnter.IsEnabled = true;
+                //container.BusyEnd();
+                return;
+            }
+            borderMessage.Visibility = label.Visibility = Visibility.Collapsed;
+
+            AuthenticateUser(txtUserName.Text, txtPassword.Password);
+
+
+        }
+
+        private void btnEnter_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Authenticate();
+        }
+
+        private void Image_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Authenticate();
+        }
+
+        //Forgotten user name password
+        private void btnOk_Copy_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void Image_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            (sender as Image).Opacity = 1;
+        }
+
+        private void Image_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            (sender as Image).Opacity = .3;
+        }
+
+        private void btnForgottenPassword_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            container.NotImplemented();
+        }
+
+        private void txtUserName_GotFocus(object sender, RoutedEventArgs e)
+        {
+            txtUserName.SelectAll();
+        }
+
+        private void txtPassword_GotFocus(object sender, RoutedEventArgs e)
+        {
+            txtPassword.SelectAll();
+        }
+    }
+}

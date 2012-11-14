@@ -1,0 +1,176 @@
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using VesselTracking.Classes;
+using System.Windows.Media.Imaging;
+using System.Net;
+using System.Text;
+using System.IO;
+using System.Net.Browser;
+
+namespace VesselTracking.Controls
+{
+	public partial class PropertyControl : UserControl
+	{
+
+        public event EventHandler LockRequest;
+        public event EventHandler TrackLineRequest;
+        public event EventHandler RemoveTrackLineRequest;
+        public event EventHandler HistoryRequest;
+public event EventHandler AddToGroupRequest;
+        public event EventHandler SendMessageRequest;
+        public event EventHandler BroadcastMessageRequest;
+
+		public PropertyControl()
+		{
+			// Required to initialize variables
+			InitializeComponent();
+			Loaded += new RoutedEventHandler(PropertyControl_Loaded);
+            btnStatic.SetChecked();
+		}
+
+		void PropertyControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			DataContext = MapItem;
+            c1TabControl.SelectedIndex = 0;
+		}
+		public CMapItem  MapItem{ get; set; }
+
+		public Visibility CloseButton{get{return closeGrid.Visibility ;}set{closeGrid.Visibility =value;}}
+		
+		private void Ellipse_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			Visibility=Visibility.Collapsed;
+		}
+
+		private void Grid_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			Visibility=Visibility.Collapsed;
+		}
+
+		private void closeGrid_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			//closeGrid.Opacity =1;
+		}
+
+		private void closeGrid_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			//closeGrid.Opacity =.4;
+		}
+
+		private void txtName_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+
+			TextBlock c=sender as TextBlock;
+            CAISItem mi=c.DataContext as CAISItem;
+			if (mi.IMO == "0" || string.IsNullOrEmpty(mi.IMO)) return;
+			string uri="http://photos.marinetraffic.com/ais/showallphotos.aspx?imo=" + mi.IMO;
+			WebRequest.RegisterPrefix("http://", WebRequestCreator.BrowserHttp);
+			WebRequest req=(HttpWebRequest)WebRequest.Create(uri);
+			 req.BeginGetResponse((async) =>
+			{
+
+				try
+				{
+					Stream str=req.EndGetResponse(async).GetResponseStream();
+					using (StreamReader reader = new StreamReader(str))
+					{
+						string source = reader.ReadToEnd();
+					}
+				}
+				catch (Exception ex)
+				{
+					Exception x=ex;
+					Dispatcher.BeginInvoke(() => {
+						if (x.InnerException != null) x = ex.InnerException;
+						MessageBox.Show(x.Message);
+					});
+				}
+			
+			}, null);
+			
+		}
+
+        private void btnLock_Clicked(object sender, EventArgs e)
+        {
+            if (LockRequest != null) LockRequest(this, null);
+        }
+
+        private void btnTrackLine_Clicked(object sender, EventArgs e)
+        {
+            if (TrackLineRequest != null) TrackLineRequest(this, null);
+        }
+
+        private void btnHistory_Clicked(object sender, EventArgs e)
+        {
+            if (HistoryRequest != null) HistoryRequest(this, null);
+        }
+
+        private void btnVoyage_PreClicked(object sender, EventArgs e)
+        {
+            if (!btnVoyage.IsChecked)
+            {
+                btnStatic.SetUnchecked();
+                btnTime.SetUnchecked();
+                gridVoyage.Visibility = Visibility.Visible;
+                gridStatic.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnStatic_PreClicked(object sender, EventArgs e)
+        {
+
+            if (!btnStatic.IsChecked)
+            {
+                btnVoyage.SetUnchecked();
+                btnTime.SetUnchecked();
+               gridStatic.Visibility = Visibility.Visible;
+                gridVoyage.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnTime_PreClicked(object sender, EventArgs e)
+        {
+            if (!btnTime.IsChecked)
+            {
+                btnVoyage.SetUnchecked();
+                btnStatic.SetUnchecked();
+                gridStatic.Visibility = Visibility.Collapsed;
+                gridVoyage.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnTracklineRemove_Clicked(object sender, System.EventArgs e)
+        {
+            if (RemoveTrackLineRequest != null) RemoveTrackLineRequest(this, null);
+        }
+
+        private void btnSendMessage_Clicked(object sender, System.EventArgs e)
+        {
+            if (SendMessageRequest != null) SendMessageRequest(this, null);
+            
+        }
+
+     
+
+        private void btnAddToGroup_Clicked(object sender, System.EventArgs e)
+        {
+        	 if (AddToGroupRequest != null) AddToGroupRequest(this, null);
+        }
+
+        private void btnBroadcastMessage_Clicked(object sender, EventArgs e)
+        {
+            if (BroadcastMessageRequest != null) BroadcastMessageRequest(this, null);
+        }
+
+      
+
+      
+	}
+}

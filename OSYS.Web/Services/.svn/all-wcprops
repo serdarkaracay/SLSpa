@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.Web/Services
+END
+SendMessage.ashx
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.Web/Services/SendMessage.ashx
+END
+web.config
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.Web/Services/web.config
+END
+Execute.ashx
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.Web/Services/Execute.ashx
+END
+GetData.ashx
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.Web/Services/GetData.ashx
+END

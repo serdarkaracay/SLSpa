@@ -1,0 +1,664 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Text;
+using iDeal.silverlight;
+using System.Threading;
+
+namespace VesselTracking.Controls
+{
+    public partial class CSendMessage : UserControl
+    {
+        public CSendMessage()
+        {
+            InitializeComponent();
+        }
+
+        public string NMEAMessage
+        {
+            get
+            {
+                if (Type == "ABM")
+                    return ABM("AN", "423001000", "0", "A", textBox1.Text)["nmeastring"].ToString();
+                else if (Type == "BBM")
+                    return BBM("AN", "0", "A", textBox1.Text)["nmeastring"].ToString();
+                else return "";
+            }
+        }
+        public string iNOSSMessage { get { return encapsulate(); } }
+
+        private string encapsulate()
+        {
+            return string.Format("NodeID=666,SubNodeID=0,Task=TxAUXCOMData,AUXCOM=1,AUXCOMTag=1,XData={0}\r\n", CText.ToHexString(NMEAMessage + "\r\n"));
+        }
+
+        public void Send(object sender, EventHandler successHandler, ExceptionHandler exceptionHandler)
+        {
+
+            if (NMEAMessage == "") return;
+            (new CService()).SendMessage(sender, iNOSSMessage,
+                (s, x) =>
+                {
+                    ((DependencyObject)s).Dispatcher.BeginInvoke(() =>
+                    {
+                        successHandler(this, null);
+                    });
+                },
+                (s, ex) =>
+                {
+                    ((DependencyObject)s).Dispatcher.BeginInvoke(() =>
+                    {
+                        exceptionHandler(s, ex);
+                    });
+                }
+                );
+
+        }
+
+        public CNMEAItem ABM(string Talker, string MMSI, string SequentialMessageidentifier, string AISChannel, string Data)
+        {
+
+            string sixBitText = "";
+            int totalNumberOfMessage = 1;
+            int numberOfMessage = 1;
+            CNMEAItem NMEAMsg = null;
+
+            sixBitText = CText.ConvertText2SixBitsText(Data);
+
+
+            CNMEAItem ni = new CNMEAItem(null);
+            ni.Add("prefix", "!");
+            ni.Add("talker", Talker);
+            ni.Add("sentence", "ABM");
+            ni.Add("totalnumberofmessage", totalNumberOfMessage.ToString());
+            ni.Add("numberofmessage", numberOfMessage.ToString());
+            ni.Add("seqmsgid", "0");
+            ni.Add("mmsi", MMSI);
+            ni.Add("aischannel", AISChannel);
+            ni.Add("messageid", "12");
+            ni.Add("content", sixBitText);
+            ni.Add("fillbits", "0");
+            ni.Construct();
+            ni.Childs.Add(NMEAMsg);
+            return ni;
+        }
+
+        public CNMEAItem BBM(string Talker, string SequentialMessageidentifier, string AISChannel, string Data)
+        {
+            string sixBitText = "";
+            int totalNumberOfMessage = 1;
+            int numberOfMessage = 1;
+            sixBitText = CText.ConvertText2SixBitsText(Data);
+
+            CNMEAItem ni = new CNMEAItem(null);
+            ni.Add("prefix", "!");
+            ni.Add("talker", Talker);
+            ni.Add("sentence", "BBM");
+            ni.Add("totalnumberofmessage", totalNumberOfMessage.ToString());
+            ni.Add("numberofmessage", numberOfMessage.ToString());
+            ni.Add("seqmsgid", "0");
+            ni.Add("aischannel", AISChannel);
+            ni.Add("messageid", "14");
+            ni.Add("content", sixBitText);
+            ni.Add("fillbits", "0");
+            ni.Construct();
+            return ni;
+        }
+
+        private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Type == "ABM")
+                textBlock1.Text = ABM("AN", "423001000", "0", "A", textBox1.Text)["nmeastring"].ToString();
+            else if (Type == "BBM")
+                textBlock1.Text = BBM("AN", "0", "A", textBox1.Text)["nmeastring"].ToString();
+        }
+
+
+        public string Type { get; set; }
+    }
+
+    public class CNMEAItem : Dictionary<string, object>, IDisposable
+    {
+        List<CNMEAItem> _Childs;
+        CNMEAItem _Parent;
+
+        public object Tag { get; set; }
+        public new CNMEAItem Parent { get { return _Parent; } set { _Parent = value; if (_Parent != null)_Parent.Childs.Add(this); } }
+        public List<CNMEAItem> Childs { get { if (_Childs == null)_Childs = new List<CNMEAItem>(); return _Childs; } }
+        public CNMEAItem() { }
+        public CNMEAItem(CNMEAItem parent) { Parent = parent; }
+
+        public bool HasChild { get { return Childs.Count != 0; } }
+
+        public void Construct()
+        {
+
+            string str = "";
+            if (base.ContainsKey("nmeastring")) base.Remove("nmeastring");
+            foreach (KeyValuePair<string,object> s in this)
+            {
+                try
+                {
+                    str += s.Value == null ? "" : s.Value.ToString();
+                    str += (s.Key == "prefix" || s.Key == "talker" ? "" : ",");
+                }
+                catch (Exception)
+                {
+
+                    // throw;
+                }
+            }
+            if (str.Length > 0) str = str.Substring(0, str.Length - 1);
+            str = str + "*" + CMath.Checksum(str, 1, str.Length - 1).ToString("X2");
+            base.Add("nmeastring", str);
+        }
+
+        #region IDisposable Members
+
+        public new void Dispose()
+        {
+            _Childs.Clear();
+        }
+
+        #endregion
+        public new string ToString()
+        {
+            if (!base.ContainsKey("nmeastring"))
+                Construct();
+            return this["nmeastring"].ToString();
+        }
+    }
+
+    public class CText
+    {
+        static string[] SixBitBinaryTable ={ "0", "1", "2", "3", "4", "5", "6", "7", 
+                                      "8", "9", ":", ";", "<", "=", ">", "?", 
+                                      "@", "A", "B", "C", "D", "E", "F", "G", 
+                                      "H", "I", "J", "K", "L", "M", "N", "O", 
+                                      "P", "Q", "R", "S", "T", "U", "V", "W", 
+                                      "`", "a", "b", "c", "d", "e", "f", "g", 
+                                      "h", "i", "j", "k", "l", "m", "n", "o", 
+                                      "p", "q", "r", "s", "t", "u", "v", "w"};
+
+
+
+        public static string OnunuTamamla(string s, int i)
+        {
+            int g = s.Trim().Length;
+            for (int j = 0; j < i - g; j++) s = "0" + s;
+            return s;
+        }
+        public static string ArkasinaTamamla(string s, int i)
+        {
+            int g = s.Trim().Length;
+            for (int j = 0; j < i; j++) s = s + "0";
+            return s;
+            //SORUNLU s356 geliyo, i 4, döngü çalışmıyor
+            //int g = s.Trim().Length;
+            //for (int j = 0; j < i - g; j++) s = s + "0";
+            //return s;
+        }
+
+        public static int CalculateFillBitsForSixBitEncode(string BinaryString)
+        {
+            return (6 - (BinaryString.Length % 6)) % 6;
+        }
+        public static int CalculateFillBitsForSixBitEncode(int BinaryStringLength)
+        {
+            return (6 - (BinaryStringLength % 6)) % 6;
+        }
+        public static float DecodeSignedFloat(String binary)
+        {
+            double ret = (double)Convert.ToInt32(binary, 2);
+
+            if (binary.ToCharArray()[0] == '1')
+                ret = ret - Math.Pow(2, binary.Length);
+
+            return (float)ret;
+        }
+
+        public static string EncodeSignedFloat(int value)
+        {
+
+            char[] b = new char[32];
+            int pos = 31;
+            int i = 0;
+
+            while (i < 32)
+            {
+                if ((value & (1 << i)) != 0)
+                {
+                    b[pos] = '1';
+                }
+                else
+                {
+                    b[pos] = '0';
+                }
+                pos--;
+                i++;
+            }
+            string result = new string(b);
+            if (value >= 0)
+                result = "0" + result.TrimStart('0');
+            else
+                result = "1" + result.TrimStart('1');
+            return result;
+        }
+        public static String DecodeString(String binary)
+        {
+            String ret = "";
+
+            for (int i = 0; i < binary.Length / 6; ++i)
+            {
+                int c = Convert.ToInt32(binary.Substring(i * 6, 6), 2);
+
+                if (c < 32 && c >= 0) //convert to 6-bit ASCII - control chars to uppercase latins
+                    c = c + 64;
+
+                if (c != 64)
+                    ret = ret + (char)c;
+            }
+
+            return ret;
+        }
+
+        public static String DecodeSixBit(String binary)
+        {
+            String ret = "";
+            if (binary.Length % 6 != 0)
+                for (int g = 0; g <= 6 - binary.Length % 6; g++) binary += "0";
+            for (int i = 0; i < binary.Length / 6; ++i)
+            {
+                string h = binary.Substring(i * 6, 6);
+                int c = Convert.ToInt32(h, 2);
+
+
+                ret += SixBitBinaryTable[c];
+            }
+            //ret = "!AIVDM,1,1,,," + ret + "," + (binary.Length % 6).ToString();
+            //char sum = ret.ToCharArray()[ret.IndexOf("!") + 1];
+
+            //for (int i = 2; i < ret.Length; ++i)
+            //{
+            //    sum = (char)((int)sum ^ (int)ret.ToCharArray()[i]);
+            //}
+            //return ret + "*" + ((byte)sum).ToString("X2");
+            return ret;
+        }
+
+        internal static string CalculateFillBits(int msgLength)
+        {
+            return ((6 - ((msgLength * 8) % 6)) % 6).ToString();
+        }
+
+        public static string ConvertText2SixBitsText(string text)
+        {
+            string ret = "";
+            for (int j = 0; j < text.Length; j++)
+            {
+                try
+                {
+                    int chr = Convert.ToByte(text[j]);
+                    if (chr > 64)
+                        chr -= 64;
+                    ret += SixBitBinaryTable[chr];
+                }
+#if DEBUG
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+#else
+                catch
+                {
+                    return "";
+                }
+#endif
+            }
+            return ret;
+        }
+
+        internal static string ConvertText2SixBitsBitString(string text)
+        {
+            string ret = "";
+            for (int j = 0; j < text.Length; j++)
+            {
+                try
+                {
+                    byte chr = Convert.ToByte(text[j]);
+                    if (chr > 64)
+                        chr -= 64;
+                    string str=Convert.ToString(chr, 2);
+                    ret += str.Length >= 6 ? str.Substring(str.Length - 6, 6) : str.PadLeft(6, '0');
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+            return ret;
+        }
+
+        internal static string ConvertData2SixBitsData(string data)
+        {
+            string binary = "";
+            for (int j = 0; j < data.Length; j++)
+            {
+                try
+                {
+                    byte b = Convert.ToByte(data[j]);
+                    string onechar = Convert.ToString(b, 2);
+                    if (onechar.Length < 8)
+                    {
+                        for (int i = 0; 0 < 8 - onechar.Length; i++) onechar = "0" + onechar;
+                    }
+                    binary += onechar;
+                }
+#if DEBUG
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+#else
+                catch
+                {
+                }
+#endif
+            }
+            String ret = "";
+            if (binary.Length % 6 != 0)
+            {
+                int gg = binary.Length;
+                for (int g = 0; g < 6 - (gg % 6); g++) binary += "0";
+            }
+            for (int i = 0; i < binary.Length / 6; ++i)
+            {
+                string h = binary.Substring(i * 6, 6);
+                int c = Convert.ToInt32(h, 2);
+                ret += SixBitBinaryTable[c];
+            }
+            return ret;
+        }
+
+        internal static string ConvertHexData2SixBitString(string data)
+        {
+            string binary = "";
+            if ((data.Length % 2) == 1) data = data + "0";
+            for (int j = 0; j < data.Length; j += 2)
+            {
+                try
+                {
+                    ushort b = Convert.ToUInt16(data.Substring(j, 2), 16);
+                    string onechar = Convert.ToString(b, 2);
+                    if (onechar.Length < 8)
+                    {
+                        for (int i = 0; 0 < 8 - onechar.Length; i++) onechar = "0" + onechar;
+                    }
+                    binary += onechar;
+                }
+#if DEBUG
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+#else
+                catch
+                {
+                }
+#endif
+            }
+            if (binary.Length % 6 != 0)
+            {
+                int gg = binary.Length;
+                for (int g = 0; g < 6 - (gg % 6); g++) binary += "0";
+            }
+            return binary;
+        }
+
+        public static String EncodeSixBit(String binary)
+        {
+            String ret = "";
+            if (binary.Length % 6 != 0)
+                for (int g = 0; g <= 6 - binary.Length % 6; g++) binary += "0";
+            for (int i = 0; i < binary.Length / 6; ++i)
+            {
+                string h = binary.Substring(i * 6, 6);
+                int c = Convert.ToInt32(h, 2);
+
+
+                ret += SixBitBinaryTable[c];
+            }
+            return ret;
+        }
+        /// <summary>
+        /// Construct için kullanılan six bit encode
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        internal static string ConvertToSixBits(string text)
+        {
+            string ret = "";
+            for (int j = 0; j <= text.Length / 6; j += 6)
+            {
+                try
+                {
+
+                    int chr = Convert.ToByte(text.Substring(j, 6));
+                    if (chr > 64)
+                        chr -= 64;
+                    ret += SixBitBinaryTable[chr];
+                }
+                catch
+                {
+#if DEBUG
+                    throw;
+#endif
+                }
+            }
+            return ret;
+        }
+
+        public static String BinaryToBitString(String binary)
+        {
+            String bitString = "";
+            for (int i = 0; i < binary.Length; ++i)
+            {
+                int byteValue = (int)binary.ToCharArray()[i];
+
+                if (byteValue >= 48 && byteValue < 88)
+                {    //40 chars 0 - W
+                    byteValue -= 48;
+                }
+                else if (byteValue >= 96 && byteValue < 121)
+                { //24 chars `,a - w
+                    byteValue -= 56;
+                }
+                else
+                {
+                    byteValue = 0;    //ignore any ather chars
+                }
+
+                for (int j = Convert.ToString(byteValue, 2).Length; j < 6; ++j)
+                    bitString = bitString + "0";
+
+                bitString = bitString + Convert.ToString(byteValue, 2);
+            }
+
+            return bitString;
+        }
+
+
+        private string Bin2Hex(string p)
+        {
+            string res = "";
+            try
+            {
+
+                for (int i = 0; i < p.Length; i += 8)
+                {
+                    res += Convert.ToInt32(p.Substring(i, 8), 2).ToString("X2");
+                }
+            }
+            catch
+            { }
+            return res;
+        }
+
+        public static string AESEnc(string str)
+        {
+            return str;
+        }
+
+        internal static string ToHexString(string p)
+        {
+            char[] pp=p.ToCharArray();
+            string res="";
+            for (int i = 0; i < pp.Length; i++)
+            {
+                res += ((byte)pp[i]).ToString("X2");
+            }
+            return res;
+        }
+    }
+
+    public class CMath
+    {
+        public static byte Checksum(String str, int start, int length)
+        {
+            byte[] arr = Encoding.UTF8.GetBytes(str);
+            return Checksum(arr, start, length);
+        }
+        public static byte Checksum(String str)
+        {
+            byte[] arr = Encoding.UTF8.GetBytes(str);
+            return Checksum(arr);
+        }
+
+        /// <summary>
+        /// Calculate checksum of array elements with given conditions
+        /// </summary>
+        /// <param name="arr">array</param>
+        /// <param name="start">start index zero based</param>
+        /// <param name="length">length</param>
+        /// <returns>checksum</returns>
+        public static byte Checksum(byte[] arr, int start, int length)
+        {
+            byte sum = arr[start];
+            for (int i = start + 1; i < start + length; ++i)
+                sum = (byte)(sum ^ arr[i]);
+            return sum;
+        }
+        public static byte Checksum(byte[] arr)
+        {
+            return Checksum(arr, 0, arr.Length);
+        }
+        public static byte CRC(byte[] dat)
+        {
+            if (dat.Length == 0) return 0;
+            byte sum = dat[0];
+            int index = 1;
+            for (int i = 1; i < dat.Length; i++)
+            {
+                sum = (byte)(sum ^ dat[i]);
+                if (i % 2 == 0)
+                {
+                    sum = (byte)(sum >> index);
+                    index = (index++) % 8;
+                }
+            }
+            return sum;
+        }
+        public static byte CRC(string str)
+        {
+            char[] datchar = str.ToCharArray();
+            byte[] dat=new byte[datchar.Length];
+            for (int i = 0; i < dat.Length; dat[i] = (byte)datchar[i++]) ;
+            return CRC(dat);
+        }
+
+        public struct PointF
+        {
+            public double X;
+            public double Y;
+            public PointF(double x, double y) { X = x; Y = y; }
+            public new string ToString()
+            {
+                return X.ToString() + ";" + Y.ToString();
+            }
+        }
+
+        static readonly double PI = 3.14159265358979323846264338327950288;
+        static readonly double PI_2 = PI / 2.0f;
+        static readonly double PI_4 = PI / 4.0f;
+        static readonly double TORAD = PI / 180.0f;
+        static readonly double TODEG = 180.0f / PI;
+        static readonly double KILOMETER_RHO = 6371.64f;
+
+        public static bool IsInPolygon(double x, double y, params PointF[] points)
+        {
+
+            int n = points.Length;
+            PointF[] poly = new PointF[n + 1];
+            points.CopyTo(poly, 0);
+            poly[n] = poly[0];
+            int c = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if ((poly[i].Y <= y && poly[i + 1].Y > y) || (poly[i].Y > y && poly[i + 1].Y <= y))
+                {
+                    double vt = (y - poly[i].Y) / (poly[i + 1].Y - poly[i].Y);
+                    if (x < poly[i].X + vt * (poly[i + 1].X - poly[i].X)) ++c;
+                }
+            }
+            return c % 2 == 1 ? true : false;
+        }
+        public static bool IsInPolygon(double x, double y, params Point[] points)
+        {
+
+            int n = points.Length;
+            Point[] poly = new Point[n + 1];
+            points.CopyTo(poly, 0);
+            poly[n] = poly[0];
+            int c = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if ((poly[i].Y <= y && poly[i + 1].Y > y) || (poly[i].Y > y && poly[i + 1].Y <= y))
+                {
+                    double vt = (y - poly[i].Y) / (poly[i + 1].Y - poly[i].Y);
+                    if (x < poly[i].X + vt * (poly[i + 1].X - poly[i].X)) ++c;
+                }
+            }
+            return c % 2 == 1 ? true : false;
+        }
+        public static bool IsInCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radiusX, double radiusY)
+        {
+            double x1 = dist_hsin(circleCenterX, circleCenterY, radiusX, radiusY);
+            double x2 = dist_hsin(circleCenterX, circleCenterY, pointX, pointY);
+            return (x2 < x1);
+
+        }
+        public static float DistanceOf2Locations(double lon1, double lat1, double lon2, double lat2)
+        {
+            return (float)dist_hsin(lon1, lat1, lon2, lat2);
+        }
+        static double dist_hsin(double x1, double y1, double x2, double y2)
+        {
+            double dlon = TORAD * (x2 - x1);
+            double dlat = TORAD * (y2 - y1);
+            double s1 = (double)System.Math.Sin(dlat / 2);
+            double s2 = (double)System.Math.Sin(dlon / 2);
+            double a = (double)(s1 * s1 + System.Math.Cos(TORAD * y1) * System.Math.Cos(TORAD * y2) * s2 * s2);
+            double c = (double)(KILOMETER_RHO * (2 * System.Math.Atan2(System.Math.Sqrt(a), System.Math.Sqrt(1 - a))));
+            return c;
+        }
+    }
+
+}

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="C:\Users\Administrator\Desktop\pusb" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Web.config" publishTime="10/05/2012 11:30:08" />
+    <file relUrl="WSSpa.svc" publishTime="08/23/2012 22:27:09" />
+    <file relUrl="Reports/Report.aspx" publishTime="05/14/2012 11:42:46" />
+    <file relUrl="DSAtozUpdate.txt" publishTime="10/01/2012 12:33:08" />
+    <file relUrl="AtozCaprice.edmx.diagram" publishTime="09/26/2012 11:40:46" />
+    <file relUrl="ClientBin/vt0.xap" publishTime="10/05/2012 11:23:04" />
+    <file relUrl="OSYSWcfService.svc" publishTime="04/15/2012 12:08:52" />
+    <file relUrl="SharpZipLib.Silverlight4.dll" publishTime="04/13/2012 18:10:40" />
+    <file relUrl="DSCapriceOfisUpdate.txt" publishTime="09/20/2012 15:12:58" />
+    <file relUrl="clientaccesspolicy.xml" publishTime="03/06/2012 10:47:08" />
+    <file relUrl="bin/SharpZipLib.Silverlight4.dll" publishTime="04/13/2012 18:10:40" />
+    <file relUrl="COfis.edmx.diagram" publishTime="09/26/2012 12:45:44" />
+    <file relUrl="bin/OSYS.Web.pdb" publishTime="10/05/2012 10:42:15" />
+    <file relUrl="Global.asax" publishTime="05/14/2012 11:18:04" />
+    <file relUrl="favicon.ico" publishTime="07/16/2012 14:53:10" />
+    <file relUrl="default.htm" publishTime="07/13/2012 09:34:26" />
+    <file relUrl="bin/NUtils.Login.dll" publishTime="09/28/2012 18:32:48" />
+    <file relUrl="Silverlight.js" publishTime="04/13/2012 18:10:40" />
+    <file relUrl="bin/OSYS.Web.dll" publishTime="10/05/2012 10:42:15" />
+    <file relUrl="bin/Encrypt.dll" publishTime="03/12/2012 14:50:06" />
+  </publishProfile>
+</publishData>

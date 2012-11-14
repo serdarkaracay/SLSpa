@@ -1,0 +1,173 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls
+END
+ModalWindow.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/ModalWindow.xaml
+END
+PropertyControl.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/PropertyControl.xaml
+END
+ModalWindow.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/ModalWindow.xaml.cs
+END
+CircularProgress.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CircularProgress.xaml
+END
+CFilterControl.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CFilterControl.xaml
+END
+PropertyControl.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/PropertyControl.xaml.cs
+END
+Player.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/Player.xaml
+END
+CircularProgress.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CircularProgress.xaml.cs
+END
+CStatistics.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CStatistics.xaml
+END
+CFilterControl.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CFilterControl.xaml.cs
+END
+CPictureViewer.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/CPictureViewer.xaml
+END
+CMessageBox.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CMessageBox.xaml
+END
+Player.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/Player.xaml.cs
+END
+UserControl1.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/UserControl1.xaml
+END
+logo.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/logo.xaml
+END
+CStatistics.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/CStatistics.xaml.cs
+END
+CSendMessage.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/CSendMessage.xaml
+END
+CColumnSelectControl.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CColumnSelectControl.xaml
+END
+CInputControl.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CInputControl.xaml
+END
+CPictureViewer.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/CPictureViewer.xaml.cs
+END
+CMessageBox.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/CMessageBox.xaml.cs
+END
+UserControl1.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/UserControl1.xaml.cs
+END
+logo.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/logo.xaml.cs
+END
+CSendMessage.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/CSendMessage.xaml.cs
+END
+CColumnSelectControl.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Controls/CColumnSelectControl.xaml.cs
+END
+CInputControl.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/CInputControl.xaml.cs
+END
+MapItemInfo.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/MapItemInfo.xaml
+END
+MapItemInfo.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Controls/MapItemInfo.xaml.cs
+END

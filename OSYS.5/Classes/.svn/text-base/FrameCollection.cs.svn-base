@@ -1,0 +1,108 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Collections.Generic;
+using iDeal.silverlight;
+using System.Xml.Linq;
+using VesselTracking.Classes;
+using System.Linq;
+using C1.Silverlight.Maps;
+using iDeal.silverlight.controls;
+using VesselTracking;
+using VesselTracking.Pages;
+
+namespace MovingShip
+{
+    public class FrameCollection : Dictionary<DateTime, CAISItem>
+    {
+        public delegate void CollectionCreated();
+        public delegate void GetDataFailed();
+        public delegate void GetDataEmpty();
+
+        public event CollectionCreated OnCollectionCreated;
+        public event GetDataFailed OnGetDataFailed;
+        public event GetDataEmpty OnGetDataEmpty;
+
+        public CMapControl Map=null;
+
+        public mainPage container=null;
+
+        public FrameCollection(mainPage contain,CMapControl map)
+        {
+            container = contain;
+            Map= map;
+        }
+        internal void Load( CAISItem mi, string startDate, string finishDate)
+        {
+            CService service = new CService();
+            service.GetData(this, "GetAnimationData " +Security.CurrentUser .ID +"," + mi.MMSI.ToString ()  +","+ startDate +","+ finishDate, (s, xml) =>
+            {
+
+                foreach (XElement item in xml.DescendantsAndSelf("row"))
+                {
+                    CAISItem af = new CAISItem(item, Map, null);
+                    af.Name = mi.Name;
+                    af.MMSI = mi.MMSI;
+                    if (!base.ContainsKey(af.ReportDate))
+                        Add(af.ReportDate, af);
+
+                }
+                if (base.Count > 0)
+                {
+
+                    Point lastPosition = this.ElementAt(0).Value.LatLong;
+                    double distance = 0.0;
+
+                    foreach (KeyValuePair<DateTime, CAISItem> kvp in this)
+                    {
+                        distance += C1Maps.Distance(lastPosition, kvp.Value.LatLong);
+                        kvp.Value.Distance = distance / 1852;
+                        lastPosition = kvp.Value.LatLong;
+
+
+                    }
+
+                    if (OnCollectionCreated != null)
+                        OnCollectionCreated();
+                }
+                else
+                {
+                    if (OnGetDataEmpty != null)
+                        OnGetDataEmpty();
+                }
+
+            }, (s, ex) =>
+            {
+
+                if (OnGetDataFailed != null)
+                    OnGetDataFailed();
+            });
+        }
+
+        public DateTime FindNearest(DateTime reference)
+        {
+            DateTime nearestKey = DateTime.MinValue;
+            foreach (KeyValuePair<DateTime,CAISItem> kvp in this)
+            {
+                if (DateTime.Compare(kvp.Key, reference) <= 0)
+                {
+                    nearestKey = kvp.Key;
+                }
+                else
+                    break;
+            }
+
+            return nearestKey;
+            
+
+        }
+    }
+
+}

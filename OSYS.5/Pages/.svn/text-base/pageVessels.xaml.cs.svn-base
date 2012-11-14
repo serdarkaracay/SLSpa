@@ -1,0 +1,1349 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Windows.Navigation;
+using VesselTracking.Classes;
+using iDeal.silverlight;
+using System.Windows.Threading;
+using VesselTracking.Controls;
+using C1.Silverlight.Maps;
+using System.Xml.Linq;
+using MovingShip;
+using C1.Silverlight;
+using iDeal.silverlight.controls;
+using System.Text;
+using System.IO;
+using System.Reflection;
+using System.Windows.Data;
+using System.Windows.Media.Imaging;
+using System.Diagnostics;
+
+namespace VesselTracking.Pages
+{
+    public partial class pageVessels : AuthenticatedPage
+    {
+
+        const string TI_LIVE_MAP         = "Live Map";
+        const string TI_LIVE_DATA        = "Live Data";
+        const string TI_LIVE_STATISTICS  = "Live Statistics";
+        const string TI_LIVE_FILTER      = "Live Filter";
+        const string TI_HISTORY          = "History";
+        const string TI_HELP             = "Help";
+        bool traceEnabled                = false;
+        bool itemClicked                 = false;
+        double y                         = 38.5;
+        string filter                    = "";
+        List<CMapItem> items             = new List<CMapItem>();
+        ShipService voyageService        = new ShipService("dbo.voyageServiceData");
+        ShipService staticService        = new ShipService("dbo.staticServiceData");
+        CService service                 = new CService();
+        DispatcherTimer removeItemTimer  = new DispatcherTimer();
+        Brush blueBrush                  = new SolidColorBrush(Colors.Blue);
+        Brush redBrush                   = new SolidColorBrush(Colors.Red);
+        Brush yellowBrush                = new SolidColorBrush(Colors.Yellow);
+        MapItemInfo mapItemToolTip                  = new MapItemInfo();
+        ServiceCheckControl scc          = new ServiceCheckControl();
+        Point mapMouseDownPoint          = new Point();
+        SaveFileDialog objSFD            = null;
+        Point[] initialCenter            = new Point[5];
+        double[] initialZoom             = new double[5];
+
+        public pageVessels()
+            : base()
+        {
+            InitializeComponent();
+            Loaded += new RoutedEventHandler(loaded);
+
+            pc.Visibility = Visibility.Collapsed;
+
+            CData.AISItems.ItemAdded += new MapItemChangedHandler(MapItems_ItemAdded);
+            CData.AISItems.ItemRemoved += new MapItemChangedHandler(MapItems_ItemRemoved);
+            CData.AISItems.ItemUpdated += new MapItemChangedHandler(MapItems_ItemUpdated);
+            //CData.MapItems.SelectedItemChanged += new MapItemChangedHandler(MapItems_SelectedItemChanged);
+
+            removeItemTimer.Interval = TimeSpan.FromSeconds((int)Security.CurrentUser.Profile.GetItem("SignToRemoveItemTimeSec"));
+            removeItemTimer.Tick += new EventHandler(removeItemTimer_Tick);
+            removeItemTimer.Start();
+
+            #region SERVICES
+
+            //staticService.Parent = this;
+            //staticService.OnException += new ExceptionHandler(staticService_OnException);
+            //staticService.OnFirstUpdate += new EventHandler(staticService_OnFirstUpdate);
+            //staticService.OnUpdated += new EventHandler(staticService_OnUpdated);
+            //staticService.OnUpdateRequested += new EventHandler(staticService_OnUpdateRequested);
+
+            //voyageService.Parent = this;
+            //voyageService.OnException += new ExceptionHandler(voyageService_OnException);
+            //voyageService.OnFirstUpdate += new EventHandler(voyageService_OnFirstUpdate);
+            //voyageService.OnUpdated += new EventHandler(voyageService_OnUpdated);
+            //voyageService.OnUpdateRequested += new EventHandler(voyageService_OnUpdateRequested);
+
+            #endregion
+
+            Point zeroPoint=new Point(0, 0);
+            for (int i = 0; i < 5; i++)
+            {
+                initialCenter[i] = zeroPoint;
+            }
+            try { initialCenter[0] = (Point)Security.CurrentUser.Profile.GetItem("SavedViewLocation0"); }
+            catch { }
+            try { initialCenter[1] = (Point)Security.CurrentUser.Profile.GetItem("SavedViewLocation1"); }
+            catch { }
+            try { initialCenter[2] = (Point)Security.CurrentUser.Profile.GetItem("SavedViewLocation2"); }
+            catch { }
+            try { initialCenter[3] = (Point)Security.CurrentUser.Profile.GetItem("SavedViewLocation3"); }
+            catch { }
+            try { initialCenter[4] = (Point)Security.CurrentUser.Profile.GetItem("SavedViewLocation4"); }
+            catch { }
+
+            try { initialZoom[0] = (double)Security.CurrentUser.Profile.GetItem("SavedViewZoom0"); }
+            catch { }
+            try { initialZoom[1] = (double)Security.CurrentUser.Profile.GetItem("SavedViewZoom1"); }
+            catch { }
+            try { initialZoom[2] = (double)Security.CurrentUser.Profile.GetItem("SavedViewZoom2"); }
+            catch { }
+            try { initialZoom[3] = (double)Security.CurrentUser.Profile.GetItem("SavedViewZoom3"); }
+            catch { }
+            try { initialZoom[4] = (double)Security.CurrentUser.Profile.GetItem("SavedViewZoom4"); }
+            catch { }
+
+            for (int i = 0; i < 5; i++)
+            {
+                if (initialCenter[i] != zeroPoint)
+                {
+                    btngrView.Buttons[i].BackImage = new BitmapImage(new Uri("/VesselTracking;component/Images/savedview.png", UriKind.RelativeOrAbsolute));
+                    btngrView.Buttons[i].ToolTip = Security.CurrentUser.Profile.GetItem("SavedViewName" + i);
+                }
+            }
+
+            Unloaded += new RoutedEventHandler(unloaded);
+
+            var theme = ThemeFactory.GetTheme(AvailableThemes.BureauBlack);
+            ThemeFactory.ApplyTheme(dataGridContainer, theme);
+            ThemeFactory.ApplyTheme(gridAnimationContainer, theme);
+            c1TabControl.SelectedIndex = 0;
+
+            this.Tracing = false;
+            //--------------------------------------------//
+            mapAnimation.AddMapItemsLayer("TrackLineDataLayer", new C1MapItemsLayer());
+            mapAnimation.ItemLayer.ItemTemplate = Resources["mapItemDataTemplate"] as DataTemplate;
+            player.Visibility = Visibility.Collapsed;
+            player.OnPlay += new Player.PlayerStatus(player_OnPlay);
+            player.OnPause += new Player.PlayerStatus(player_OnPause);
+            player.OnStop += new Player.PlayerStatus(player_OnStop);
+            player.OnSliderChange += new Player.SliderChanged(player_OnSliderChange);
+            player.OnReversed += new Player.Reversed(player_OnReversed);
+            player.OnAnimationTick += new Player.AnimationTickHandler(player_OnAnimationTick);
+            player.OnUserInteracted += new Player.UserInteractionHandler(player_OnUserInteracted);
+            CData.HistoryMapItems = new FrameCollection(container, mapAnimation);
+            CData.HistoryMapItems.OnCollectionCreated += new FrameCollection.CollectionCreated(mapItemsList_OnCollectionCreated);
+            CData.HistoryMapItems.OnGetDataFailed += new FrameCollection.GetDataFailed(mapItemsList_OnGetDataFailed);
+            CData.HistoryMapItems.OnGetDataEmpty += new FrameCollection.GetDataEmpty(mapItemsList_OnGetDataEmpty);
+            _animatedItem = new CAISItem(mapAnimation, null);
+            animatedItem.Map = mapAnimation;
+            pcAnimation.MapItem = animatedItem;
+            c1TabControl.SelectionChanged += new SelectionChangedEventHandler(c1TabControl_SelectionChanged);
+            map.MouseLeftButtonDown += new MouseButtonEventHandler(map_MouseLeftButtonDown);
+            map.MouseLeftButtonUp += new MouseButtonEventHandler(map_MouseLeftButtonUp);
+            map.OnRulerValueChanged += new RulerValueChanged(map_OnRulerValueChanged);
+           
+            objSFD = new SaveFileDialog();
+            objSFD.Filter = "Excel Files | *.xls";
+            objSFD.DefaultExt = "xls";
+        }
+
+        void loaded(object sender, RoutedEventArgs e)
+        {
+            #region LIVE PART
+
+            mapItemToolTip.Visibility = Visibility.Collapsed;
+            mapItemToolTip.VerticalAlignment = VerticalAlignment.Top;
+            mapItemToolTip.HorizontalAlignment = HorizontalAlignment.Left;
+            if (!map.Children.Contains(mapItemToolTip)) map.Children.Add(mapItemToolTip);
+
+            pc.LockRequest += new EventHandler(pc_LockRequest);
+            pc.TrackLineRequest += new EventHandler(pc_TrackLineRequest);
+            pc.HistoryRequest += new EventHandler(pc_HistoryRequest);
+            pc.RemoveTrackLineRequest += new EventHandler(pc_RemoveTrackLineRequest);
+            pc.SendMessageRequest += new EventHandler(pc_SendMessageRequest);
+            pc.BroadcastMessageRequest +=new EventHandler(  pc_BroadcastMessageRequest);
+
+            map.ItemLayer.ItemTemplate = Resources["mapItemDataTemplate"] as DataTemplate;
+
+            #endregion
+
+            #region SERVICES
+            scc.Width = 16;
+            scc.Height = 16;
+            scc.HorizontalAlignment = HorizontalAlignment.Right;
+            scc.VerticalAlignment = VerticalAlignment.Center;
+            scc.Margin = new Thickness(0);
+            scc.MouseLeftButtonUp += new MouseButtonEventHandler(scc_MouseLeftButtonUp);
+            container.AddTrayIcon(scc);
+
+            CData.AISItems.Map = map;
+            staticService.ServicePeriodSecond = (int)Security.CurrentUser.Profile.GetItem("StaticDataPeriodTimeSec");
+            staticService.Parent = this;
+            staticService.ServiceCheckControl = scc;
+            staticService.Start();
+
+            voyageService.ServicePeriodSecond = (int)Security.CurrentUser.Profile.GetItem("VoyageDataPeriodTimeSec");
+            voyageService.Parent = this;
+            voyageService.ServiceCheckControl = scc;
+            voyageService.Start();
+
+            #endregion
+
+            #region ANIMATION PART
+
+            finishDatePicker.SelectedDate = UIDriver.GetTime();
+            finishTimePicker.Value = UIDriver.GetTime();
+            startDatePicker.SelectedDate = startTimePicker.Value = UIDriver.GetTime().AddHours(-6);
+            pcAnimation.Visibility = Visibility.Collapsed;
+
+            #endregion
+
+            btngrExport.Clicked += new CGroupButtonsClickEventHandler(btngrExport_Clicked);
+            btngrView.Clicked += new CGroupButtonsClickEventHandler(btngrView_Clicked);
+            btngrZoom.Clicked += new CGroupButtonsClickEventHandler(btngrZoom_Clicked);
+
+            container.BusyEnd();
+
+        }
+
+        void unloaded(object sender, RoutedEventArgs e)
+        {
+            Dispose();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            voyageService.Stop();
+            staticService.Stop();
+            CData.AISItems.Clear();
+            map.ItemLayer.Items.Clear();
+        }
+
+        void c1TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            C1TabItem ti=null;
+            //UNLOAD
+            ti = e.RemovedItems[0] as C1TabItem;
+            switch (ti.Header.ToString())
+            {
+                case TI_HISTORY:
+                    CData.HistoryMapItems.Clear();
+                    InitInterfaceToDefault();
+                    voyageService.Start();
+                    container.AddTrayIcon(scc);
+                    break;
+                case TI_HELP:
+                    voyageService.Start();
+                    container.AddTrayIcon(scc);
+                    break;
+                case TI_LIVE_MAP:
+                    //shipService.Stop();
+                    //container.RemoveTrayIcon(scc);
+                    break;
+                case TI_LIVE_DATA:
+                    dataGridVessels.ItemsSource = null;
+                    break;
+                default:
+                    break;
+            }
+
+            //LOAD
+            ti = e.AddedItems[0] as C1TabItem;
+            switch (ti.Header.ToString())
+            {
+                case TI_LIVE_DATA:
+                    //dataGridVessels.ItemsSource = null;
+                    dataGridVessels.ItemsSource = CData.AISItems.Values.ToList<CMapItem>();
+                    break;
+                case TI_LIVE_MAP:
+                    pc.Visibility = Visibility.Collapsed;
+                    map.VectorLayer.Children.Clear();
+                    CData.AISItems.DeselectItems();
+                    //container.AddTrayIcon(scc);
+                    break;
+                case TI_HISTORY:
+                    voyageService.Stop();
+                    container.RemoveTrayIcon(scc);
+                    dataGridAnimation.ItemsSource = null;
+                    if (CData.AISItems.SelectedItems.Count == 0) container.MsgBox("Please select an item first on Live Map.", EButtons.Ok, EIcon.Error,
+                         (r) => { c1TabControl.SelectedItem = tiMap; });
+                    else StartTheAnimation();
+
+                    break;
+                case TI_HELP:
+                    container.MsgBox("Under construction.", EButtons.Ok, EIcon.Info, (r) => { c1TabControl.SelectedItem = tiMap; });
+                    voyageService.Stop();
+                    container.RemoveTrayIcon(scc);
+                    break;
+                case TI_LIVE_FILTER:
+
+                    container.MsgBox("Under construction.", EButtons.Ok, EIcon.Info, (r) => { c1TabControl.SelectedItem = tiMap; });
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #region LIVE MAP
+
+        #region MENU BUTTONS
+
+        void btnMapFilter_Clicked(object sender, EventArgs e)
+        {
+            container.NotImplemented();
+        }
+
+        void btnRuler_Clicked(object sender, EventArgs e)
+        {
+            if (btnRuler.IsChecked) map.BeginRulerMode();
+            else map.EndRulerMode();
+        }
+
+        void btnRegion_Clicked(object sender, EventArgs e)
+        {
+            container.NotImplemented();
+        }
+
+        void btngrZoom_Clicked(CButton sender)
+        {
+            switch (sender.Index)
+            {
+                case 0:
+                    map.ZoomIn();
+                    break;
+                case 1:
+                    map.ZoomOut();
+                    break;
+
+            }
+        }
+
+        void btngrView_Clicked(CButton sender)
+        {
+            sender.Focus();
+            if (container.IsCTRLPressed)
+            {
+                CInputControl ic=new CInputControl("Please set a name for the location.");
+                container.MsgBox(ic, EButtons.OkCancel, (r) =>
+                {
+                    switch (r)
+                    {
+                        case EButton.Ok:
+                            initialCenter[sender.Index] = map.Center;
+                            initialZoom[sender.Index] = map.Zoom;
+
+                            Security.CurrentUser.SetProfileItem("SavedViewZoom" + sender.Index, map.Zoom, null, null);
+                            Security.CurrentUser.SetProfileItem("SavedViewLocation" + sender.Index, map.Center, null, null);
+                            Security.CurrentUser.SetProfileItem("SavedViewName" + sender.Index, ic.Text, null, null);
+
+                            sender.BackImage = new BitmapImage(new Uri("/VesselTracking;component/Images/savedview.png", UriKind.RelativeOrAbsolute));
+                            sender.ToolTip = ic.Text;
+                            break;
+                        case EButton.Cancel:
+                            break;
+                    }
+                });
+
+            }
+            else
+            {
+                map.Go(initialCenter[sender.Index], initialZoom[sender.Index]);
+            }
+
+        }
+
+        void btnExport_Click(object sender, RoutedEventArgs e)
+        {
+            dataGridVessels.ItemsSource = null;
+            dataGridVessels.ItemsSource = CData.AISItems.Values.ToList<CMapItem>();
+        }
+
+        void btnCapture_Clicked(object sender, EventArgs e)
+        {
+            container.ShowPicture(new WriteableBitmap(map, null));
+        }
+
+        #endregion
+
+        #region MAP ITEM EVENTS
+
+        void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CMapItem  mi=(sender as Shape).DataContext as CMapItem;
+            mapItemToolTip.MapItem = mi;
+            Point p=e.GetPosition(map);
+            mapItemToolTip.Margin = new Thickness(p.X + 5, p.Y + 10, 0, 0);
+            mapItemToolTip.Visibility = Visibility.Visible;
+
+        }
+
+        void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            mapItemToolTip.Visibility = Visibility.Collapsed;
+        }
+
+        void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Debug.WriteLine("MapItem selected");
+            itemClicked = true;
+            CAISItem  mi=(sender as Rectangle).DataContext as CAISItem;
+            //mi.Selected = true;
+            CData.AISItems.SelectItem(mi);
+            pc.DataContext = mi;
+            pc.Margin = new Thickness(10, 10, 0, 0);
+            pc.Visibility = Visibility.Visible;
+        }
+
+        #endregion
+
+        #region MAP EVENTS
+
+        void map_OnRulerValueChanged(object sender, double value)
+        {
+
+        }
+
+        void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            mapMouseDownPoint = e.GetPosition(map);
+        }
+
+        void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+            if (!itemClicked && mapMouseDownPoint == e.GetPosition(map)) { CData.AISItems.DeselectItems(); pc.Visibility = Visibility.Collapsed; }
+            itemClicked = false;
+        }
+
+        #endregion
+
+        #region PROPERTY CONTROL EVENTS
+
+        void pc_TrackLineRequest(object sender, EventArgs e)
+        {
+
+            if (CData.AISItems.SelectedItems.Count > 0 && !CData.AISItems.SelectedItems[0].ShowTrackLine)
+            {
+
+                container.BusyStart("Retreiving...");
+                service.GetData(this, "getHistory " + Security.CurrentUser.ID + "," + CData.AISItems.SelectedItems[0].MMSI + "," + Security.CurrentUser.Profile.GetItem("ItemTrackLineTimeMin"),
+                      (o, xml) =>
+                      {
+                          Dispatcher.BeginInvoke(() =>
+                          {
+                              CData.AISItems.SelectedItems[0].SetTrackLinePointList(xml);
+                              CData.AISItems.SelectedItems[0].ShowTrackLine = true;
+                              CData.AISItems.SelectedItems[0].DrawTrackLine();
+                              //biLiveMap.IsBusy = false;
+                              container.BusyEnd();
+                              container.TrayMsgShow("The trackline data was retreived successfully.", 3, 1);
+                          });
+                      },
+                      (o, ex) =>
+                      {
+                          Dispatcher.BeginInvoke(() =>
+                           {
+                               container.BusyEnd();
+                               container.MsgBox("An error occured when retreiving the trackline data.", EButtons.Ok, EIcon.Error, null);
+                           });
+                      });
+            }
+            else //NO SELECTED ITEM
+            {
+                container.TrayMsgShow("No selected item.", 3, 2);
+            }
+        }
+
+        void pc_LockRequest(object sender, EventArgs e)
+        {
+            if (CData.AISItems.SelectedItems.Count > 0)
+            {
+                //if (CData.MapItems.SelectedItems[0] == null) traceEnabled = false;
+                //else
+                //{
+                if (traceEnabled = !traceEnabled) map.Go(CData.AISItems.SelectedItems[0].LatLong);
+
+                //}
+            }
+        }
+
+        void pc_HistoryRequest(object sender, EventArgs e)
+        {
+            StartTheAnimation();
+        }
+
+        void pc_SendMessageRequest(object sender, EventArgs e)
+        {
+            CSendMessage sm=new CSendMessage();
+            sm.Type = "ABM";
+            container.MsgBox(sm, EButtons.OkCancel, (r) =>
+            {
+                if (r == EButton.Ok)
+                {
+
+                    container.BusyStart("Message is sending to the vessel.");
+
+                    sm.Send(this,
+                        (s, ea) =>
+                        {
+                            //TODO:Log the message sending
+
+                            container.BusyEnd();
+                            container.MsgBox("The message was sent.", EIcon.Info, 3);
+
+
+                        },
+                        (s, ex) =>
+                        {
+                            //TODO:Log the error
+
+                            container.BusyEnd();
+                            container.MsgBox(ex.Message, EButtons.Ok, EIcon.Error);
+
+                        });
+
+                }
+            });
+        }
+
+        void pc_RemoveTrackLineRequest(object sender, EventArgs e)
+        {
+            if (CData.AISItems.SelectedItems.Count > 0)
+            {
+                CData.AISItems.SelectedItems[0].ShowTrackLine = false;
+            }
+        }
+
+        void pc_BroadcastMessageRequest(object sender, EventArgs e)
+        {
+            CSendMessage sm=new CSendMessage();
+            sm.Type = "BBM";
+            container.MsgBox(sm, EButtons.OkCancel, (r) =>
+            {
+                if (r == EButton.Ok)
+                {
+
+                    container.BusyStart("Message is broadcasting.");
+
+                    sm.Send(this,
+                        (s, ea) =>
+                        {
+                            //TODO:Log the message sending
+
+                            container.BusyEnd();
+                            container.MsgBox("The message was broadcasted.", EIcon.Info, 3);
+
+
+                        },
+                        (s, ex) =>
+                        {
+                            //TODO:Log the error
+
+                            container.BusyEnd();
+                            container.MsgBox(ex.Message, EButtons.Ok, EIcon.Error);
+
+                        });
+
+                }
+            });
+        }
+        #endregion
+
+        #region SERVICES EVENTS
+
+        //        void staticService_OnUpdateRequested(object sender, EventArgs e)
+        //        {
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                scc.Transmit();
+        //            });
+        //        }
+
+        //        void staticService_OnFirstUpdate(object sender, EventArgs e)
+        //        {
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                //busyIndicator1.IsBusy = false;
+        //            });
+        //            // if(continueService ) shipService.Start();
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                scc.Receive();
+        //            });
+        //        }
+
+        //        void staticService_OnUpdated(object sender, EventArgs e)
+        //        {
+        //            //if (continueService) shipService.Start();
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                scc.Receive();
+        //            });
+        //        }
+
+        //        void staticService_OnException(object sender, Exception x)
+        //        {
+        //            //if (continueService) shipService.Start();
+
+        //#if DEBUG
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                container.TrayMsgShow("Service error. " + x.Message, 3, 2);
+        //            });
+        //#endif
+        //        }
+
+
+        //        void voyageService_OnUpdateRequested(object sender, EventArgs e)
+        //        {
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                scc.Transmit();
+        //            });
+        //        }
+
+        //        void voyageService_OnFirstUpdate(object sender, EventArgs e)
+        //        {
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                //busyIndicator1.IsBusy = false;
+        //            });
+        //            // if(continueService ) shipService.Start();
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                scc.Receive();
+        //            });
+        //        }
+
+        //        void voyageService_OnUpdated(object sender, EventArgs e)
+        //        {
+        //            //if (continueService) shipService.Start();
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                scc.Receive();
+        //            });
+        //        }
+
+        //        void voyageService_OnException(object sender, Exception x)
+        //        {
+        //            //if (continueService) shipService.Start();
+
+        //#if DEBUG
+        //            Dispatcher.BeginInvoke(() =>
+        //            {
+        //                container.TrayMsgShow("Service error. " + x.Message, 3, 2);
+        //            });
+        //#endif
+        //        }
+
+        #endregion
+
+        void scc_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                container.MsgBox("Some information about realtime data service.", EButtons.Ok, EIcon.Info);
+            });
+        }
+
+        void removeItemTimer_Tick(object sender, EventArgs e)
+        {
+            removeItemTimer.Interval = TimeSpan.FromSeconds((int)Security.CurrentUser.Profile.GetItem("SignToRemoveItemTimeSec"));
+            removeItemTimer.Stop();
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                CData.AISItems.CheckRemove();
+            });
+
+            removeItemTimer.Start();
+        }
+
+        // void FilterItems(Func<CMapItem, bool> predicate)
+        //{
+        //if (map == null) return;
+        //if (CData.MapItems.SelectedItems != null) CData.MapItems.SelectedItems.Selected = false;
+        //map.ItemLayer.Items.Clear();
+        //foreach (CMapItem mi in CData.MapItems.Values.Where(predicate))
+        //{
+        //    mi.Map = map;
+        //    map.ItemLayer.Items.Add(mi);
+        //}
+        //}
+
+        #endregion
+
+        #region CAISITEM COLLECTION EVENTS
+
+        void MapItems_ItemAdded(CMapItemCollection sender, CMapItem item)
+        {
+
+        }
+
+        void MapItems_ItemUpdated(CMapItemCollection sender, CMapItem item)
+        {
+            //CMapItem mi=item as CMapItem;
+            Dispatcher.BeginInvoke(() =>
+            {
+                //allCountLabel.Content = CData.MapItems.countAll;
+                //ANCountLabel.Content = CData.MapItems.countAN;
+                //BSCountLabel.Content = CData.MapItems.countBS;
+                //BCountLabel.Content = CData.MapItems.countB;
+                //ACountLabel.Content = CData.MapItems.countA;
+                if (item.Selected && traceEnabled) map.Go(CData.AISItems.SelectedItems[0].LatLong);
+            });
+        }
+
+        void MapItems_ItemRemoved(CMapItemCollection sender, CMapItem item)
+        {
+            //CMapItem mi=item as CMapItem;
+            Dispatcher.BeginInvoke(() =>
+            {
+                container.TrayMsgShow(item.ToString() + " removed from the map.", 3, 2);
+            });
+        }
+
+        #endregion
+
+        #region LIVE DATA
+
+        void btnGoToSelected_Clicked(object sender, EventArgs e)
+        {
+            if (dataGridVessels.SelectedItem != null)
+            {
+                CAISItem mi=CData.AISItems[(dataGridVessels.SelectedItem as CAISItem).MMSI];
+                if (mi.LatLong.X == 0 && mi.LatLong.Y == 0)
+                {
+                    container.MsgBox("Selected coordinate is not valid.", EIcon.Error);
+                }
+                else
+                {
+                    map.Go(mi.LatLong);
+                    c1TabControl.SelectedItem = tiMap;
+                    CData.AISItems.SelectItem(mi);
+
+                }
+            }
+        }
+
+        void btnHistory_Clicked(object sender, System.EventArgs e)
+        {
+            if (dataGridVessels.SelectedItem != null)
+            {
+                CAISItem mi=CData.AISItems[(dataGridVessels.SelectedItem as CAISItem).MMSI];
+
+                CData.AISItems.SelectItem(mi);
+                c1TabControl.SelectedItem = tiHistory;
+
+            }
+        }
+
+        void btnFilter_Clicked(object sender, EventArgs e)
+        {
+            CFilterControl fc=new CFilterControl();
+            container.MsgBox(fc, EButtons.OkCancel, (r) =>
+            {
+                switch (r)
+                {
+                    case EButton.Yes:
+                        break;
+                    case EButton.No:
+                        break;
+                    case EButton.Ok:
+                        dataGridVessels.ItemsSource = null;
+                        IEnumerable <CAISItem> h=CData.AISItems.Values.ToList<CAISItem>();
+                        if (fc.AISTypeFilter.Count > 0)
+                        {
+                            filter = fc.AISTypeFilter[0];
+                            Func<CAISItem,bool> f=delegate(CAISItem mi) { return fc.AISTypeFilter.Contains(mi.AISType); };
+                            h = h.Where(f);
+                        }
+
+                        if (fc.NameFilter != "")
+                            h = h.Where(g => g.Name.Contains(fc.NameFilter));
+                        dataGridVessels.ItemsSource = h;
+
+                        break;
+                    case EButton.Cancel:
+                        break;
+                    case EButton.None:
+                        break;
+                    default:
+                        break;
+                }
+
+            });
+        }
+
+        void btnFilter_Copy_Clicked(object sender, System.EventArgs e)
+        {
+            dataGridVessels.ItemsSource = null;
+            dataGridVessels.ItemsSource = CData.AISItems.Values.ToList<CMapItem>();
+        }
+
+        void btnExport_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        void btnGridColumns_Clicked(object sender, EventArgs e)
+        {
+
+            CColumnSelectControl csc=new CColumnSelectControl(dataGridVessels, typeof(IAISItem));
+            container.MsgBox(csc, EButtons.OkCancel, (r) =>
+            {
+                switch (r)
+                {
+                    case EButton.Ok:
+                        csc.Update();
+                        break;
+                    case EButton.Cancel:
+                        break;
+                }
+
+
+            });
+        }
+
+        //EXPORT
+        void btngrExport_Clicked(CButton sender)
+        {
+            switch (sender.Index)
+            {
+                case 0: //EXCEL
+                    ExportToExcel();
+                    break;
+                case 1: //CSV
+                    ExportToCSV();
+                    break;
+                case 2: //XML
+                    ExportToXML();
+                    break;
+                case 3: //PNG
+                    ExportToPNG();
+                    break;
+                case 4: //PDF
+                    ExportToPDF();
+                    break;
+            }
+        }
+
+        void ExportToExcel()
+        {
+            //static void ExportDataGrid(DataGrid dGrid, SaveFileDialog objSFD)
+            DataGrid dGrid=dataGridVessels;
+            bool? s= objSFD.ShowDialog();
+            if (s == true)
+            {
+
+                string strFormat =
+                      objSFD.SafeFileName.Substring(objSFD.SafeFileName.IndexOf('.') + 1).ToUpper();
+                StringBuilder strBuilder = new StringBuilder();
+                if (dGrid.ItemsSource == null) return;
+                List<string> lstFields = new List<string>();
+                if (dGrid.HeadersVisibility == DataGridHeadersVisibility.Column ||
+                    dGrid.HeadersVisibility == DataGridHeadersVisibility.All)
+                {
+                    foreach (DataGridColumn dgcol in dGrid.Columns)
+                        lstFields.Add(FormatField(dgcol.Header.ToString().ToUpper(), strFormat));
+                    BuildStringOfRow(strBuilder, lstFields, strFormat);
+                }
+                if (dGrid.ItemsSource is PagedCollectionView)
+                {
+                    foreach (object data in (dGrid.ItemsSource as PagedCollectionView).SourceCollection)
+                    {
+                        lstFields.Clear();
+                        foreach (DataGridColumn col in dGrid.Columns)
+                        {
+                            string strValue = "";
+                            Binding objBinding = null;
+                            if (col is DataGridBoundColumn)
+                                objBinding = (col as DataGridBoundColumn).Binding;
+                            if (col is DataGridTemplateColumn)
+                            {
+                                //This is a template column...
+                                //    let us see the underlying dependency object
+                                DependencyObject objDO =
+                                  (col as DataGridTemplateColumn).CellTemplate.LoadContent();
+                                FrameworkElement oFE = (FrameworkElement)objDO;
+                                FieldInfo oFI = oFE.GetType().GetField("TextProperty");
+                                if (oFI != null)
+                                {
+                                    if (oFI.GetValue(null) != null)
+                                    {
+                                        if (oFE.GetBindingExpression(
+                                               (DependencyProperty)oFI.GetValue(null)) != null)
+                                            objBinding =
+                                              oFE.GetBindingExpression(
+                                              (DependencyProperty)oFI.GetValue(null)).ParentBinding;
+                                    }
+                                }
+                            }
+                            if (objBinding != null)
+                            {
+                                if (objBinding.Path.Path != "")
+                                {
+                                    PropertyInfo pi = data.GetType().GetProperty(objBinding.Path.Path);
+                                    if (pi != null) strValue = pi.GetValue(data, null).ToString();
+                                }
+                                if (objBinding.Converter != null)
+                                {
+                                    if (strValue != "")
+                                        strValue = objBinding.Converter.Convert(strValue,
+                                          typeof(string), objBinding.ConverterParameter,
+                                          objBinding.ConverterCulture).ToString();
+                                    else
+                                        strValue = objBinding.Converter.Convert(data,
+                                          typeof(string), objBinding.ConverterParameter,
+                                          objBinding.ConverterCulture).ToString();
+                                }
+                            }
+                            lstFields.Add(FormatField(strValue, strFormat));
+                        }
+                        BuildStringOfRow(strBuilder, lstFields, strFormat);
+                    }
+                }
+                else
+                {
+                    foreach (object data in dGrid.ItemsSource)
+                    {
+                        lstFields.Clear();
+                        foreach (DataGridColumn col in dGrid.Columns)
+                        {
+                            string strValue = "";
+                            Binding objBinding = null;
+                            if (col is DataGridBoundColumn)
+                                objBinding = (col as DataGridBoundColumn).Binding;
+                            if (col is DataGridTemplateColumn)
+                            {
+                                //This is a template column...
+                                //    let us see the underlying dependency object
+                                DependencyObject objDO =
+                                  (col as DataGridTemplateColumn).CellTemplate.LoadContent();
+                                FrameworkElement oFE = (FrameworkElement)objDO;
+                                FieldInfo oFI = oFE.GetType().GetField("TextProperty");
+                                if (oFI != null)
+                                {
+                                    if (oFI.GetValue(null) != null)
+                                    {
+                                        if (oFE.GetBindingExpression(
+                                               (DependencyProperty)oFI.GetValue(null)) != null)
+                                            objBinding =
+                                              oFE.GetBindingExpression(
+                                              (DependencyProperty)oFI.GetValue(null)).ParentBinding;
+                                    }
+                                }
+                            }
+                            if (objBinding != null)
+                            {
+                                if (objBinding.Path.Path != "")
+                                {
+                                    PropertyInfo pi = data.GetType().GetProperty(objBinding.Path.Path);
+                                    if (pi != null) strValue = pi.GetValue(data, null).ToString();
+                                }
+                                if (objBinding.Converter != null)
+                                {
+                                    if (strValue != "")
+                                        strValue = objBinding.Converter.Convert(strValue,
+                                          typeof(string), objBinding.ConverterParameter,
+                                          objBinding.ConverterCulture).ToString();
+                                    else
+                                        strValue = objBinding.Converter.Convert(data,
+                                          typeof(string), objBinding.ConverterParameter,
+                                          objBinding.ConverterCulture).ToString();
+                                }
+                            }
+                            lstFields.Add(FormatField(strValue, strFormat));
+                        }
+                        BuildStringOfRow(strBuilder, lstFields, strFormat);
+                    }
+                }
+                StreamWriter sw = new StreamWriter(objSFD.OpenFile());
+                if (strFormat == "XLS")
+                {
+                    //Let us write the headers for the Excel XML
+                    sw.WriteLine("<?xml version=\"1.0\" " +
+                                 "encoding=\"utf-8\"?>");
+                    sw.WriteLine("<?mso-application progid" +
+                                 "=\"Excel.Sheet\"?>");
+                    sw.WriteLine("<Workbook xmlns=\"urn:" +
+                                 "schemas-microsoft-com:office:spreadsheet\">");
+                    sw.WriteLine("<DocumentProperties " +
+                                 "xmlns=\"urn:schemas-microsoft-com:" +
+                                 "office:office\">");
+                    sw.WriteLine("<Author></Author>");
+                    sw.WriteLine("<Created>" +
+                                 DateTime.UtcNow.ToLocalTime().ToLongDateString() +
+                                 "</Created>");
+                    sw.WriteLine("<LastSaved>" +
+                                 DateTime.UtcNow.ToLocalTime().ToLongDateString() +
+                                 "</LastSaved>");
+                    sw.WriteLine("<Company>iDeal Teknoloji</Company>");
+                    sw.WriteLine("<Version>12.00</Version>");
+                    sw.WriteLine("</DocumentProperties>");
+                    sw.WriteLine("<Worksheet ss:Name=\"Silverlight Export\" " +
+                       "xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\">");
+                    sw.WriteLine("<Table>");
+                }
+                sw.Write(strBuilder.ToString());
+                if (strFormat == "XLS")
+                {
+                    sw.WriteLine("</Table>");
+                    sw.WriteLine("</Worksheet>");
+                    sw.WriteLine("</Workbook>");
+                }
+                sw.Close();
+            }
+
+        }
+
+        void ExportToCSV()
+        {
+            container.NotImplemented();
+        }
+        void ExportToXML()
+        {
+            container.NotImplemented();
+        }
+        void ExportToPNG()
+        {
+            container.NotImplemented();
+        }
+        void ExportToPDF()
+        {
+            container.NotImplemented();
+        }
+
+        static void BuildStringOfRow(StringBuilder strBuilder, List<string> lstFields, string strFormat)
+        {
+            switch (strFormat)
+            {
+                case "XLS":
+                    strBuilder.AppendLine("<Row>");
+                    strBuilder.AppendLine(String.Join("\r\n", lstFields.ToArray()));
+                    strBuilder.AppendLine("</Row>");
+                    break;
+                case "CSV":
+                    strBuilder.AppendLine(String.Join(",", lstFields.ToArray()));
+                    break;
+            }
+        }
+
+        static string FormatField(string data, string format)
+        {
+            switch (format)
+            {
+                case "XLS":
+                    return String.Format("<Cell><Data ss:Type=\"String" +
+                       "\">{0}</Data></Cell>", data);
+                case "CSV":
+                    return String.Format("\"{0}\"",
+                      data.Replace("\"", "\"\"\"").Replace("\n",
+                      "").Replace("\r", ""));
+            }
+            return data;
+        }
+        #endregion
+
+        #region HISTORY PLAYER
+
+        void StartTheAnimation()
+        {
+            InitInterfaceToDefault();
+            SetMapItem(CData.AISItems.SelectedItems[0]);
+            tiHistory.IsSelected = true;
+        }
+
+        public event EventHandler OnAnimationCollectionCreated;
+        public event EventHandler OnAnimationStop;
+
+        internal bool Tracing { get; set; }
+        internal CAISItem animatedItem
+        {
+            get { return _animatedItem; }
+
+        }
+
+        int mmsiNumber { get; set; }
+
+        DateTime? StartTime { get; set; }
+        DateTime? FinishTime { get; set; }
+
+        DateTime StartDate { get; set; }
+        DateTime FinishDate { get; set; }
+
+        CAISItem _animatedItem=null;
+        DateTime reference = DateTime.UtcNow;
+
+
+        void InitInterfaceToDefault()
+        {
+            startDatePicker.IsEnabled =
+            finishDatePicker.IsEnabled =
+            startTimePicker.IsEnabled =
+            finishTimePicker.IsEnabled =
+            loadBtn.IsEnabled = true;
+            player.Visibility = Visibility.Collapsed;
+            loadingTxtBlck.Text = string.Empty;
+            CData.HistoryMapItems.Clear();
+            mapAnimation.ItemLayer.Items.Clear();
+            ClearLine();
+            _animatedItem.IsSelectable = false;
+
+        }
+
+        void SetMapItem(CMapItem source)
+        {
+            if (!player.IsStopped)
+            {
+                player.Stop();
+            }
+            source.Copy(animatedItem);
+            loadingTxtBlck.Text = source.ToString();
+
+
+        }
+
+        void loadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            LoadAnimationData();
+        }
+
+        void LoadAnimationData()
+        {
+
+            this.StartTime = startTimePicker.Value;
+            this.FinishTime = finishTimePicker.Value;
+
+            this.StartDate = startDatePicker.SelectedDate.Value;
+            this.FinishDate = finishDatePicker.SelectedDate.Value;
+
+            string sTimeStr = ((DateTime)(this.StartTime)).ToString("HH:mm:ss");
+            string fTimeStr = ((DateTime)(this.FinishTime)).ToString("HH:mm:ss");
+
+
+            DateTime s = Convert.ToDateTime(this.StartDate.ToString("yyyy-MM-dd") + " " + sTimeStr);
+            DateTime f = Convert.ToDateTime(this.FinishDate.ToString("yyyy-MM-dd") + " " + fTimeStr);
+
+            if (f.Subtract(s).TotalMinutes > 60 * 24)
+            {
+                //ModalWindow m = new ModalWindow();
+                //m.Message = "Time interval cannot be more than 24 hours.\nPlease choose an appropriate interval.";
+                //m.Show();
+
+                container.MsgBox("Time interval cannot be more than 24 hours.\nPlease choose an appropriate interval.", 3);
+            }
+            else
+            {
+                //busyIndicator.IsBusy = true;
+                string sDateStr = string.Format("'{0} {1}'", this.StartDate.ToString("yyyy-MM-dd"), sTimeStr);
+
+                string fDateStr = string.Format("'{0} {1}'", this.FinishDate.ToString("yyyy-MM-dd"), fTimeStr);
+
+                //loadingTxtBlck.Text = "Loading...";
+                container.BusyStart("Retreiving the data...");
+                CData.HistoryMapItems.Load(animatedItem, sDateStr, fDateStr);
+                startDatePicker.IsEnabled =
+                finishDatePicker.IsEnabled =
+                startTimePicker.IsEnabled =
+                finishTimePicker.IsEnabled =
+                loadBtn.IsEnabled = false;
+
+            }
+
+        }
+
+        void TracingCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            this.Tracing = true;
+        }
+
+        void TracingCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.Tracing = false;
+        }
+
+        void trackChkBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ClearLine();
+        }
+
+        void trackChkBox_Checked(object sender, RoutedEventArgs e)
+        {
+            TrackLine();
+        }
+
+        void TrackLine()
+        {
+            if (CData.HistoryMapItems != null && CData.HistoryMapItems.Count > 0)
+            {
+
+                mapAnimation.ItemLayersDict["TrackLineDataLayer"].ItemTemplate = Resources["pointTemplate"] as DataTemplate;
+                PointCollection Points = new PointCollection();
+                foreach (KeyValuePair<DateTime, CAISItem> kvp in CData.HistoryMapItems)
+                {
+                    Points.Add(kvp.Value.LatLong);
+                }
+                mapAnimation.ItemLayersDict["TrackLineDataLayer"].ItemsSource = CData.HistoryMapItems.Values;
+
+                C1VectorPolyline lines = new C1VectorPolyline();
+                lines.Stroke = new SolidColorBrush(Colors.Blue);
+                lines.StrokeThickness = 2;
+                lines.StrokeLineJoin = PenLineJoin.Round;
+                lines.StrokeDashCap = PenLineCap.Round;
+                lines.StrokeEndLineCap = PenLineCap.Round;
+                lines.StrokeDashArray = new DoubleCollection { 4, 2 };
+                lines.Points = Points;
+                mapAnimation.VectorLayer.Children.Add(lines);
+            }
+        }
+
+        void ClearLine()
+        {
+            mapAnimation.VectorLayer.Children.Clear();
+            mapAnimation.ItemLayersDict["TrackLineDataLayer"].ItemsSource = null;
+        }
+
+        void mapItemsList_OnGetDataEmpty()
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                container.BusyEnd();
+                container.MsgBox("No data found between entered dates...", EButtons.Ok, EIcon.Error, (r) =>
+                {
+
+                });
+                startDatePicker.IsEnabled =
+                finishDatePicker.IsEnabled =
+                startTimePicker.IsEnabled =
+                finishTimePicker.IsEnabled =
+                loadBtn.IsEnabled = true;
+                player.Visibility = Visibility.Collapsed;
+            });
+        }
+
+        void mapItemsList_OnGetDataFailed()
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                container.BusyEnd();
+                container.MsgBox("An error occurred..", EButtons.Ok, EIcon.Error, (r) =>
+                {
+
+                });
+                startDatePicker.IsEnabled =
+              finishDatePicker.IsEnabled =
+              startTimePicker.IsEnabled =
+              finishTimePicker.IsEnabled =
+               loadBtn.IsEnabled = true;
+                player.Visibility = Visibility.Collapsed;
+            });
+        }
+
+        void mapItemsList_OnCollectionCreated()
+        {
+
+
+
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                container.SetBusyText("Player is loading...");
+            });
+
+
+
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                player.Load(CData.HistoryMapItems, this);
+            });
+
+
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                dataGridAnimation.ItemsSource = null;
+                dataGridAnimation.ItemsSource = CData.HistoryMapItems.Values;
+                player.Visibility = Visibility.Visible;
+                container.BusyEnd();
+            });
+
+        }
+
+        void player_OnUserInteracted()
+        {
+
+        }
+
+        void player_OnReversed()
+        {
+            //player.counter += player.Direction;
+        }
+
+        void player_OnAnimationTick()
+        {
+
+        }
+
+        void player_OnSliderChange()
+        {
+
+        }
+
+        void player_OnStop()
+        {
+            InitInterfaceToDefault();
+
+            pcAnimation.Visibility = Visibility.Collapsed;
+            c1TabControl.SelectedIndex = 0;
+        }
+
+        void player_OnPause()
+        {
+
+
+        }
+
+        void player_OnPlay()
+        {
+            if (trackChkBox.IsChecked == true)
+            {
+                TrackLine();
+            }
+            pcAnimation.Visibility = Visibility.Visible;
+        }
+
+        #endregion
+
+        //void btngrChangeMapSource_Clicked(CButton sender)
+        //{
+        //    switch (sender.Index)
+        //    {
+        //        case 0:
+        //            map.MapSource = EMapSource.GoogleSat;
+        //            break;
+        //        case 1:
+        //            map.MapSource = EMapSource.iDeal;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+    }
+}

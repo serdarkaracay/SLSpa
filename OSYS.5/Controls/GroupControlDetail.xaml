@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="OSYS.Controls.GroupControlDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             d:DesignHeight="450"
+             d:DesignWidth="550"
+             mc:Ignorable="d" HorizontalAlignment="Center">
+
+    <Grid x:Name="LayoutRoot" HorizontalAlignment="Center" VerticalAlignment="Center" Width="550" Height="450">
+        <c1:C1DataGrid             
+            Name="customerMeterGrid" 
+            RowHeight="30" 
+            AutoGenerateColumns="False"
+            CanUserFilter="True"
+			HeadersVisibility="Column"    
+            CanUserAddRows="False" 
+            CanUserRemoveRows="False" 
+            HorizontalAlignment="Left"  Opacity="1" 
+            HorizontalScrollBarVisibility="Auto" Width="534" Margin="8,58,0,8"
+            
+                        ColumnWidth="*" Background="#4A649EDC" 
+		                Foreground="White" PressedBrush="#CC1976F3"    
+						MouseOverBrush="#C4B4B8BA" 
+						SelectedBackground="#770A4B93" RowForeground="Black" 
+						RowBackground="#E5DBF0FB" BorderBrush="#FFEEF8FF" VerticalContentAlignment="Center" 
+						VerticalScrollBarVisibility="Auto" Visibility="Visible" SelectionMode="SingleRow"	           
+            
+            >
+                     
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTextColumn Binding="{Binding Name}" SortMemberPath="Name" FilterMemberPath="Name" GroupHeader="Name"  Header="Abone Adı"  />
+                <c1:DataGridTextColumn Binding="{Binding Phone}" SortMemberPath="Phone" FilterMemberPath="Phone" GroupHeader="Phone" Header="Telefon Numarası" />
+                <c1:DataGridTextColumn Binding="{Binding EMail}" SortMemberPath="EMail" FilterMemberPath="EMail" GroupHeader="EMail"  Header="E-Posta"  />
+           
+            </c1:C1DataGrid.Columns>
+        </c1:C1DataGrid>
+        <Border BorderBrush="Black" BorderThickness="1" Height="39" Margin="8,8,8,0" VerticalAlignment="Top" CornerRadius="3">
+        	<Border.Background>
+        		<SolidColorBrush Color="{StaticResource DarkBlue}" />
+        	</Border.Background>
+        	<TextBlock x:Name="textBlock2" Foreground="White" FontWeight="Bold" d:LayoutOverrides="GridBox" Margin="7,7,0,0" FontSize="18.667" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="368" Text="Abone Listesi" />
+        </Border>
+    </Grid>
+</UserControl>

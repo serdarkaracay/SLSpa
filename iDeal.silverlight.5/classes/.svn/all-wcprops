@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/das/!svn/ver/2160/iDeal.silverlight.5/classes
+END
+CMercator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/das/!svn/ver/2133/iDeal.silverlight.5/classes/CMercator.cs
+END
+CSyncService.cs
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/das/!svn/ver/2160/iDeal.silverlight.5/classes/CSyncService.cs
+END
+CUser.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/das/!svn/ver/2133/iDeal.silverlight.5/classes/CUser.cs
+END
+MapSources.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/das/!svn/ver/2133/iDeal.silverlight.5/classes/MapSources.cs
+END
+CService.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/das/!svn/ver/2160/iDeal.silverlight.5/classes/CService.cs
+END
+IUser.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/das/!svn/ver/2133/iDeal.silverlight.5/classes/IUser.cs
+END
+_declarations.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/das/!svn/ver/2160/iDeal.silverlight.5/classes/_declarations.cs
+END
+CGeography.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/das/!svn/ver/2133/iDeal.silverlight.5/classes/CGeography.cs
+END
+IProfile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/das/!svn/ver/2160/iDeal.silverlight.5/classes/IProfile.cs
+END
+Converters.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/das/!svn/ver/2160/iDeal.silverlight.5/classes/Converters.cs
+END

@@ -1,0 +1,118 @@
+﻿<UserControl 
+    xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduler"  
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"  
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"  
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"  
+    x:Class="OSYS.Controls.ServicePlan"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dxschd="clr-namespace:DevExpress.Xpf.Scheduler.Drawing;assembly=DevExpress.Xpf.Scheduler.v12.1"
+    xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="1000">
+    <Grid x:Name="LayoutRoot" Background="White" Width="auto" Height="500">
+        <Border BorderBrush="Black" BorderThickness="1" Height="42" Margin="8,8,8,0" 
+   VerticalAlignment="Top" CornerRadius="3">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource DarkBlue}" />
+            </Border.Background>
+            <TextBlock x:Name="tbPersonelEkle" Text="Servis Planı" TextAlignment="Center" Foreground="White" FontWeight="Bold" 
+                       d:LayoutOverrides="GridBox" Margin="7,7,0,0" FontSize="18.667" 
+                       Height="26" VerticalAlignment="Top" HorizontalAlignment="Center" Width="auto" FontFamily="Arial" />
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="8,54,8,8" CornerRadius="3">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource Blue}" />
+            </Border.Background>
+            <Grid>
+                <Grid Width="auto">
+                    <dx:DXTabControl x:Name="tcServisPlan">
+                        <dx:DXTabItem Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <dx:DXTabItem.Header>
+                                <TextBlock Text=" Servis Plan" FontWeight="Bold" Foreground="DarkBlue"></TextBlock>
+                            </dx:DXTabItem.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="35"/>
+                                </Grid.RowDefinitions>
+                                <!--Region Listbox-->
+                                <!--<ListBox x:Name="lbServisPlan" Grid.Row="0" Width="auto" Margin="2" SelectionMode="Multiple" ItemsSource="{Binding}">
+                                   
+                                    <ListBox.ItemTemplate>
+
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Width="25" Grid.Column="1" Text="{Binding RoomNumber,Mode=TwoWay}" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="11" Margin="2"></TextBlock>
+                                                <TextBlock Width="120" Grid.Column="2" Text="{Binding TherapyName}" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="11" Margin="2"></TextBlock>
+                                                <dxe:TextEdit Grid.Column="3" Width="70" EditValue="{Binding ServisDateTime}" IsReadOnly="True" Margin="2" FontSize="11" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Left" DisplayFormatString="d" MaskType="DateTime"></dxe:TextEdit>
+                                                <dxe:ComboBoxEdit ItemsSource="{Binding PersonelList, Mode=TwoWay}" x:Name="cbPersonel" Width="150" NullText="Personel Seçiniz"  DisplayMember="Adi" ValueMember="PersonelID" Grid.Column="4"   VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="11" Margin="2" ></dxe:ComboBoxEdit>
+                                                <inputToolkit:TimePicker x:Name="tpStart" Width="120" Grid.Column="5" Foreground="DarkBlue" Value="{Binding ServisDateTime}"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="11" Margin="2"></inputToolkit:TimePicker>
+                                                <inputToolkit:TimePicker x:Name="tpEnd" Width="120" Grid.Column="6" Foreground="DarkBlue"  Value="{Binding ServisDateTime}"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="11" Margin="2"></inputToolkit:TimePicker>
+                                                <dxe:MemoEdit Grid.Column="7" EditValue="{Binding GuestNote}" IsReadOnly="True" Width="120" Margin="2" FontSize="11" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Left" ShowEditorButtons="False" ShowIcon="False"></dxe:MemoEdit>
+                                                <dxe:MemoEdit Width="120" Grid.Column="8" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" Margin="2" ShowIcon="False"></dxe:MemoEdit>
+                                            </Grid>
+                                        </DataTemplate>
+
+                                    </ListBox.ItemTemplate>
+                                </ListBox>-->
+                                <!--EndRegion-->
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <ListBox x:Name="lbServisPlanList" Margin="2" SelectionChanged="lbServisPlanList_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border CornerRadius="5">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="{Binding ServisDateTime,StringFormat=dd.MM.yyyy}" Margin="2" FontSize="11" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                                        <TextBlock Text="{Binding TherapyName}" Margin="2" FontSize="11" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                                        <TextBlock Text="{Binding GuestNote}" TextWrapping="Wrap" Margin="2" FontSize="11" Foreground="DarkBlue" VerticalAlignment="Center" HorizontalAlignment="Left" ></TextBlock>
+                                                        <TextBlock Text="{Binding TherapyID}" Visibility="Collapsed"></TextBlock>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <dxsch:SchedulerControl x:Name="schServisPlan" Grid.Column="1" Margin="2" GroupType="Resource" ShowBorder="False"
+                                                            EditAppointmentFormShowing="schServisPlan_EditAppointmentFormShowing">
+                                        <dxsch:SchedulerControl.DayView>
+                                            <dxsch:DayView AppointmentToolTipVisibility="Never" TimeScale="0:10:0" ShowAllDayArea="False"/>
+                                        </dxsch:SchedulerControl.DayView>
+                                    </dxsch:SchedulerControl>
+                                </Grid>
+                                <dxe:ButtonEdit Grid.Row="1" ShowText="False" ToolTipService.ToolTip="Servis Planı Kaydet" AllowDefaultButton="False" HorizontalContentAlignment="Center" Foreground="DarkBlue" Height="30" Margin="2">
+                                    <dxe:ButtonInfo x:Name="BtnServisPlanSave" GlyphKind="Apply" Click="BtnServisPlanSave_Click" ToolTipService.ToolTip="Servis Planı Kaydet"></dxe:ButtonInfo>
+                                </dxe:ButtonEdit>
+                            </Grid>
+                        </dx:DXTabItem>
+                        <dx:DXTabItem x:Name="tbitemPrint" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <dx:DXTabItem.Header>
+                                <TextBlock Text="Yazdır"  FontWeight="Bold" Foreground="DarkBlue"></TextBlock>
+                            </dx:DXTabItem.Header>
+                            <Grid>
+                                <TextBlock Text="Raporlar"></TextBlock>
+                            </Grid>
+                        </dx:DXTabItem>
+                    </dx:DXTabControl>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

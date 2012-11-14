@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="OSYS.Controls.CustGroupControl"           
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="200"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot">
+
+            <TextBox x:Name="txtListe" Margin="0,12,12,213" 
+         Width="284" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" 
+         TextAlignment="Left"
+         MaxLength="500"
+         IsReadOnly="False" 
+         AcceptsReturn="True" HorizontalAlignment="Right" Visibility="Collapsed"/>
+        <Button Content="Liste Kayıt" Height="23" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="122" Visibility="Collapsed" />
+        <Border BorderBrush="Black" BorderThickness="1" Height="42" Margin="8,8,8,0" VerticalAlignment="Top" CornerRadius="3">
+        	<Border.Background>
+        		<SolidColorBrush Color="{StaticResource DarkBlue}" />
+        	</Border.Background>
+        	<TextBlock x:Name="txtHeader" Text="Grup Tanımlama" Foreground="White" FontWeight="Bold" d:LayoutOverrides="GridBox" Margin="7,7,0,0" FontSize="18.667" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="475" />
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="8,54,8,8" CornerRadius="3">
+        	<Border.Background>
+        		<SolidColorBrush Color="{StaticResource Blue}" />
+        	</Border.Background>
+        	<Grid  HorizontalAlignment="Center" >
+        		<TextBlock Height="23"  x:Name="textBlock2" Text="Grup Adı" VerticalAlignment="Top" FlowDirection="LeftToRight" TextAlignment="Right" FontFamily="MS Reference Sans Serif" FontSize="11" Foreground="White" Margin="39,28,272,0" d:LayoutOverrides="Width" />
+        		<TextBlock FlowDirection="LeftToRight" Height="23" Margin="24,56,0,0" x:Name="textBlock4" Text="Açıklama" VerticalAlignment="Top" TextAlignment="Right" FontFamily="MS Reference Sans Serif" FontSize="11" Foreground="White" HorizontalAlignment="Left" Width="64" />
+        		<TextBox Text="{Binding Name, Mode=TwoWay}" Height="23" IsEnabled="True" Margin="100,24,0,0" x:Name="txtName" VerticalAlignment="Top" MaxLength="100" TextWrapping="Wrap"
+        			Tag="Doldurulması zorunlu alan lütfen tarife adını giriniz " AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="221"/>
+        		<TextBox AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" IsEnabled="True" Margin="100,51,0,0" MaxLength="100" x:Name="txtDesc" Tag="Doldurulması zorunlu alan " Text="{Binding Name, Mode=TwoWay}" TextWrapping="Wrap" Height="47" VerticalAlignment="Top" HorizontalAlignment="Left" Width="221" />
+        		<TextBlock x:Name="txtError" Text="" Foreground="#FFFFBD00" FontFamily="Arial" FontSize="13" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Left"  HorizontalAlignment="Left" Width="214" Margin="107,107,0,0" Height="40" VerticalAlignment="Top" />
+        		<TextBlock Margin="328,29,0,0" TextWrapping="Wrap" Text="*" VerticalAlignment="Top" Width="13" Height="16" Foreground="#FFEDE9E9" HorizontalAlignment="Left"/>
+        	</Grid>
+        </Border>
+    </Grid>
+</UserControl>

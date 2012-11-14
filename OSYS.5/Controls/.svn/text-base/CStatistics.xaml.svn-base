@@ -1,0 +1,269 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="VesselTracking.CStatistics"
+	d:DesignWidth="232" d:DesignHeight="300">
+
+	<Grid x:Name="LayoutRoot">
+		<Grid
+			Margin="0"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Top">
+			<Rectangle Fill="#FF104A74"
+				RadiusX="4"
+				RadiusY="4"
+				StrokeThickness="2">
+				<Rectangle.Effect>
+					<DropShadowEffect BlurRadius="30"
+						Opacity="0.5"
+						ShadowDepth="10" />
+				</Rectangle.Effect>
+				<Rectangle.Stroke>
+					<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+						<GradientStop Offset="1" Color="#FF0A2F4B" />
+						<GradientStop Color="#FF1667A1" />
+					</LinearGradientBrush>
+				</Rectangle.Stroke>
+			</Rectangle>
+			<StackPanel Width="210"
+				Margin="10"
+				HorizontalAlignment="Left"
+				Orientation="Vertical">
+				<Grid Height="32" Margin="0,4">
+					<TextBlock x:Name="textBlock37"
+						Height="20"
+						Margin="0,0,62,0"
+						VerticalAlignment="Top"
+						Effect="{StaticResource FontEfect}"
+						FontFamily="Arial Rounded MT Bold"
+						FontSize="16"
+						Text="AIS Device"
+						TextWrapping="Wrap">
+						<TextBlock.Foreground>
+							<SolidColorBrush Color="{StaticResource BaseColor}" />
+						</TextBlock.Foreground>
+					</TextBlock>
+					<TextBlock x:Name="textBlock38"
+						Height="12"
+						Margin="0,0,62,0"
+						VerticalAlignment="Bottom"
+						FontSize="9"
+						Foreground="#FF7896B6"
+						Text="Total AIS Device Count"
+						TextWrapping="Wrap"
+						d:LayoutOverrides="VerticalAlignment" />
+					<TextBlock x:Name="textBlock39"
+						Width="62"
+						HorizontalAlignment="Right"
+						Effect="{StaticResource FontEffect2}"
+						FontSize="24"
+						Foreground="#FFEAEB30"
+						Text="{Binding CountAll}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+				<Grid Height="32" Margin="0,4">
+					<TextBlock x:Name="textBlock40"
+						Height="20"
+						Margin="0,0,62,0"
+						VerticalAlignment="Top"
+						Effect="{StaticResource FontEfect}"
+						FontFamily="Arial Rounded MT Bold"
+						FontSize="16"
+						Text="Class A"
+						TextWrapping="Wrap">
+						<TextBlock.Foreground>
+							<SolidColorBrush Color="{StaticResource BaseColor}" />
+						</TextBlock.Foreground>
+					</TextBlock>
+					<TextBlock x:Name="textBlock41"
+						Height="12"
+						Margin="0,0,62,0"
+						VerticalAlignment="Bottom"
+						FontSize="9"
+						Foreground="#FF7896B6"
+						Text="Total AIS Class A Count"
+						TextWrapping="Wrap"
+						d:LayoutOverrides="VerticalAlignment" />
+					<TextBlock x:Name="textBlock42"
+						Width="62"
+						HorizontalAlignment="Right"
+						Effect="{StaticResource FontEffect2}"
+						FontSize="24"
+						Foreground="#FFEAEB30"
+						Text="{Binding CountA}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+				<Grid Height="32" Margin="0,4">
+					<TextBlock x:Name="textBlock43"
+						Height="20"
+						Margin="0,0,62,0"
+						VerticalAlignment="Top"
+						Effect="{StaticResource FontEfect}"
+						FontFamily="Arial Rounded MT Bold"
+						FontSize="16"
+						Text="Class B"
+						TextWrapping="Wrap">
+						<TextBlock.Foreground>
+							<SolidColorBrush Color="{StaticResource BaseColor}" />
+						</TextBlock.Foreground>
+					</TextBlock>
+					<TextBlock x:Name="textBlock44"
+						Height="12"
+						Margin="0,0,62,0"
+						VerticalAlignment="Bottom"
+						FontSize="9"
+						Foreground="#FF7896B6"
+						Text="Total AIS Class B Count"
+						TextWrapping="Wrap"
+						d:LayoutOverrides="VerticalAlignment" />
+					<TextBlock x:Name="textBlock45"
+						Width="62"
+						HorizontalAlignment="Right"
+						Effect="{StaticResource FontEffect2}"
+						FontSize="24"
+						Foreground="#FFEAEB30"
+						Text="{Binding CountB}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+				<Grid Height="32" Margin="0,4">
+					<TextBlock x:Name="textBlock46"
+						Height="20"
+						Margin="0,0,62,0"
+						VerticalAlignment="Top"
+						Effect="{StaticResource FontEfect}"
+						FontFamily="Arial Rounded MT Bold"
+						FontSize="16"
+						Text="ATON"
+						TextWrapping="Wrap">
+						<TextBlock.Foreground>
+							<SolidColorBrush Color="{StaticResource BaseColor}" />
+						</TextBlock.Foreground>
+					</TextBlock>
+					<TextBlock x:Name="textBlock47"
+						Height="12"
+						Margin="0,0,62,0"
+						VerticalAlignment="Bottom"
+						FontSize="9"
+						Foreground="#FF7896B6"
+						Text="Total AIS ATON Count"
+						TextWrapping="Wrap"
+						d:LayoutOverrides="VerticalAlignment" />
+					<TextBlock x:Name="textBlock48"
+						Width="62"
+						HorizontalAlignment="Right"
+						Effect="{StaticResource FontEffect2}"
+						FontSize="24"
+						Foreground="#FFEAEB30"
+						Text="{Binding CountAN}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+				<Grid Height="32" Margin="0,4">
+					<TextBlock x:Name="textBlock49"
+						Height="20"
+						Margin="0,0,62,0"
+						VerticalAlignment="Top"
+						Effect="{StaticResource FontEfect}"
+						FontFamily="Arial Rounded MT Bold"
+						FontSize="16"
+						Text="Base Station"
+						TextWrapping="Wrap">
+						<TextBlock.Foreground>
+							<SolidColorBrush Color="{StaticResource BaseColor}" />
+						</TextBlock.Foreground>
+					</TextBlock>
+					<TextBlock x:Name="textBlock50"
+						Height="12"
+						Margin="0,0,62,0"
+						VerticalAlignment="Bottom"
+						FontSize="9"
+						Foreground="#FF7896B6"
+						Text="Total AIS Base Station Count"
+						TextWrapping="Wrap"
+						d:LayoutOverrides="VerticalAlignment" />
+					<TextBlock x:Name="textBlock51"
+						Width="62"
+						HorizontalAlignment="Right"
+						Effect="{StaticResource FontEffect2}"
+						FontSize="24"
+						Foreground="#FFEAEB30"
+						Text="{Binding CountBS}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+				<Grid Height="32" Margin="0,4">
+					<TextBlock x:Name="textBlock52"
+						Height="20"
+						Margin="0,0,62,0"
+						VerticalAlignment="Top"
+						Effect="{StaticResource FontEfect}"
+						FontFamily="Arial Rounded MT Bold"
+						FontSize="16"
+						Text="Unidentified"
+						TextWrapping="Wrap">
+						<TextBlock.Foreground>
+							<SolidColorBrush Color="{StaticResource BaseColor}" />
+						</TextBlock.Foreground>
+					</TextBlock>
+					<TextBlock x:Name="textBlock53"
+						Height="12"
+						Margin="0,0,62,0"
+						VerticalAlignment="Bottom"
+						FontSize="9"
+						Foreground="#FF7896B6"
+						Text="Unidentified AIS Count"
+						TextWrapping="Wrap"
+						d:LayoutOverrides="VerticalAlignment" />
+					<TextBlock x:Name="textBlock54"
+						Width="62"
+						HorizontalAlignment="Right"
+						Effect="{StaticResource FontEffect2}"
+						FontSize="24"
+						Foreground="#FFEAEB30"
+						Text="{Binding CountUnknown}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+				<Grid Height="32" Margin="0,4">
+					<TextBlock x:Name="textBlock1"
+						Height="20"
+						Margin="0,0,62,0"
+						VerticalAlignment="Top"
+						Effect="{StaticResource FontEfect}"
+						FontFamily="Arial Rounded MT Bold"
+						FontSize="16"
+						Text="Comm. Lost"
+						TextWrapping="Wrap">
+						<TextBlock.Foreground>
+							<SolidColorBrush Color="{StaticResource BaseColor}" />
+						</TextBlock.Foreground>
+					</TextBlock>
+					<TextBlock x:Name="textBlock2"
+						Height="12"
+						Margin="0,0,62,0"
+						VerticalAlignment="Bottom"
+						FontSize="9"
+						Foreground="#FF7896B6"
+						Text="Comm. Lost Devices Count"
+						TextWrapping="Wrap"
+						d:LayoutOverrides="VerticalAlignment" />
+					<TextBlock x:Name="textBlock3"
+						Width="62"
+						HorizontalAlignment="Right"
+						Effect="{StaticResource FontEffect2}"
+						FontSize="24"
+						Foreground="#FFEAEB30"
+						Text="{Binding CountCommLost}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+			</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

@@ -1,0 +1,129 @@
+﻿<vtClasses:AuthenticatedPage 
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+           xmlns:vtClasses="clr-namespace:OSYS.Pages"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" 
+    x:Class="OSYS.Pages.Fizyoterapist"
+           mc:Ignorable="d"
+           d:DesignWidth="800" d:DesignHeight="900"
+            xmlns:my="clr-namespace:OSYS.Controls"
+           Title="Fizyoterapist">
+    <vtClasses:AuthenticatedPage.Resources>
+        <DataTemplate x:Key="listBoxMisafir">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock  x:Name="tbMisafirA" Grid.Row="0" Grid.Column="0" Text="Adı Soyadı :" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Right"></TextBlock>
+                <TextBlock x:Name="tbMisafirAdi" Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Left" FontWeight="Bold"/>
+                <TextBlock  x:Name="tbMisafirS" Grid.Row="0" Grid.Column="2" Text="{Binding LastName}" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Left" FontWeight="Bold"></TextBlock>
+                <TextBlock x:Name="tbOda" Grid.Row="1" Grid.Column="0" Text="Oda Numarası :" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="tbOdaN" Grid.Row="1" Grid.Column="1" Text="{Binding RoomNumber}" Foreground="White" FontStyle="Normal" Margin="3" FontWeight="Bold" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock x:Name="IDD" Grid.Row="1" Grid.Column="1" Text="{Binding ID}" Visibility="Collapsed" Foreground="White" FontStyle="Normal" Margin="3" FontWeight="Bold" HorizontalAlignment="Left"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="listBoxMisafirD">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Adı Soyadı :" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Right"></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Left" FontWeight="Bold"></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" Foreground="White" FontStyle="Normal" Margin="75,3,3,3" HorizontalAlignment="Left" FontWeight="Bold"></TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Oda Numarası :" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Right"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding RoomNumber}" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Left" FontWeight="Bold"></TextBlock>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Giriş-Çıkış Tarihi :" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Right"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Arrival}" Foreground="White" FontStyle="Normal" Margin="3" HorizontalAlignment="Left" FontWeight="Bold"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Release}" Foreground="White" FontStyle="Normal" Margin="200,3,3,3" HorizontalAlignment="Left" FontWeight="Bold"></TextBlock>
+            </Grid>
+        </DataTemplate>
+    </vtClasses:AuthenticatedPage.Resources>
+    <Grid x:Name="LayoutRoot" Margin="3" Background="#FF135889">
+        <Grid HorizontalAlignment="Left" Margin="3" VerticalAlignment="Stretch" >
+            <ListBox x:Name="listboxGuest" Margin="3" Width="250" Height="500" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#FF135889" 
+                     ItemTemplate="{StaticResource ResourceKey=listBoxMisafir}" SelectionChanged="listboxGuest_SelectionChanged"/>
+        </Grid>
+        <Grid Margin="260,28,100,0" Height="500" VerticalAlignment="Top" Background="#FF135889" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="33"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition ></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Adı Soyadı : " Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
+            <TextBlock x:Name="tbMisafirAdi"  Grid.Row="0" Grid.Column="1" Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            <TextBlock x:Name="tbMisafirSoy"  Grid.Row="0" Grid.Column="1" Margin="100,3,3,3" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Oda Numarası :"  Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Name="tbOda" Grid.Row="1" Grid.Column="1" Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Giriş-Gidiş Tarihleri : "  Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                <TextBlock x:Name="tbGiris"  Text="{Binding ServisDateTime,StringFormat=dd.MM.yyyy}" Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="tbCikis"  Text="{Binding ServisDateTime,StringFormat=dd.MM.yyyy}" Margin="25,5,5,5" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+            </StackPanel>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Teshiş :"  Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+            <dxe:ComboBoxEdit Grid.Row="3" Grid.Column="1"  x:Name="diagnosisList" Width="100" Margin="3" Height="25" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Auto" NullText="Teshişler" >
+            </dxe:ComboBoxEdit>
+            <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="0">
+                <TextBlock  Text="Verilecek Tedaviler"  Margin="3" FontSize="12" Foreground="White" HorizontalAlignment="Center"></TextBlock>
+                <dxe:ComboBoxEdit x:Name="cbeServisList" Height="25" NullText="Servis Seçiniz." Margin="3">
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings></dxe:ComboBoxStyleSettings>
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+                <dxe:DateEdit x:Name="dateEditServis" Margin="3" Height="25"></dxe:DateEdit>
+                <dxe:MemoEdit x:Name="txtDesc" Margin="3" NullText="Servis Açıklama" IsTextEditable="True" MaxHeight="100" TextWrapping="Wrap"  ShowIcon="False"></dxe:MemoEdit>
+                <Button x:Name="btnServisListPlan" Height="25" Margin="3" Content="Plana Dahil Et" Click="btnServisListPlan_Click"></Button>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="1" Margin="3">
+                <ListBox x:Name="listboxGuestServisPlan" Margin="2" Width="200" Height="300">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="2">
+                                <StackPanel Orientation="Vertical" Margin="2">
+                                    <TextBlock Margin="2" Text="{Binding TherapyName}"></TextBlock>
+                                    <TextBlock Margin="2" Text="{Binding TherapyDateTime,StringFormat=dd.MM.yyyy}"></TextBlock>
+                                    <TextBlock Margin="2" Text="{Binding ServisDesc}"></TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <dxe:ComboBoxEdit x:Name="checkEditMisafir" Visibility="Collapsed" Grid.Row="4" Grid.Column="1" Width="250" Margin="3" Height="25" VerticalAlignment="Center" SeparatorString="-" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Auto" NullText="Misafir Servisleri" >
+                <dxe:ComboBoxEdit.StyleSettings>
+                    <dxe:CheckedComboBoxStyleSettings></dxe:CheckedComboBoxStyleSettings>
+                </dxe:ComboBoxEdit.StyleSettings>
+            </dxe:ComboBoxEdit>
+
+
+        </Grid>
+        <StackPanel x:Name="spOdaTool" Margin="0,25,3,0" HorizontalAlignment="Right" Width="56">
+            <my:CButton x:Name="btnMisafirEkle" BackImage="/OSYS;component/Images/add.png" Margin="5,0,0,0" Height="50" ToolTip="Misafiri Kaydet" Clicked="btnMisafirEkle_Clicked" />
+        </StackPanel>
+    </Grid>
+</vtClasses:AuthenticatedPage>

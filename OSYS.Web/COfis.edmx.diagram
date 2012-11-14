@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3fc0ec59eb964a71a06fdd9872f0fe26" Name="Diagram1">
+        <EntityTypeShape EntityType="Caprice_OfisModel.View_SPA_PersonelIzin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.View_SPA_PersonelProfil" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.DepartmanGorevler" Width="1.5" PointX="0.094951674386370782" PointY="27.77670809429917" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.Departmanlar" Width="1.5" PointX="11.644184538928878" PointY="28.127522079333442" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.Personel" Width="1.5" PointX="6.6906478082251954" PointY="13.181751987515833" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.PersonelIzinDatalari" Width="1.5" PointX="4.3918569946623673" PointY="21.40135357780445" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.PersonelProfili" Width="1.5" PointX="11.62659397517638" PointY="29.007868661083219" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.User" Width="1.5" PointX="1.0856913221467712" PointY="17.479229845795423" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserApplications" Width="1.5" PointX="4.2905659695577647" PointY="24.438192915375435" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserAppRoles" Width="1.5" PointX="6.9375517139851821" PointY="13.067413902407239" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserRightDefinitions" Width="1.5" PointX="3.0634496170391556" PointY="6.553907039833212" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserRoleDetails" Width="1.5" PointX="7.09001271011774" PointY="6.1576210587088118" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserRoles" Width="1.5" PointX="4.975634869642386" PointY="27.946206418772324" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_DepartmanGorevler_Departmanlar" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_Departmanlar_Departmanlar" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_Departmanlar_Personel" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_Personel_Departmanlar" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_Personel_PersonelProfili" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_PersonelIzinDatalari_Personel" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_User_Personel" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_PersonelIzinDatalari_User2" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_PersonelIzinDatalari_User3" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserAppRoles_User" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserAppRoles_UserApplications" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRightDefinitions_UserApplications" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRoles_UserApplications" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserAppRoles_UserRoles" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRightDefinitions_UserRightDefinitions" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRoleDetails_UserRightDefinitions" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRoleDetails_UserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,555 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{21AEA557-8FF2-4053-83DE-DE28138D09FE}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OSYS</RootNamespace>
+    <AssemblyName>OSYS</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>en;tr;en-US;tr-TR;es-AR</SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>vt0.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>OSYS.App</SilverlightAppEntry>
+    <TestPageFileName>BlueBoxDemoTestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>..\OSYS.Web\OSYS.Web.csproj</LinkedServerProject>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.1.20402.0</ExpressionBlendVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TEST|AnyCPU'">
+    <OutputPath>bin\TEST\</OutputPath>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <DefineConstants>TEST</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Silverlight.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.Chart.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.Chart.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.DataGrid.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.DataGrid.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.DataGrid.Filters.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.DataGrid.Filters.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.DateTimeEditors.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.DateTimeEditors.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.Extended.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.Extended.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.Gauge.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.Gauge.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.Imaging.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.Imaging.5.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Silverlight.Maps.5">
+      <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.Maps.5.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v12.1, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v12.1" />
+    <Reference Include="DevExpress.Xpf.Controls.v12.1" />
+    <Reference Include="devexpress.xpf.core.v12.1, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Core.v12.1" />
+    <Reference Include="DevExpress.Xpf.Docking.v12.1" />
+    <Reference Include="DevExpress.Xpf.Printing.v12.1.Core" />
+    <Reference Include="DevExpress.Xpf.Printing.v12.1" />
+    <Reference Include="DevExpress.Xpf.Grid.v12.1" />
+    <Reference Include="DevExpress.Xpf.Grid.v12.1.Core" />
+    <Reference Include="DevExpress.Xpf.Layout.v12.1.Core" />
+    <Reference Include="DevExpress.Xpf.LayoutControl.v12.1" />
+    <Reference Include="devexpress.xpf.scheduler.v12.1, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Scheduler.v12.1" />
+    <Reference Include="DevExpress.XtraScheduler.v12.1.Core, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v12.1.Core" />
+    <Reference Include="Microsoft.Expression.Controls" />
+    <Reference Include="Microsoft.Expression.Drawing" />
+    <Reference Include="Microsoft.Expression.Effects, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Windows.Controls.DataVisualization, Version=2.0.21027.1502, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>DLL\Microsoft.Windows.Controls.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics.Shaders" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=5.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Services.Client, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.DomainServices.Client" />
+    <Reference Include="System.ServiceModel.DomainServices.Client.Web" />
+    <Reference Include="System.ServiceModel.Extensions, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel.NetTcp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel.PollingDuplex, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel.Syndication, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ServiceModel.Web.Extensions, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Windows.Controls, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data.DataForm.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data.Input, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.DomainServices" />
+    <Reference Include="System.Windows.Controls.Input, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Navigation, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Theming.BureauBlack, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Theming.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Theming.WhistlerBlue, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Data, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Xna" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Serialization, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.Windows.Controls" />
+    <Reference Include="Telerik.Windows.Controls.Input" />
+    <Reference Include="Telerik.Windows.Controls.Navigation" />
+    <Reference Include="Telerik.Windows.Controls.RibbonView" />
+    <Reference Include="Telerik.Windows.Themes.Metro" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\CProfile.cs" />
+    <Compile Include="Classes\CTimer.cs" />
+    <Compile Include="Classes\CustomFilterRow.cs" />
+    <Compile Include="Classes\DTO.cs" />
+    <Compile Include="Classes\Extensions.cs" />
+    <Compile Include="Classes\CUser.cs" />
+    <Compile Include="Classes\interfaces\IMsgBoxControl.cs" />
+    <Compile Include="Classes\interfaces\IProfile.cs" />
+    <Compile Include="Classes\interfaces\IUser.cs" />
+    <Compile Include="Classes\PersonelIzin.cs" />
+    <Compile Include="Classes\Session.cs" />
+    <Compile Include="Classes\_declarations.cs" />
+    <Compile Include="Controls\CFilterControl.xaml.cs">
+      <DependentUpon>CFilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CInputControl.xaml.cs">
+      <DependentUpon>CInputControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CircularProgress.xaml.cs">
+      <DependentUpon>CircularProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CMessageBox.xaml.cs">
+      <DependentUpon>CMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustMeterPopupControl.xaml.cs">
+      <DependentUpon>CustMeterPopupControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomAppointmentServicePlan.xaml.cs">
+      <DependentUpon>CustomAppointmentServicePlan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PersonelList.xaml.cs">
+      <DependentUpon>PersonelList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ServiceListControl.xaml.cs">
+      <DependentUpon>ServiceListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ServicePlan.xaml.cs">
+      <DependentUpon>ServicePlan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ServicePlanGuestDetail.xaml.cs">
+      <DependentUpon>ServicePlanGuestDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TariffControlDetail.xaml.cs">
+      <DependentUpon>TariffControlDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GroupControlDetail.xaml.cs">
+      <DependentUpon>GroupControlDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CusControlDetail.xaml.cs">
+      <DependentUpon>CusControlDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GroupPopupControl.xaml.cs">
+      <DependentUpon>GroupPopupControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CusPopupControl.xaml.cs">
+      <DependentUpon>CusPopupControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustGroupControl.xaml.cs">
+      <DependentUpon>CustGroupControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CPictureViewer.xaml.cs">
+      <DependentUpon>CPictureViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DELETEButton.xaml.cs">
+      <DependentUpon>DELETEButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LblHeader.xaml.cs">
+      <DependentUpon>LblHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\_CButton.xaml.cs">
+      <DependentUpon>_CButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\_CGroupButton.xaml.cs">
+      <DependentUpon>_CGroupButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FaturaModel.cs" />
+    <Compile Include="Model\HTMLPopupWindow.cs" />
+    <Compile Include="Model\ServisModel.cs" />
+    <Compile Include="Pages\AuthenticatedPage.cs" />
+    <Compile Include="Classes\Converters.cs" />
+    <Compile Include="Classes\CSettings.cs" />
+    <Compile Include="Pages\BasePage.cs" />
+    <Compile Include="Controls\logo.xaml.cs">
+      <DependentUpon>logo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModalWindow.xaml.cs">
+      <DependentUpon>ModalWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CustGroupPage.xaml.cs">
+      <DependentUpon>CustGroupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CustMeterPage.xaml.cs">
+      <DependentUpon>CustMeterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Fizyoterapist.xaml.cs">
+      <DependentUpon>Fizyoterapist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\mainPage.xaml.cs">
+      <DependentUpon>mainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\pageInitial.xaml.cs">
+      <DependentUpon>pageInitial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\pageLogon.xaml.cs">
+      <DependentUpon>pageLogon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reception.xaml.cs">
+      <DependentUpon>Reception.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ServiceDef.xaml.cs">
+      <DependentUpon>ServiceDef.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UIDriver.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="_param.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Page Include="Controls\CFilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CInputControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CircularProgress.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CMessageBox.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CustMeterPopupControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CustomAppointmentServicePlan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PersonelList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ServiceListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ServicePlan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ServicePlanGuestDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TariffControlDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\GroupControlDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CusControlDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\GroupPopupControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CusPopupControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CustGroupControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CPictureViewer.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\DELETEButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LblHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\logo.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\UserControl1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\_CButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ModalWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\_CGroupButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\CustGroupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\CustMeterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Fizyoterapist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\mainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\pageInitial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\pageLogon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reception.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ServiceDef.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+    <Page Include="Resources\Resource1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\DataSources\OSYS.Web.DSAtoz.datasource" />
+    <None Include="Properties\DataSources\OSYS.Web.DSCapriceOfis.datasource" />
+    <Resource Include="Images\iconService.png" />
+    <Resource Include="Images\okicon32.png" />
+    <Resource Include="Images\pause.png" />
+    <Resource Include="Images\pdf.png" />
+    <Resource Include="Images\play.png" />
+    <Resource Include="Images\playb.png" />
+    <Resource Include="Images\playb_selected.png" />
+    <Resource Include="Images\playn.png" />
+    <Resource Include="Images\playn_selected.png" />
+    <Resource Include="Images\png.png" />
+    <Resource Include="Images\redstart.png" />
+    <Resource Include="Images\refresh.png" />
+    <Resource Include="Images\refreshb.png" />
+    <Resource Include="Images\region.png" />
+    <Resource Include="Images\rewind.png" />
+    <Resource Include="Images\ruler.png" />
+    <Resource Include="Images\satell.png" />
+    <Resource Include="Images\savedview.png" />
+    <Resource Include="Images\search.png" />
+    <Resource Include="Images\spamenu.png" />
+    <Resource Include="Images\stop.png" />
+    <Resource Include="Images\update.png" />
+    <Resource Include="Images\User-Managment.png" />
+    <Resource Include="Images\view.png" />
+    <Resource Include="Images\w.png" />
+    <Resource Include="Images\background.jpg" />
+    <Resource Include="Images\capricelogo.png" />
+    <Resource Include="Images\Doctor.png" />
+    <Resource Include="Images\mainmenu.png" />
+    <Resource Include="Images\add.png" />
+    <Resource Include="Images\deleteu.png" />
+    <Resource Include="Images\export.png" />
+    <Resource Include="Images\li.png" />
+    <Resource Include="Images\lq.png" />
+    <Resource Include="Images\lw.png" />
+    <Resource Include="Images\history.png" />
+    <Content Include="ServiceReferences.ClientConfig">
+      <SubType>Designer</SubType>
+    </Content>
+    <Resource Include="Shaders\ContrastAdjust.ps" />
+  </ItemGroup>
+  <ItemGroup>
+    <BlendEmbeddedFont Include="Fonts\consola.ttf">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\consolab.ttf">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\consolai.ttf">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\consolaz.ttf">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\COOPBL.TTF">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+  </ItemGroup>
+  <ItemGroup>
+    <BlendEmbeddedFont Include="Fonts\COPRGTB.TTF">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\ARBERKLEY.ttf">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <Content Include="SharpZipLib.Silverlight4.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\C1.Silverlight.DataGrid.tr.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\Silverlight\v4.0\Microsoft.Expression.Blend.Silverlight.targets" />
+</Project>

@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="MovingShip.Player"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="80"
+             d:DesignWidth="410"
+             mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Margin="0">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="-0.6" Color="Gray" />
+                <GradientStop Offset="1.0" Color="GhostWhite" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="53*" />
+            <RowDefinition Height="47*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Width="400"
+                    Height="34"
+                    Margin="0,2,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Name="playBtn"
+                    Width="40"
+                    Margin="12,0,0,0"
+                    HorizontalAlignment="Left"
+                    BorderBrush="{x:Null}"
+                    Click="playBtn_Click"
+                    IsEnabled="False"
+                    Opacity="1">
+                <Button.Content>
+                    <Image Name="playImage"
+                           Width="40"
+                           Source="../Images/play.png" />
+                </Button.Content>
+            </Button>
+            <Button Name="stopBtn"
+                    Width="40"
+                    Margin="12,0,0,0"
+                    HorizontalAlignment="Left"
+                    Click="stopBtn_Click"
+                    IsEnabled="False">
+                <Image Name="stopImage"
+                       Width="35"
+                       Height="26"
+                       Margin="0,1,0,0"
+                       Source="../Images/stop.png" />
+
+            </Button>
+            <Button Name="reverseBtn"
+                    Width="40"
+                    Margin="12,0,0,0"
+                    HorizontalAlignment="Left"
+                    Click="reverseBtn_Click"
+                    IsEnabled="False">
+                <Image Name="reverseImage"
+                       Width="40"
+                       Source="../Images/rewind.png" />
+
+            </Button>
+            <Slider x:Name="speedBar"
+                    Width="100"
+                    Margin="10,0,0,0"
+                    HorizontalContentAlignment="Stretch"
+                    IsDirectionReversed="True"
+                    IsEnabled="False"
+                    Maximum="1000"
+                    Minimum="10"
+                    Padding="0"
+                    ValueChanged="speedBar_ValueChanged"
+                    Value="1000" />
+            <TextBlock Name="RealTimeCounterLbl"
+                       Width="117"
+                       Height="23"
+                       Margin="10,12,0,0"
+                       FontSize="9"
+                       Text=""
+                       TextAlignment="Left" />
+        </StackPanel>
+        <Slider Name="seekBar"
+                Grid.Row="1"
+                Margin="10,5,0,5"
+                IsEnabled="False"
+                LargeChange="1"
+                LostMouseCapture="seekBar_LostMouseCapture"
+                Maximum="100"
+                MouseLeftButtonDown="seekBar_MouseLeftButtonDown"
+                SmallChange="1"
+                ValueChanged="seekBar_ValueChanged" />
+    </Grid>
+
+</UserControl>

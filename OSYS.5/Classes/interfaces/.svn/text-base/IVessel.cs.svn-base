@@ -1,0 +1,39 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Xml.Linq;
+using iDeal.silverlight.controls;
+
+namespace VesselTracking.Classes
+{
+    public interface IVessel : IAISItem
+    {
+        
+        int ShipAndCargo { get; set; }
+        int ETAMin { get; set; }
+        int ETAHour { get; set; }
+        int ETADay { get; set; }
+        int ETAMonth { get; set; }
+        int Draught { get; set; }
+        int ROT { get; set; }
+        int HDG { get; set; }
+        int Length { get; set; }
+        int Width { get; set; }
+        int Angle { get; set; }
+        
+        double SOG { get; set; }
+        double COG { get; set; }
+
+        string CallSign { get; set; }
+        string IMO { get; set; }
+        string Destination { get; set; }
+        string LabelSOG { get;  }
+    }
+}

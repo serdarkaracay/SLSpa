@@ -1,0 +1,53 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+
+namespace VesselTracking.Classes
+{
+    public interface INode
+    {
+        [ABinding("Node ID", typeof(DataGridTextColumn), null, "", "-")]
+        int NodeID { get; set; }
+
+        [ABinding("MMSI", typeof(DataGridTextColumn), null, "", "-")]
+        int MMSI { get; set; }
+
+        [ABinding("Name", typeof(DataGridTextColumn), null, "", "-")]
+        string Name { get; set; }
+
+        [ABinding("Report Date", typeof(DataGridTextColumn), typeof(ConverterDateTime), "", "-")]
+        DateTime ReportDate { get; set; }
+
+        [ABinding("Position", typeof(DataGridTextColumn), typeof(ConverterLatLong), "", "-")]
+        Point LatLong { get; set; }
+
+        [ABinding("Default Position", typeof(DataGridTextColumn), typeof(ConverterLatLong), "", "-")]
+        Point DefaultLatLong { get; set; }
+
+        [ABinding("via Media", typeof(DataGridTextColumn), null, "", "-")]
+        string ViaMedia { get; set; }
+
+        [ABinding("Voltage", typeof(DataGridTextColumn), typeof(ConverterDouble ), "0.0 V", "-")]
+        double Voltage { get; set; }
+
+        [ABinding("Current", typeof(DataGridTextColumn), typeof(ConverterDouble), "0.0 A", "-")]
+        double Current { get; set; }
+
+        [ABinding("Transmit Power", typeof(DataGridTextColumn), typeof(ConverterDouble), "0.0 W", "-")]
+        double TransmitPower { get; set; }
+
+        [ABinding("Node Age", typeof(DataGridTextColumn), typeof(ConverterInt), "0,0 min", "-")]
+        int NodeAge { get; set; }
+
+        [ABinding("IsSelected", typeof(DataGridCheckBoxColumn), null, "", "-")]
+        bool Selected { get; set; }
+
+    }
+}

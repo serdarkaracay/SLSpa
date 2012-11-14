@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appSettings>
+    <add key="GATEWAY_IP" value="93.187.207.235" />
+    <add key="GATEWAY_PORT" value="4821" />
+  </appSettings>
+  <connectionStrings >
+    <add name ="CONSTR" connectionString ="Data Source=93.187.207.238,1633;User ID=sa;Password=a99$erver1;Initial Catalog=socar;Pooling=true;Max Pool size=100;Connection reset=true;enlist=true;Connect Timeout=30"/>
+    <!--<add name ="CONSTR" connectionString ="Data Source=127.0.0.1;User ID=sa;Password=p@ssw0rd;Initial Catalog=socar;Pooling=true;Max Pool size=100;Connection reset=true;enlist=true;Connect Timeout=30"/>-->
+    <!--<add name ="CONSTR" connectionString ="Data Source=192.168.2.108,1633;User ID=sa;Password=P@ssw0rd;Initial Catalog=socar;Pooling=true;Max Pool size=100;Connection reset=true;enlist=true;Connect Timeout=30"/>-->
+  </connectionStrings>
+  <system.webServer>
+    <urlCompression doDynamicCompression="true" />
+  </system.webServer>
+</configuration>

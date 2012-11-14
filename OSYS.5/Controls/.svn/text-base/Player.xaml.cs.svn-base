@@ -1,0 +1,298 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Windows.Media.Imaging;
+using VesselTracking.Pages;
+
+
+namespace MovingShip
+{
+    public partial class Player : UserControl
+    {
+        pageVessels owner;
+        Storyboard animTimer = new Storyboard();
+        public bool IsPlay = false;
+        public bool IsStopped = true;
+        public int oldSeekBarVal = 0;
+        public int newSeekBarVal = 0;
+        
+        public bool IsMouseEntered = false;
+        public int counter = 0;
+        public DateTime reference { get; set; }
+        public FrameCollection frames;
+
+        public delegate void PlayerStatus();
+        public delegate void SliderChanged();
+        public delegate void Reversed();
+        public delegate void AnimationTickHandler();
+        public delegate void UserInteractionHandler();
+
+
+        public event UserInteractionHandler OnUserInteracted;
+        public event PlayerStatus OnPlay;
+        public event PlayerStatus OnPause;
+        public event PlayerStatus OnStop;
+        public event SliderChanged OnSliderChange;
+        public event Reversed OnReversed;
+        public event AnimationTickHandler OnAnimationTick;
+
+        public DateTime startTime { get; set; }
+
+        private int speed;
+        public int speedInMilliSecs { get { return speed; } set { animTimer.Duration = new TimeSpan(0, 0, 0, 0, value); this.speed = value; } }
+        public Player()
+        {
+            InitializeComponent();
+            
+            speedInMilliSecs = 1000;
+            animTimer.Completed += new EventHandler(animTimer_Completed);
+            animTimer.Duration = new TimeSpan(0, 0, 0, 0, speedInMilliSecs);
+            ToolTipService.SetToolTip(playBtn, "Play/Pause");
+            ToolTipService.SetToolTip(stopBtn, "Stop");
+            ToolTipService.SetToolTip(reverseBtn, "Rewind");
+            ToolTipService.SetToolTip(speedBar, "Speed");
+            
+        }
+
+        public void Load(FrameCollection mapItemsList, pageVessels owner)
+        {
+            
+            this.owner = owner;
+            startTime = mapItemsList.ElementAt(0).Value.ReportDate;
+            
+        
+            reference = startTime;
+            frames = mapItemsList;
+             owner.Dispatcher.BeginInvoke(() =>
+                {
+                    RealTimeCounterLbl.Text = startTime.ToString("yyyy.MM.dd HH:mm:ss");
+                    playBtn.IsEnabled = true;
+                    reverseBtn.IsEnabled = true;
+                    stopBtn.IsEnabled = true;
+                    seekBar.IsEnabled = true;
+                    speedBar.IsEnabled = true;
+                    seekBar.Maximum = (mapItemsList.ElementAt(mapItemsList.Count - 1).Value.ReportDate - startTime).TotalSeconds;
+                    speedInMilliSecs = (int)speedBar.Value;
+                });
+                       
+
+        }
+        void animTimer_Completed(object sender, EventArgs e)
+        {
+            if (!IsStopped)
+            {
+                //Animate(this.Direction);
+                seekBar.Value += seekBar.SmallChange * Direction;
+                
+                animTimer.Begin();
+            }
+        }
+
+        void Animate(int dirctn)
+        {
+            if (!IsStopped)
+            {
+               
+                reference += TimeSpan.FromSeconds(dirctn * Math.Abs(newSeekBarVal - oldSeekBarVal));
+                RealTimeCounterLbl.Text = reference.ToString("yyyy.MM.dd HH:mm:ss");                
+
+                DateTime date = frames.FindNearest(reference);
+                if(date.Date != DateTime.MinValue)
+                {
+                    this.owner.animatedItem.LatLong = frames[date].LatLong;
+                    this.owner.animatedItem.ReportDate = frames[date].ReportDate;
+                    this.owner.animatedItem.COG = frames[date].COG;
+                    this.owner.animatedItem.SOG = frames[date].SOG;
+                    this.owner.animatedItem.ROT = frames[date].ROT;
+                    this.owner.animatedItem.HDG = frames[date].HDG;
+                    if (true == owner.Tracing)
+                    {
+
+                        this.owner.mapAnimation.Go(frames[date].LatLong);
+                    }
+                }
+                   
+               
+            }
+        }
+
+        public void Play()
+        {
+            IsStopped = false; 
+            IsPlay = !IsPlay;
+
+            if (IsPlay)
+            {
+
+                              
+                //if (OnPlay != null)
+                //{
+                //    OnPlay();
+                //}
+                animTimer.Begin();
+                playImage.Source = new BitmapImage(new Uri("../Images/pause.png", UriKind.Relative));
+            }
+            else
+            {
+                Pause();
+            }
+            
+        }
+
+        public void Stop()
+        {
+            IsStopped = true;
+            playImage.Source = new BitmapImage(new Uri("icons/play.png", UriKind.Relative));
+            reverseBtn.IsEnabled = false;
+            direction = 1;
+            if (OnStop != null)
+            {
+                OnStop();
+            }
+            animTimer.Stop();
+            seekBar.Value = 0;
+        }
+
+        public void Pause()
+        {
+            animTimer.Pause();
+            playImage.Source = new BitmapImage(new Uri("icons/play.png", UriKind.Relative));
+
+        }
+        private void playBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (playBtn != null)
+            {
+                if (IsStopped == true)
+                {
+
+                    if (OnPlay != null)
+                    {
+                        OnPlay();
+                    }
+                    this.owner.mapAnimation.Go(frames[startTime].LatLong);
+                    this.owner.mapAnimation.ItemLayer.Items.Clear();
+                    this.owner.animatedItem.LatLong = frames[startTime].LatLong;
+                    this.owner.animatedItem.ReportDate = frames[startTime].ReportDate;
+                    this.owner.animatedItem.SOG = frames[startTime].SOG;
+                    this.owner.animatedItem.COG = frames[startTime].COG;
+                    this.owner.animatedItem.ROT = frames[startTime].ROT;
+                    this.owner.animatedItem.HDG = frames[startTime].HDG;
+
+                    this.owner.mapAnimation.ItemLayer.Items.Add(this.owner.animatedItem);
+                    reverseBtn.IsEnabled = true;
+                    if (startTime != null)
+                        reference = startTime;
+                }
+
+                Play();
+            }
+        }
+
+        private void pauseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //if (OnPause != null && animTimer != null)
+            //{
+            //    OnPause();
+            //    animTimer.Pause();
+            //}
+            
+        }
+
+        private void stopBtn_Click(object sender, RoutedEventArgs e)
+        {
+            IsPlay = false;
+            Stop();
+            
+        }
+
+        int direction = 1;
+        public int Direction { get { return direction; } }
+
+        private void reverseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            direction *= -1;
+            //if (OnReversed != null)
+            //{
+            //    OnReversed();
+            //} 
+           
+        }
+
+       
+
+        private void seekBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            oldSeekBarVal = (int)(e.OldValue);
+            newSeekBarVal = (int)(e.NewValue);
+
+            if (!IsStopped)
+            {
+                
+                if (e.NewValue > seekBar.Maximum)
+                {
+
+
+                    IsStopped = true;
+                    if (OnStop != null)
+                    {
+                        animTimer.Stop();
+                        OnStop();
+                        //seekBar.Value = 0;
+
+                    }
+
+                }
+                else if(e.NewValue <= this.seekBar.Maximum)
+                {
+                    if (e.NewValue >= e.OldValue)
+                    {
+                        
+                        Animate(1);
+
+                    }
+                    else if (e.NewValue < e.OldValue)
+                    {
+                        Animate(-1);
+
+                    }
+                }
+                
+                 
+              
+                
+            }
+        }
+
+        private void seekBar_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            IsMouseEntered = false;
+            animTimer.Resume();
+
+        }
+
+        private void speedBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if(speedBar!=null)
+            speedInMilliSecs = (int)speedBar.Value;
+        }
+
+       
+        private void seekBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            IsMouseEntered = true;
+            animTimer.Pause();
+        }
+
+       
+       
+    }
+}

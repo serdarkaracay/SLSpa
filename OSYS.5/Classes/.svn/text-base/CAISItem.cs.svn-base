@@ -1,0 +1,456 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using iDeal.silverlight.controls;
+using System.Xml.Linq;
+using System.Diagnostics;
+using VesselTracking.Pages;
+
+namespace VesselTracking.Classes
+{
+    public class CAISItem : CMapItem, IAISItem, IVessel, IAtoN, IBaseStation, IVoyageData, INode
+    {
+        public CAISItem()
+            : base()
+        {
+
+        }
+
+        public CAISItem(CMapControl _map, CMapItemCollection _parentCollection)
+            : base(_map, _parentCollection)
+        {
+
+        }
+
+        public CAISItem(XElement xml)
+            : base(xml)
+        {
+
+        }
+
+        public CAISItem(XElement xml, CMapControl _map, CMapItemCollection _parentCollection)
+            : base(xml, _map, _parentCollection)
+        {
+
+        }
+
+        #region PROPERTIES
+
+        public string CallSign
+        {
+            get
+            {
+                return callSign;
+
+            }
+            set
+            {
+                callSign = value;
+                NotifyPropertyChanged("CallSign");
+            }
+        }
+        public string IMO
+        {
+            get
+            {
+                return imo;
+
+            }
+            set
+            {
+                imo = value;
+                NotifyPropertyChanged("IMO");
+            }
+        }
+        public string Destination
+        {
+            get
+            {
+                return destination;
+            }
+            set
+            {
+                destination = value;
+                NotifyPropertyChanged("Destination");
+            }
+        }
+        public string LabelSOG
+        {
+            get
+            {
+                if (sOG < .15f) return "0 kn";
+                else if (sOG > 100f) return "N/A";
+                else return sOG.ToString("0.0 kn");
+            }
+        }
+
+        public int ShipAndCargo
+        {
+            get
+            {
+                return shipAndCargo;
+            }
+            set
+            {
+                shipAndCargo = value;
+                NotifyPropertyChanged("ShipAndCargo");
+            }
+        }
+        public int ETAMin
+        {
+            get
+            {
+                return eTAMin;
+            }
+            set { eTAMin = value; NotifyPropertyChanged("ETAMin"); }
+        }
+        public int ETAHour
+        {
+            get { return eTAHour; }
+            set
+            {
+                eTAHour = value;
+                NotifyPropertyChanged("ETAHour");
+            }
+        }
+        public int ETADay
+        {
+            get { return eTADay; }
+            set
+            {
+                eTADay = value;
+                NotifyPropertyChanged("ETADay");
+            }
+        }
+        public int ETAMonth
+        {
+            get { return eTAMonth; }
+            set
+            {
+                eTAMonth = value;
+                NotifyPropertyChanged("ETAMonth");
+            }
+        }
+        public int Draught
+        {
+            get
+            {
+                return draught;
+            }
+            set
+            {
+                draught = value;
+                NotifyPropertyChanged("Draught");
+            }
+        }
+        public int ROT
+        {
+            get
+            { return rOT; }
+            set
+            {
+                rOT = value;
+                NotifyPropertyChanged("ROT");
+            }
+        }
+        public int HDG
+        {
+            get
+            { return hDG; }
+            set
+            {
+                hDG = value;
+                Angle = HDG > 360 ? (int)COG : HDG;
+                NotifyPropertyChanged("HDG");
+            }
+        }
+        public int Length
+        {
+            get
+            {
+                return length = DimA + DimB;
+            }
+            set
+            {
+                length = value;
+                NotifyPropertyChanged("Length");
+            }
+        }
+        public int Width
+        {
+            get
+            {
+                return width = DimC + DimD;
+            }
+            set
+            {
+                width = value;
+                NotifyPropertyChanged("Width");
+            }
+        }
+        public int Angle
+        {
+            get { return angle; }
+            set
+            {
+                if (value == angle) return;
+                angle = value;
+                NotifyPropertyChanged("Angle");
+            }
+        }
+
+
+        public int MMSI
+        {
+            get
+            {
+                return mmsi;
+            }
+            set
+            {
+                mmsi = value;
+                NotifyPropertyChanged("MMSI");
+            }
+        }
+        public int ViaNode
+        {
+            get { return viaNode; }
+            set
+            {
+                viaNode = value;
+                NotifyPropertyChanged("ViaNode");
+            }
+        }
+        public int ReportPeriodSecond
+        {
+            get
+            {
+                return (int)preReportDateNew.Subtract(preReportDateOld).TotalSeconds;
+            }
+        }
+        public string AISType
+        {
+            get
+            {
+                return aisType;
+            }
+            set
+            {
+                aisType = value;
+                NotifyPropertyChanged("AISType");
+            }
+        }
+        public string ViaMedia
+        {
+            get
+            { return viaMedia; }
+            set
+            {
+                viaMedia = value;
+                NotifyPropertyChanged("ViaMedia");
+            }
+        }
+
+        public double SOG
+        {
+            get
+            { return sOG; }
+            set
+            {
+                if (value == sOG) return;
+                sOG = Math.Round(value, 1);
+                NotifyPropertyChanged("LabelSOG");
+                NotifyPropertyChanged("SOG");
+
+            }
+        }
+        public double COG
+        {
+            get
+            { return cOG; }
+            set
+            {
+                if (value == cOG) return;
+                cOG = Math.Round(value, 0);
+                Angle = HDG > 360 ? (int)COG : HDG;
+
+                NotifyPropertyChanged("COG");
+
+            }
+        }
+
+        public int NodeID
+        {
+            get
+            {
+                return nodeID;
+            }
+            set
+            {
+                nodeID = value;
+                NotifyPropertyChanged("NodeID");
+            }
+        }
+        public Point DefaultLatLong
+        {
+            get
+            {
+                return defaultLatLong;
+            }
+            set
+            {
+                defaultLatLong = value;
+                NotifyPropertyChanged("DefaultLatLong");
+            }
+        }
+        public double Voltage
+        {
+            get
+            {
+                return voltage;
+            }
+            set
+            {
+                voltage = value;
+                NotifyPropertyChanged("NodeID");
+            }
+        }
+        public double Current
+        {
+            get
+            {
+                return current;
+            }
+            set
+            {
+                current = value;
+                NotifyPropertyChanged("Current");
+            }
+        }
+        public double TransmitPower
+        {
+            get
+            {
+                return transmitPower;
+            }
+            set
+            {
+                transmitPower = value;
+                NotifyPropertyChanged("TransmitPower");
+            }
+        }
+        public int NodeAge
+        {
+            get
+            {
+                return nodeAge;
+            }
+            set
+            {
+                nodeAge = value;
+                NotifyPropertyChanged("NodeAge");
+            }
+        }
+        public DateTime ReportDate
+        {
+            get
+            {
+                return reportDate;
+            }
+            set
+            {
+                if (preReportDateNew.Second != value.Second) { preReportDateOld = preReportDateNew; preReportDateNew = value; }
+                reportDate = value;
+                NotifyPropertyChanged("ReportDate");
+                NotifyPropertyChanged("ReportPeriodSecond");
+            }
+        }
+        public string Status
+        {
+            get
+            {
+                if (reportDate > UIDriver.GetTime().AddMinutes(-7)) return "On";
+                else return "Off";
+            }
+        }
+
+        #endregion
+
+        public new string ToString()
+        {
+
+            return MMSI + " - " + Name;
+        }
+
+        public void Copy(CAISItem item)
+        {
+
+            base.Copy(item);
+
+
+            item.IMO = IMO;
+            item.CallSign = CallSign;
+            item.ShipAndCargo = ShipAndCargo;
+            item.HDG = HDG;
+            item.SOG = SOG;
+            item.COG = COG;
+            item.ROT = ROT;
+            item.Draught = Draught;
+            item.Width = Width;
+            item.Length = Length;
+            item.ETADay = ETADay;
+            item.ETAHour = ETAHour;
+            item.ETAMin = ETAMin;
+            item.ETAMonth = ETAMonth;
+            item.NodeID = NodeID;
+            item.NodeAge = NodeAge;
+            item.Voltage = Voltage;
+            item.Current = Current;
+            item.TransmitPower = TransmitPower;
+            item.DefaultLatLong = DefaultLatLong;
+            item.MMSI = MMSI;
+            item.AISType = AISType;
+            item.ViaMedia = ViaMedia;
+        }
+
+
+        int hDG                                   = 511;
+        int rOT                                   = 0;
+        int shipAndCargo                          = 0;
+        int draught                               = 0;
+        int length                                = 0;
+        int eTAMin                                = 0;
+        int eTAHour                               = 0;
+        int eTADay                                = 0;
+        int eTAMonth                              = 0;
+        int width                                 = 0;
+        int angle                                 = 0;
+        int nodeID                                = -1;
+        int nodeAge                               = 0;
+        int mmsi                                  = 0;
+        int viaNode                               = -1;
+        string aisType                            = string.Empty;
+        string viaMedia							  = string.Empty;
+        string callSign                           = string.Empty;
+        string imo                                = string.Empty;
+        string destination                        = string.Empty;
+
+        double sOG                                = 0;
+        double cOG                                = 0;
+        double voltage                            = 0;
+        double current                            = 0;
+        double transmitPower                      = 0;
+
+        Point defaultLatLong                      = new Point();
+        DateTime reportDate                       = UIDriver.GetTime();
+        DateTime preReportDateNew                 = UIDriver.GetTime();
+        DateTime preReportDateOld                 = UIDriver.GetTime();
+    }
+}

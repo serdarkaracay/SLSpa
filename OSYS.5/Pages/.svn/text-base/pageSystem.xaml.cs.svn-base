@@ -1,0 +1,178 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Windows.Navigation;
+using VesselTracking.Classes;
+using System.Windows.Media.Imaging;
+using iDeal.silverlight.classes;
+using iDeal.silverlight.controls;
+using C1.Silverlight;
+using iDeal.silverlight;
+
+namespace VesselTracking.Pages
+{
+    public partial class pageSystem : AuthenticatedPage
+    {
+
+        const string TI_MAP         = "Map";
+        const string TI_ATON        = "AtoN";
+        const string TI_REGION  = "Region";
+        const string TI_HELP             = "Help";
+
+        public pageSystem()
+        {
+            InitializeComponent();
+            Loaded += new RoutedEventHandler(pageSystem_Loaded);
+            c1TabControl.SelectionChanged += new SelectionChangedEventHandler(c1TabControl_SelectionChanged);
+        }
+
+        void pageSystem_Loaded(object sender, RoutedEventArgs e)
+        {
+            container.AddTrayIcon(scc);
+
+            mapItemToolTip.Visibility = Visibility.Collapsed;
+            mapItemToolTip.VerticalAlignment = VerticalAlignment.Top;
+            mapItemToolTip.HorizontalAlignment = HorizontalAlignment.Left;
+            if (!map.Children.Contains(mapItemToolTip)) map.Children.Add(mapItemToolTip);
+
+            map.ItemLayer.ItemTemplate = Resources["mapItemDataTemplate"] as DataTemplate;
+
+            //pc.LockRequest += new EventHandler(pc_LockRequest);
+            //pc.TrackLineRequest += new EventHandler(pc_TrackLineRequest);
+            //pc.HistoryRequest += new EventHandler(pc_HistoryRequest);
+            //pc.RemoveTrackLineRequest += new EventHandler(pc_RemoveTrackLineRequest);
+            //pc.SendMessageRequest += new EventHandler(pc_SendMessageRequest);
+
+
+            var theme = ThemeFactory.GetTheme(AvailableThemes.BureauBlack);
+            ThemeFactory.ApplyTheme(dataGridContainer, theme);
+            //ThemeFactory.ApplyTheme(gridAnimationContainer, theme);
+          
+            CData.NodeItems.Map = map;
+            service.ServicePeriodSecond = (int)Security.CurrentUser.Profile.GetItem("NodeServicePeriodTimeSec");
+            service.Parent = this;
+            service.ServiceCheckControl = scc;
+            service.Start();
+         c1TabControl.SelectedIndex = 0;
+ }
+
+        NodeService service=new NodeService("dbo.StaticNodeData");
+        ServiceCheckControl scc=new ServiceCheckControl();
+        MapItemInfo mapItemToolTip                  = new MapItemInfo();
+        void unloaded(object sender, RoutedEventArgs e)
+        {
+            Dispose();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            service.Stop();
+            CData.NodeItems.Clear();
+            map.ItemLayer.Items.Clear();
+        }
+
+        void c1TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            C1TabItem ti=null;
+            //UNLOAD
+            ti = e.RemovedItems[0] as C1TabItem;
+            switch (ti.Header.ToString())
+            {
+                case TI_HELP:
+                    //service.Start();
+                    //container.AddTrayIcon(scc);
+                    break;
+                case TI_MAP:
+                    //shipService.Stop();
+                    //container.RemoveTrayIcon(scc);
+                    break;
+                case TI_ATON:
+                    //dataGridVessels.ItemsSource = null;
+                    break;
+                case TI_REGION:
+                    //dataGridVessels.ItemsSource = null;
+                    break;
+                default:
+                    break;
+            }
+
+            //LOAD
+            ti = e.AddedItems[0] as C1TabItem;
+            switch (ti.Header.ToString())
+            {
+                case TI_MAP:
+                    if (service.Status == EServiceStatus.Close) service.Start();
+                    //pc.Visibility = Visibility.Collapsed;
+                    //map.VectorLayer.Children.Clear();
+                    //CData.NodeItems.DeselectItems();
+                    container.AddTrayIcon(scc);
+                    break;
+                case TI_ATON:
+                    if (service.Status == EServiceStatus.Close) service.Start();
+                    //dataGridVessels.ItemsSource = null;
+                    //dataGridVessels.ItemsSource = CData.NodeItems.Values.ToList<INode>();
+                    container.AddTrayIcon(scc);
+                    break;
+                case TI_REGION:
+                    if (service.Status == EServiceStatus.Close) service.Start();
+                    container.MsgBox("Under construction.", EButtons.Ok, EIcon.Info, (r) => { c1TabControl.SelectedItem = tiMap; });
+                    container.AddTrayIcon(scc);
+                    break;
+                case TI_HELP:
+                    container.MsgBox("Under construction.", EButtons.Ok, EIcon.Info, (r) => { c1TabControl.SelectedItem = tiMap; });
+                    service.Stop();
+                    container.RemoveTrayIcon(scc);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        #region MAP ITEM EVENTS
+
+        void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CMapItem  mi=(sender as Shape).DataContext as CMapItem;
+            mapItemToolTip.MapItem = mi;
+            Point p=e.GetPosition(map);
+            mapItemToolTip.Margin = new Thickness(p.X + 5, p.Y + 10, 0, 0);
+            mapItemToolTip.Visibility = Visibility.Visible;
+
+        }
+
+        void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            mapItemToolTip.Visibility = Visibility.Collapsed;
+        }
+
+        void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            CAISItem  mi=(sender as Rectangle).DataContext as CAISItem;
+            CData.NodeItems.SelectItem(mi);
+            pc.DataContext = mi;
+            pc.Margin = new Thickness(10, 10, 0, 0);
+            pc.Visibility = Visibility.Visible;
+        }
+
+        #endregion
+
+
+
+        private void btnGridColumns1_Copy_Clicked(object sender, EventArgs e)
+        {
+            WriteableBitmap bmp=new WriteableBitmap(dataGridRegion, null);
+            container.ShowPicture(bmp);
+        }
+
+    }
+}

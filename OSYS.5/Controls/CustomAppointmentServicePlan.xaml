@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="OSYS.Controls.CustomAppointmentServicePlan"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    mc:Ignorable="d"
+    d:DesignHeight="85" d:DesignWidth="600"
+             Loaded="UserControl_Loaded">
+
+    <Grid x:Name="LayoutRoot"  Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Margin="5" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <dxe:ComboBoxEdit x:Name="cbPersonelList" Grid.Column="0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="2" Width="120" NullText="İşlemci" FontSize="12" ></dxe:ComboBoxEdit>
+            <inputToolkit:TimePicker x:Name="tpStartTime" Grid.Column="1" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="2" Width="150" FontSize="12" ></inputToolkit:TimePicker>
+            <inputToolkit:TimePicker x:Name="tpEndTime" Grid.Column="2" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="2" Width="150" FontSize="12" ></inputToolkit:TimePicker>
+            <dxe:MemoEdit x:Name="txtServisNote" Grid.Column="3" Height="25" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="140" NullText="Servis Notu" ShowIcon="False" TextWrapping="Wrap" HorizontalContentAlignment="Left"></dxe:MemoEdit>
+        </Grid>
+
+        <dxe:ButtonEdit Grid.Row="1" VerticalAlignment="Bottom"  ShowText="False" ToolTipService.ToolTip="Servisi Kaydet" AllowDefaultButton="False" HorizontalContentAlignment="Center" Foreground="DarkBlue" Height="25" Margin="2">
+            <dxe:ButtonInfo x:Name="BtnServisPlanSave" GlyphKind="Apply" Click="BtnServisPlanSave_Click" ToolTipService.ToolTip="Servisi Kaydet"></dxe:ButtonInfo>
+        </dxe:ButtonEdit>
+
+    </Grid>
+</UserControl>

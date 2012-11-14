@@ -1,0 +1,458 @@
+﻿<navigation:Page
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+                 xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+                 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+                 xmlns:System="clr-namespace:System;assembly=mscorlib"
+                 xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+                 xmlns:OSYS="clr-namespace:OSYS"
+                 xmlns:OSYS_Classes="clr-namespace:OSYS.Classes"
+                 xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+                 x:Class="OSYS.Pages.mainPage"
+                 Title="mainPage Page"
+                 d:DesignHeight="528"
+                 d:DesignWidth="1600"
+                 mc:Ignorable="d">
+    <navigation:Page.Resources>
+        <Storyboard x:Name="sbHeaderChange">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="gridOSYS" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:4" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:6" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="gridiDealTelknoloji" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:4" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:6" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="sbMenuOpen">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="gridMenuContainer" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-160">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="sbMenuClose">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="gridMenuContainer" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-160">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="sbMessageOpen">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="spTrayMessage" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <ImageBrush x:Key="li" ImageSource="../Images/li.png" />
+        <ImageBrush x:Key="lw" ImageSource="../Images/lw.png" />
+        <ImageBrush x:Key="le" ImageSource="../Images/le.png" />
+    </navigation:Page.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          MinWidth="640"
+          MinHeight="480"
+          RenderTransformOrigin="0.5,0.5">
+        <Grid.Background>
+            <ImageBrush ImageSource="/OSYS;component/Images/background.jpg" Stretch="UniformToFill" />
+        </Grid.Background>
+
+
+
+        <Grid Margin="10"
+              UseLayoutRounding="False"
+              d:LayoutOverrides="Height">
+            <Grid x:Name="gridHeader" Margin="0,0,0,26">
+                <Rectangle x:Name="rectOuterHeader"
+                           Height="78"
+                           VerticalAlignment="Top"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleOutsetStroke}">
+                    <Rectangle.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="1" />
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle x:Name="rectInnerHeader"
+                           Height="40"
+                           Margin="4,4,4,0"
+                           VerticalAlignment="Top"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleInsetStroke}" />
+                <Rectangle x:Name="rectInnerSubHeader"
+                           Height="28"
+                           Margin="4,46,4,0"
+                           VerticalAlignment="Top"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleInsetStroke}" />
+                <Border Width="18"
+                        Height="18"
+                        Margin="12,51,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="Black"
+                        BorderThickness="0"
+                        CornerRadius="3"
+                        MouseEnter="btnOpenMenu_MouseEnter"
+                        MouseLeave="btnOpenMenu_MouseLeave"
+                        MouseLeftButtonUp="btnOpenMenu_MouseLeftButtonUp" UseLayoutRounding="True">
+                    <Border.Effect>
+                        <DropShadowEffect x:Name="btnMenuEffect"
+                                          BlurRadius="6"
+                                          Opacity="0"
+                                          ShadowDepth="0"
+                                          Color="#FFE6FF00" />
+                    </Border.Effect>
+                    <Border.Background>
+                        <ImageBrush ImageSource="../Images/mainmenu.png" Stretch="Fill" />
+                    </Border.Background>
+                </Border>
+                <TextBlock x:Name="txtPageName"
+                           Margin="44,48,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           FontSize="16"
+                           Foreground="#FFB8AF64"
+                           Text="Sayfa"
+                           TextWrapping="Wrap" Width="255" IsHitTestVisible="True">
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="1"
+                                          Direction="329"
+                                          ShadowDepth="1"
+                                          Color="#FF060606" />
+                    </TextBlock.Effect>
+                </TextBlock>
+                <Grid x:Name="gridOSYS"
+                      Height="29"
+                      Margin="10,10,4,0"
+                      VerticalAlignment="Top">
+                    <TextBlock x:Name="txtHeader10"
+                               Margin="52,0,0,0"
+                               Effect="{StaticResource SoftwareNameEffect}"
+                               FontFamily="Arial Rounded MT Bold"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Text="S.P.A YÖNETİM SİSTEMİ"
+                               TextWrapping="Wrap"
+                               d:LayoutOverrides="Height" Foreground="#FFB8AF64" />
+                </Grid>
+                <Grid x:Name="gridiDealTelknoloji"
+                      Height="38"
+                      Margin="7,7,131,0"
+                      VerticalAlignment="Top"
+                      Opacity="0"/>
+                <StackPanel x:Name="spTray"
+                            Height="24"
+                            Margin="0,48,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal">
+                    <StackPanel x:Name="spTrayMessage"
+                                Orientation="Horizontal"
+                                d:LayoutOverrides="Width">
+                        <Image x:Name="imageTrayMessage"
+                               Height="16"
+                               Margin="0,0,8,0"
+                               VerticalAlignment="Center"
+                               Source="../Images/Warning.png" />
+
+                        <TextBlock x:Name="txtMessage"
+                                   VerticalAlignment="Center"
+                                   FontSize="12"
+                                   Foreground="#FF919191"
+                                   Text="ert"
+                                   TextAlignment="Right"
+                                   TextWrapping="Wrap"
+                                   d:LayoutOverrides="Width">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="1"
+                                                  Direction="310"
+                                                  ShadowDepth="1" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel x:Name="spTrayIcons"
+                                Margin="8,0,6,0"
+                                Orientation="Horizontal"
+                                d:LayoutOverrides="Width" />
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="gridContainer" Margin="0,83,0,30">
+                <Rectangle x:Name="rectMainContainer"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleOutsetStroke}">
+                    <Rectangle.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="1" />
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle x:Name="rectInner"
+                           Margin="4"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleInsetStroke}">
+                    <Rectangle.Fill>
+                        <RadialGradientBrush Center="0.097,0.19" GradientOrigin="0.097,0.19" RadiusX="1.125" RadiusY="0.689">
+                            <RadialGradientBrush.RelativeTransform>
+                                <CompositeTransform CenterX="0.097"
+                                                    CenterY="0.19"
+                                                    Rotation="97.996" />
+                            </RadialGradientBrush.RelativeTransform>
+                            <GradientStop Offset="0" Color="{StaticResource LightBlue}" />
+                            <GradientStop Offset="1" Color="{StaticResource Blue}" />
+                        </RadialGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Grid x:Name="gridMain" Margin="5" />
+            </Grid>
+            <OSYS:CMessageBox x:Name="cMessageBox1" Margin="5,88,5,35" />
+            <Grid x:Name="gridFooter"
+                  Height="24"
+                  VerticalAlignment="Bottom">
+                <Rectangle Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleOutsetStroke}">
+                    <Rectangle.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="1" />
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Grid Margin="2">
+                    <Rectangle Margin="1"
+                               Fill="{StaticResource RectangleFill}"
+                               RadiusX="2"
+                               RadiusY="2"
+                               Stroke="{StaticResource RectangleInsetStroke}" />
+                    <TextBlock x:Name="txtFooter"
+                               Margin="4,3,175,2"
+                               FontSize="10"
+                               Text="S.P.A Yönetim Sistemi v.{0} © Caprice Gold 2012"
+                               TextWrapping="Wrap"
+                               d:LayoutOverrides="Height">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="1" Color="#FF767676" />
+                                <GradientStop Color="#FFFDFF1E" />
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="1"
+                                              Direction="329"
+                                              ShadowDepth="1"
+                                              Color="#FF060606" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock x:Name="txtClock"
+                               Width="165"
+                               Margin="0,3,4,2"
+                               HorizontalAlignment="Right"
+                               FontSize="10"
+                               Text="07.02.2012 15:00 UTC"
+                               TextAlignment="Right"
+                               TextWrapping="Wrap"
+                               d:LayoutOverrides="Height">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="1" Color="#FF767676" />
+                                <GradientStop Color="#FFFDFF1E" />
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="1"
+                                              Direction="221"
+                                              ShadowDepth="1" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+            <Grid x:Name="gridMenuContainer"
+                  Width="146"
+                  Margin="0,83,0,30"
+                  HorizontalAlignment="Left"
+                  RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <CompositeTransform TranslateX="-162" />
+                </Grid.RenderTransform>
+
+                <Rectangle x:Name="rectMenuContainer"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleOutsetStroke}">
+                    <Rectangle.Effect>
+                        <DropShadowEffect ShadowDepth="1" />
+                    </Rectangle.Effect>
+                </Rectangle>
+
+                <Rectangle x:Name="rectLogo"
+                           Height="40"
+                           Margin="4,4,4,0"
+                           VerticalAlignment="Top"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleInsetStroke}" />
+                <Rectangle x:Name="rectLogo_Copy"
+                           Margin="4,46,4,29"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleInsetStroke}" />
+                <Grid x:Name="gridMenu" Margin="4,48,4,29" MouseMove="gridMenu_MouseMove">
+                    <StackPanel x:Name="stackPanelMainMenu"
+                                Margin="4"
+                                Orientation="Vertical">
+
+                        <c1:C1Accordion  Name="c1Accordion1" VerticalAlignment="Top" ExpandedBackground="#FF78AA78">
+                            <c1:C1AccordionItem   Header="Tanımlamalar" Name="c1AccordionItem1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="13.333" HeaderFontSize="12" FontFamily="Arial" ExpandedBackground="#FF3280BA" HeaderForeground="#FFFFF964" HeaderBackground="#FF2F5277" BorderBrush="#FF0F0F10" MouseOverBrush="#FF5397C9" HeaderPadding="10,0,0,0" HeaderFontFamily="Portable User Interface" Background="#FF0E3A5A" >
+                                <c1:C1AccordionItem.Content>
+                                    <StackPanel>
+                                        <Button x:Name="btnGroup"
+                                            Height="24"
+                                            Margin="0,2" Content="Servis Tanımları"
+                                            Style="{StaticResource ButtonStyle1}" Click="btnCustomerMeter_Click" />
+                                        <Button x:Name="btnCustomer"
+                                            Height="24"
+                                            Margin="0,2"
+                                            Click="btnCustomer_Click"
+                                            Content="Servis Tanımlama"
+                                            Style="{StaticResource ButtonStyle1}" />
+                                        <Button x:Name="btnPaket"
+                                            Height="24"
+                                            Margin="0,2"
+                                            Content="Paketler"
+                                            Style="{StaticResource ButtonStyle1}" />
+                                        <Button x:Name="btnFizyoterapist"
+                                            Height="24"
+                                            Margin="0,2"
+                                            Content="Fizyoterapist İşlemleri"
+                                            Style="{StaticResource ButtonStyle1}" />
+
+                                    </StackPanel>
+                                </c1:C1AccordionItem.Content>
+                            </c1:C1AccordionItem>
+                            <c1:C1AccordionItem   Header="İşlemler" Name="c1AccordionItem2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="13.333" HeaderFontSize="12" FontFamily="Arial" ExpandedBackground="#FF3280BA" HeaderForeground="#FFFFF964" HeaderBackground="#FF2F5277" BorderBrush="#FF0F0F10" MouseOverBrush="#FF5397C9" 
+                                                  HeaderPadding="10,0,0,0" HeaderFontFamily="Portable User Interface" Background="#FF0F3958" IsExpanded="True">
+                                <c1:C1AccordionItem.Content>
+                                    <StackPanel>
+                                        <Button x:Name="btnRezervasyon"
+                                Height="24"
+                                Margin="0,2" Content="Rezervasyon"
+                                Style="{StaticResource ButtonStyle1}" Click="btnRezervasyon_Click" />
+                                        <Button x:Name="btnFizyoterapistRe"  Height="24"
+                                Margin="0,2" Content="Fizyoterapist" Click="btnFizyoterapistRe_Click"
+                                Style="{StaticResource ButtonStyle1}"></Button>
+                                        <Button x:Name="btnAyarlar"
+                                Height="24"
+                                Margin="0,2"
+                          
+                                Content="Ayarlar"
+                                Style="{StaticResource ButtonStyle1}" />
+                                        <Button x:Name="btnOdeme"
+                                Height="24"
+                                Margin="0,2"
+                                Content="Ödeme"
+                                Style="{StaticResource ButtonStyle1}" />
+                                    </StackPanel>
+                                </c1:C1AccordionItem.Content>
+                            </c1:C1AccordionItem>
+                            <c1:C1AccordionItem Header="Raporlar" Name="c1AccordionItem3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="13.333" HeaderFontSize="12" FontFamily="Arial" 
+                                                ExpandedBackground="#FF3280BA" HeaderForeground="#FFFFF964" HeaderBackground="#FF2F5277" BorderBrush="#FF0F0F10" MouseOverBrush="#FF5397C9" HeaderPadding="10,0,0,0" HeaderFontFamily="Portable User Interface" Background="#FF0F3958" IsExpanded="True">
+                                <c1:C1AccordionItem.Content>
+                                    <StackPanel>
+                                        <Button x:Name="btnReports"
+                                Height="24"
+                                Margin="0,2"                                
+                                Content="Servis Listesi"
+                                Click="btnReports_Click"
+                                Style="{StaticResource ButtonStyle1}" />
+
+                                    </StackPanel>
+                                </c1:C1AccordionItem.Content>
+                            </c1:C1AccordionItem>
+                            <c1:C1AccordionItem Header="Çıkış" Name="c1AccordionItem4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="13.333" HeaderFontSize="12" FontFamily="Arial" ExpandedBackground="#FF3280BA" HeaderForeground="#FFFFF964" HeaderBackground="#FF2F5277" BorderBrush="#FF0F0F10" MouseOverBrush="#FF5397C9" HeaderPadding="10,0,0,0" HeaderFontFamily="Portable User Interface" Background="#FF0F3958" MouseLeftButtonUp="c1AccordionItem4_MouseLeftButtonUp" MouseLeftButtonDown="c1AccordionItem4_MouseLeftButtonDown"
+                                                IsExpandedChanged="c1AccordionItem4_IsExpandedChanged">
+                            </c1:C1AccordionItem>
+                        </c1:C1Accordion>
+
+                    </StackPanel>
+                </Grid>
+                <Rectangle x:Name="rectUserName"
+                           Height="21"
+                           Margin="4,0,4,4"
+                           VerticalAlignment="Bottom"
+                           Fill="{StaticResource RectangleFill}"
+                           RadiusX="2"
+                           RadiusY="2"
+                           Stroke="{StaticResource RectangleInsetStroke}" />
+                <TextBlock x:Name="txtUserName"
+                           Margin="7,0,5,7"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           TextAlignment="Left"
+                           FontSize="10.667"
+                           Text="User Name"
+                           Foreground="#FFB8AF64">
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="1"
+                                          Direction="329"
+                                          ShadowDepth="1"
+                                          Color="#FF060606" />
+                    </TextBlock.Effect>
+                </TextBlock>
+                <Image x:Name="imageLogo"
+                       Height="40"
+                       Margin="7,4,9,0"
+                       VerticalAlignment="Top" Source="../Images/spamenu.png"/>
+            </Grid>
+
+        </Grid>
+
+        <Rectangle x:Name="rectBrightness"
+                   Margin="0,0,0,0"
+                   Fill="Black"
+                   IsHitTestVisible="False"
+                   Opacity="0"
+                   StrokeThickness="0"
+                   Visibility="Collapsed" />
+        <Rectangle x:Name="rectContrast"
+                   Margin="0,0,0,0"
+                   Fill="White"
+                   IsHitTestVisible="False"
+                   Opacity="0"
+                   StrokeThickness="0"
+                   Visibility="Collapsed" />
+
+    </Grid>
+
+</navigation:Page>

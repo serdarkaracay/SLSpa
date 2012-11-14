@@ -1,0 +1,252 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Diagnostics;
+using iDeal.silverlight;
+using VesselTracking.Pages;
+using C1.Silverlight.Maps;
+using iDeal.silverlight.controls;
+using System.ComponentModel;
+
+namespace VesselTracking.Classes
+{
+   
+    public class CMapItemCollection : Dictionary<int, CAISItem>, INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler  PropertyChanged;
+        public event MapItemChangedHandler ItemAdded;
+        public event MapItemChangedHandler ItemUpdated;
+        public event MapItemChangedHandler ItemRemoved;
+       // public event MapItemChangedHandler SelectedItemChanged;
+
+
+
+        public int CountAll
+        {
+            get { return countAll; }
+            set { countAll = value; NotifyPropertyChanged("CountAll"); }
+        }
+        public int CountA
+        {
+            get { return countA; }
+            set { countA = value; NotifyPropertyChanged("CountA"); }
+        }
+        public int CountB
+        {
+            get { return countB; }
+            set { countB = value; NotifyPropertyChanged("CountB"); }
+        }
+        public int CountAN
+        {
+            get { return countAN; }
+            set { countAN = value; NotifyPropertyChanged("CountAN"); }
+        }
+        public int CountBS
+        {
+            get { return countBS; }
+            set { countBS = value; NotifyPropertyChanged("CountBS"); }
+        }
+        public int CountUnknown
+        {
+            get { return countUnknown; }
+            set { countUnknown = value; NotifyPropertyChanged("CountUnknown"); }
+        }
+        public int CountCommLost
+        {
+            get { return countCommLost; }
+            set { countCommLost = value; NotifyPropertyChanged("CountCommLost"); }
+        }
+
+        internal C1MapItemsLayer GraphicContainerItemLayer { get { if (Map == null)return null; return Map.ItemLayer; } }
+        internal C1VectorLayer GraphicContainerVectorLayer { get { if (Map == null)return null; return Map.VectorLayer; } }
+        internal CMapControl Map { get { return map; } set { map = value; } }
+        internal List<CAISItem> SelectedItems
+        {
+            get { return selectedItems; }
+            set
+            {
+                selectedItems = value;
+            }
+        }
+
+
+        internal int UpdateCollection(XElement xml, int lastIndex)
+        {
+            try
+            {
+                int MMSI = 0;
+                foreach (XElement x in xml.DescendantsAndSelf("row"))
+                {
+                    MMSI = CService.GetInt32(x, "MMSI");
+                    index = CService.GetInt32(x, "ID");
+                    lastIndex = lastIndex > index ? lastIndex : index;
+                    if (ContainsKey(MMSI))
+                    {
+                        this[MMSI].Update(x);
+                        if (ItemUpdated != null) ItemUpdated(this, this[MMSI]);
+                    }
+                    else
+                    {
+                        CAISItem mi = new CAISItem(x, Map, this);
+                      //TODO: Same key error
+                        if (ContainsKey(MMSI)) return lastIndex;
+                        Add(MMSI, mi);
+                        itemList.Add(mi.MMSI);
+                        CountAll++;
+                        switch (mi.AISType)
+                        {
+                            case "A": CountA++; break;
+                            case "B": CountB++; break;
+                            case "AN": CountAN++; break;
+                            case "BS": CountBS++; break;
+                            case "": CountUnknown++; break;
+                        }
+                        //Map.AddToItemsLayer(mi);
+                        if (ItemAdded != null) ItemAdded(this, mi);
+
+                    }
+                }
+            }
+            catch (Exception x)
+            {
+#if DEBUG
+                throw new Exception("[CMapItemCollection updatecollection] " + x.Message);
+#endif
+            }
+            return lastIndex;
+        }
+
+        internal void Remove(CAISItem mi)
+        {
+            //list.Remove (mi);
+            CountAll--;
+            switch (mi.AISType)
+            {
+                case "A": CountA--; break;
+                case "B": CountB--; break;
+                case "AN": CountAN--; break;
+                case "BS": CountBS--; break;
+                case "": CountUnknown--; break;
+            }
+            CountCommLost--;
+            if (ItemRemoved != null) ItemRemoved(null, mi);
+            base.Remove(mi.MMSI);
+            itemList.Remove(mi.MMSI);
+            mi.Dispose();
+            mi = null;
+        }
+
+        internal void CheckRemove()
+        {
+            //TODO:Reportdate e göre listede daha hızlı arama yapar
+
+
+
+            for (int i = 0; i < itemList.Count; i++)
+            {
+                CAISItem mi=this[itemList[i]];
+                if (UIDriver.GetTime().Subtract(mi.ReportDate).TotalSeconds > (int)Security.CurrentUser.Profile.GetItem("RemoveItemTimeSec"))// UI.MAPITEM_REMOVE_SECOND)
+                {
+                    if (GraphicContainerItemLayer != null)
+                        Map.RemoveFromItemsLayer(mi);
+                    Remove(mi);
+                }
+                else if (UIDriver.GetTime().Subtract(mi.ReportDate).TotalSeconds > (int)Security.CurrentUser.Profile.GetItem("SignToRemoveItemTimeSec"))
+                {
+                    mi.Removed = true;
+                    CountCommLost++;
+                }
+
+            }
+        }
+
+        internal void DeselectItems()
+        {
+            try
+            {
+                if (map == null) return;
+                map.VectorLayer.Children.Clear();
+                for (int i = SelectedItems.Count - 1; i > -1; DeselectItem(SelectedItems[i--])) ;
+            }
+            catch (Exception)
+            {
+              
+            }
+           
+          //SelectedItems.Clear();
+          
+        }
+
+        internal void SelectItem(CAISItem mi)
+        {
+            SelectedItems.Remove(mi);
+            mi.Selected = true;
+            SelectedItems.Insert(0, mi);
+            for (int i = 0; i < SelectedItems.Count; i++)
+            {
+                SelectedItems[i].SelectedIndex = i;
+            }
+        }
+
+        internal void DeselectItem(CAISItem mi)
+        {
+            mi.ShowTrackLine = false;
+              
+            mi.Selected = false;
+            mi.SelectedIndex = -1;
+            SelectedItems.Remove(mi);
+        }
+
+        internal new void Clear()
+        {
+            index = 0;
+            if (SelectedItems != null) SelectedItems.Clear();
+            for (int i = 0; i < itemList.Count; i++)
+            {
+                CMapItem mi=this[itemList[i]];
+                mi.Dispose();
+                mi = null;
+            }
+            base.Clear();
+            itemList.Clear();
+            CountAll = CountA = CountB = CountAN = CountBS = CountUnknown = CountCommLost = 0;
+        }
+        //******************************************************************************************************//
+
+        int index = 0;
+        int countAll,countA,countB,countAN,countBS,countUnknown,countCommLost;
+        CMapControl map                           = null;
+        List<int> itemList=new List<int>();
+        List<CAISItem> selectedItems=new List<CAISItem>();
+
+        void NotifyPropertyChanged(string propertyName)
+        {
+            //Debug.WriteLine("PropertyChange : " + propertyName);
+
+            try
+            {
+                Map.Dispatcher.BeginInvoke(() =>
+                {
+                    if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                });
+            }
+            catch (Exception x)
+            {
+#if DEBUG
+                Debug.WriteLine("PropertyChange Error : " + propertyName);
+                throw x;
+#endif
+            }
+
+        }
+    }
+}

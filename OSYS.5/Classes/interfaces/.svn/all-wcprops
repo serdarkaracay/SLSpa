@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/interfaces
+END
+IVoyageData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/interfaces/IVoyageData.cs
+END
+INode.cs
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/interfaces/INode.cs
+END
+IAISItem.cs
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/interfaces/IAISItem.cs
+END
+IBaseStation.cs
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/interfaces/IBaseStation.cs
+END
+IAtoN.cs
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/interfaces/IAtoN.cs
+END
+IVessel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/interfaces/IVessel.cs
+END

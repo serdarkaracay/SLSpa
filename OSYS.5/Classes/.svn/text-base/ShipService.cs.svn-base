@@ -1,0 +1,66 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Diagnostics;
+using iDeal.silverlight;
+using System.Threading;
+using iDeal.silverlight.controls;
+using iDeal.silverlight.classes;
+using System.Xml.Linq;
+
+namespace VesselTracking.Classes
+{
+
+    public class ShipService : CSyncService
+    {
+        public ShipService(string procedureName)
+            : base(Security.CurrentUser.ID , procedureName)
+        {
+            UserID=Security.CurrentUser.ID;
+            base.OnStarted += new EventHandler(ShipService_OnStarted);
+            base.OnUpdateRequested += new EventHandler(ShipService_OnUpdateRequested);
+            base.OnFirstUpdate +=new DataDownloadedHandler(ShipService_OnFirstUpdate);
+            base.OnUpdated += new DataDownloadedHandler(ShipService_OnUpdated);
+            base.OnStopped += new EventHandler(ShipService_OnStopped);
+            base.OnException += new ExceptionHandler(ShipService_OnException);
+        }
+
+        void ShipService_OnStopped(object sender, EventArgs e)
+        {
+           
+        }
+
+        void ShipService_OnUpdated(object sender, XElement xml)
+        {
+            Index = CData.AISItems.UpdateCollection(xml, Index);
+        }
+
+        void ShipService_OnException(object sender, Exception x)
+        {
+           
+        }
+
+        void ShipService_OnUpdateRequested(object sender, EventArgs e)
+        {
+            
+        }
+
+        void ShipService_OnStarted(object sender, EventArgs e)
+        {
+           
+        }
+
+        void ShipService_OnFirstUpdate(object sender, XElement xml)
+        {
+            Index = CData.AISItems.UpdateCollection(xml, Index);
+        }
+    }
+}

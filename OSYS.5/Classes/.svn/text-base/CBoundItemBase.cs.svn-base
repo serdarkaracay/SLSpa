@@ -1,0 +1,74 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Xml.Linq;
+using System.Reflection;
+using iDeal.silverlight;
+
+namespace VesselTracking.Classes
+{
+    public class CBoundItemBase: INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler  PropertyChanged;
+
+        public Control Parent { get; protected set; }
+
+        public CBoundItemBase()
+        {
+
+        }
+        
+        public CBoundItemBase(XElement xml):this()
+        {
+            Type t=GetType();
+            foreach (XAttribute  item in xml.Attributes())
+            {
+                 PropertyInfo pi=t.GetProperty(item.Name.ToString());
+                if (pi == null) continue;
+
+                try
+                {
+                    pi.SetValue(this, CService.GetValue(item.Value, pi.PropertyType), null);
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine(pi.Name + " type conversion error");
+                }
+            }
+        }
+
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            //Debug.WriteLine("PropertyChange : " + propertyName);
+            if (Parent != null)
+            {
+                Parent.Dispatcher.BeginInvoke(() =>
+                {
+                    try
+                    {
+                        if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                    }
+                    catch (Exception x)
+                    {
+#if DEBUG
+                        Debug.WriteLine("PropertyChange Error : " + propertyName);
+                        throw x;
+#endif
+                    }
+                });
+            }
+        }
+
+      
+
+    }
+}

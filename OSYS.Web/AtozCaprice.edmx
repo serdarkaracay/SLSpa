@@ -1,0 +1,656 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AtoZCapriceModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="AtoZCapriceModelStoreContainer">
+          <EntitySet Name="SPA_Diagnosis" EntityType="AtoZCapriceModel.Store.SPA_Diagnosis" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SPA_GuestDiagnosisDetail" EntityType="AtoZCapriceModel.Store.SPA_GuestDiagnosisDetail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SPA_GuestTherapyDetail" EntityType="AtoZCapriceModel.Store.SPA_GuestTherapyDetail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SPA_PersonelJobDetail" EntityType="AtoZCapriceModel.Store.SPA_PersonelJobDetail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SPA_PersonelTherapyDetail" EntityType="AtoZCapriceModel.Store.SPA_PersonelTherapyDetail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SPA_RezervationSchedule" EntityType="AtoZCapriceModel.Store.SPA_RezervationSchedule" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SPA_Status" EntityType="AtoZCapriceModel.Store.SPA_Status" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SPA_Therapy" EntityType="AtoZCapriceModel.Store.SPA_Therapy" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="View_SPA_GuestDiagnosticDetail" EntityType="AtoZCapriceModel.Store.View_SPA_GuestDiagnosticDetail" store:Type="Views" store:Schema="dbo" store:Name="View_SPA_GuestDiagnosticDetail">
+            <DefiningQuery>SELECT 
+      [View_SPA_GuestDiagnosticDetail].[GuestID] AS [GuestID], 
+      [View_SPA_GuestDiagnosticDetail].[LastName] AS [LastName], 
+      [View_SPA_GuestDiagnosticDetail].[FirstName] AS [FirstName], 
+      [View_SPA_GuestDiagnosticDetail].[RoomNumber] AS [RoomNumber], 
+      [View_SPA_GuestDiagnosticDetail].[ArriveDate] AS [ArriveDate], 
+      [View_SPA_GuestDiagnosticDetail].[DepartureDate] AS [DepartureDate], 
+      [View_SPA_GuestDiagnosticDetail].[DescDiagnosis] AS [DescDiagnosis], 
+      [View_SPA_GuestDiagnosticDetail].[Completed] AS [Completed], 
+      [View_SPA_GuestDiagnosticDetail].[ID] AS [ID], 
+      [View_SPA_GuestDiagnosticDetail].[PersonelID] AS [PersonelID], 
+      [View_SPA_GuestDiagnosticDetail].[DiagnosisID] AS [DiagnosisID]
+      FROM [dbo].[View_SPA_GuestDiagnosticDetail] AS [View_SPA_GuestDiagnosticDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_SPA_GuestReservation" EntityType="AtoZCapriceModel.Store.View_SPA_GuestReservation" store:Type="Views" store:Schema="dbo" store:Name="View_SPA_GuestReservation">
+            <DefiningQuery>SELECT 
+      [View_SPA_GuestReservation].[ID] AS [ID], 
+      [View_SPA_GuestReservation].[Name] AS [Name], 
+      [View_SPA_GuestReservation].[FirstName] AS [FirstName], 
+      [View_SPA_GuestReservation].[SearchName] AS [SearchName], 
+      [View_SPA_GuestReservation].[Number] AS [Number], 
+      [View_SPA_GuestReservation].[ArriveDate] AS [ArriveDate], 
+      [View_SPA_GuestReservation].[CInStatus] AS [CInStatus], 
+      [View_SPA_GuestReservation].[DepartureDate] AS [DepartureDate], 
+      [View_SPA_GuestReservation].[Telephone] AS [Telephone]
+      FROM [dbo].[View_SPA_GuestReservation] AS [View_SPA_GuestReservation]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_SPA_ReservationList" EntityType="AtoZCapriceModel.Store.View_SPA_ReservationList" store:Type="Views" store:Schema="dbo" store:Name="View_SPA_ReservationList">
+            <DefiningQuery>SELECT 
+      [View_SPA_ReservationList].[ReservationID] AS [ReservationID], 
+      [View_SPA_ReservationList].[GuestID] AS [GuestID], 
+      [View_SPA_ReservationList].[PersonelID] AS [PersonelID], 
+      [View_SPA_ReservationList].[StatusID] AS [StatusID], 
+      [View_SPA_ReservationList].[StartDateTime] AS [StartDateTime], 
+      [View_SPA_ReservationList].[EndDateTime] AS [EndDateTime], 
+      [View_SPA_ReservationList].[TherapyID] AS [TherapyID], 
+      [View_SPA_ReservationList].[FullName] AS [FullName], 
+      [View_SPA_ReservationList].[RoomNumber] AS [RoomNumber], 
+      [View_SPA_ReservationList].[Telephone] AS [Telephone], 
+      [View_SPA_ReservationList].[GuestNote] AS [GuestNote], 
+      [View_SPA_ReservationList].[XSchDesc] AS [XSchDesc], 
+      [View_SPA_ReservationList].[TherapyName] AS [TherapyName], 
+      [View_SPA_ReservationList].[ServisTime] AS [ServisTime], 
+      [View_SPA_ReservationList].[XSchLocation] AS [XSchLocation]
+      FROM [dbo].[View_SPA_ReservationList] AS [View_SPA_ReservationList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_SPA_ScheduleReservation" EntityType="AtoZCapriceModel.Store.View_SPA_ScheduleReservation" store:Type="Views" store:Schema="dbo" store:Name="View_SPA_ScheduleReservation">
+            <DefiningQuery>SELECT 
+      [View_SPA_ScheduleReservation].[GuestID] AS [GuestID], 
+      [View_SPA_ScheduleReservation].[FirstName] AS [FirstName], 
+      [View_SPA_ScheduleReservation].[Name] AS [Name], 
+      [View_SPA_ScheduleReservation].[Number] AS [Number]
+      FROM [dbo].[View_SPA_ScheduleReservation] AS [View_SPA_ScheduleReservation]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <EntityType Name="SPA_Diagnosis">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DiagnosisName" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPA_GuestDiagnosisDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PersonelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GuestID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DescDiagnosis" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="DiagnosisID" Type="uniqueidentifier" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="CompletedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedPersonelID" Type="uniqueidentifier" />
+          <Property Name="CreatedDatetime" Type="datetime" />
+          <Property Name="ModifiedPersonelID" Type="uniqueidentifier" />
+          <Property Name="ModifiedDatetime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SPA_GuestTherapyDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TherapyID" Type="uniqueidentifier" />
+          <Property Name="GuestID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TherapyDateTime" Type="datetime" />
+          <Property Name="TherapyNote" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsCompleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="SPA_PersonelJobDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PersonelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TherapyID" Type="uniqueidentifier" />
+          <Property Name="Adi" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="PersonelPhoto" Type="image" />
+        </EntityType>
+        <EntityType Name="SPA_PersonelTherapyDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PersonelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsReplecment" Type="bit" />
+          <Property Name="CreatedPersonelID" Type="uniqueidentifier" />
+          <Property Name="CreatedDatetime" Type="datetime" />
+          <Property Name="ModifiedPersonelID" Type="uniqueidentifier" />
+          <Property Name="ModifiedDatetime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SPA_RezervationSchedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PersonelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GuestID" Type="uniqueidentifier" />
+          <Property Name="IsCanceled" Type="bit" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EndDateTime" Type="datetime" Nullable="false" />
+          <Property Name="TherapyID" Type="uniqueidentifier" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="GuestNote" Type="nvarchar" MaxLength="500" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Location" Type="nvarchar" MaxLength="1500" />
+          <Property Name="IzinID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="SPA_Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPA_Therapy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TherapyName" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="ServisTime" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="IsTax" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'AtoZ_Caprice.dbo.View_SPA_GuestDiagnosticDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="View_SPA_GuestDiagnosticDetail">
+          <Key>
+            <PropertyRef Name="GuestID" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="RoomNumber" />
+            <PropertyRef Name="ArriveDate" />
+            <PropertyRef Name="DepartureDate" />
+            <PropertyRef Name="DescDiagnosis" />
+            <PropertyRef Name="Completed" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="PersonelID" />
+          </Key>
+          <Property Name="GuestID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoomNumber" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="ArriveDate" Type="datetime" Nullable="false" />
+          <Property Name="DepartureDate" Type="datetime" Nullable="false" />
+          <Property Name="DescDiagnosis" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PersonelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DiagnosisID" Type="uniqueidentifier" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'AtoZ_Caprice.dbo.View_SPA_GuestReservation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="View_SPA_GuestReservation">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="SearchName" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="ArriveDate" />
+            <PropertyRef Name="CInStatus" />
+            <PropertyRef Name="DepartureDate" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SearchName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Number" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="ArriveDate" Type="datetime" Nullable="false" />
+          <Property Name="CInStatus" Type="nchar" Nullable="false" MaxLength="1" />
+          <Property Name="DepartureDate" Type="datetime" Nullable="false" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'AtoZ_Caprice.dbo.View_SPA_ReservationList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="View_SPA_ReservationList">
+          <Key>
+            <PropertyRef Name="ReservationID" />
+            <PropertyRef Name="PersonelID" />
+            <PropertyRef Name="StartDateTime" />
+            <PropertyRef Name="EndDateTime" />
+            <PropertyRef Name="RoomNumber" />
+            <PropertyRef Name="TherapyName" />
+          </Key>
+          <Property Name="ReservationID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GuestID" Type="uniqueidentifier" />
+          <Property Name="PersonelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EndDateTime" Type="datetime" Nullable="false" />
+          <Property Name="TherapyID" Type="uniqueidentifier" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="113" />
+          <Property Name="RoomNumber" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
+          <Property Name="GuestNote" Type="nvarchar" MaxLength="500" />
+          <Property Name="XSchDesc" Type="nvarchar" MaxLength="553" />
+          <Property Name="TherapyName" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="ServisTime" Type="int" />
+          <Property Name="XSchLocation" Type="nvarchar" MaxLength="257" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'AtoZ_Caprice.dbo.View_SPA_ScheduleReservation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="View_SPA_ScheduleReservation">
+          <Key>
+            <PropertyRef Name="GuestID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="GuestID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Number" Type="nvarchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AtoZCapriceModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SPA_Diagnosis" EntityType="AtoZCapriceModel.SPA_Diagnosis" />
+          <EntitySet Name="SPA_GuestDiagnosisDetail" EntityType="AtoZCapriceModel.SPA_GuestDiagnosisDetail" />
+          <EntitySet Name="SPA_GuestTherapyDetail" EntityType="AtoZCapriceModel.SPA_GuestTherapyDetail" />
+          <EntitySet Name="SPA_PersonelJobDetail" EntityType="AtoZCapriceModel.SPA_PersonelJobDetail" />
+          <EntitySet Name="SPA_PersonelTherapyDetail" EntityType="AtoZCapriceModel.SPA_PersonelTherapyDetail" />
+          <EntitySet Name="SPA_RezervationSchedule" EntityType="AtoZCapriceModel.SPA_RezervationSchedule" />
+          <EntitySet Name="SPA_Status" EntityType="AtoZCapriceModel.SPA_Status" />
+          <EntitySet Name="SPA_Therapy" EntityType="AtoZCapriceModel.SPA_Therapy" />
+          <EntitySet Name="View_SPA_GuestDiagnosticDetail" EntityType="AtoZCapriceModel.View_SPA_GuestDiagnosticDetail" />
+          <EntitySet Name="View_SPA_GuestReservation" EntityType="AtoZCapriceModel.View_SPA_GuestReservation" />
+          <EntitySet Name="View_SPA_ReservationList" EntityType="AtoZCapriceModel.View_SPA_ReservationList" />
+          <EntitySet Name="View_SPA_ScheduleReservation" EntityType="AtoZCapriceModel.View_SPA_ScheduleReservation" />
+        </EntityContainer>
+        <EntityType Name="SPA_Diagnosis">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="DiagnosisName" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPA_GuestDiagnosisDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="PersonelID" Type="Guid" Nullable="false" />
+          <Property Name="GuestID" Type="Guid" Nullable="false" />
+          <Property Name="DescDiagnosis" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="DiagnosisID" Type="Guid" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="CompletedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedPersonelID" Type="Guid" />
+          <Property Name="CreatedDatetime" Type="DateTime" />
+          <Property Name="ModifiedPersonelID" Type="Guid" />
+          <Property Name="ModifiedDatetime" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="SPA_GuestTherapyDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="TherapyID" Type="Guid" />
+          <Property Name="GuestID" Type="Guid" Nullable="false" />
+          <Property Name="TherapyDateTime" Type="DateTime" />
+          <Property Name="TherapyNote" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="IsCompleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SPA_PersonelJobDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="PersonelID" Type="Guid" Nullable="false" />
+          <Property Name="TherapyID" Type="Guid" />
+          <Property Name="Adi" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="PersonelPhoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="SPA_PersonelTherapyDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="PersonelID" Type="Guid" Nullable="false" />
+          <Property Name="IsReplecment" Type="Boolean" />
+          <Property Name="CreatedPersonelID" Type="Guid" />
+          <Property Name="CreatedDatetime" Type="DateTime" />
+          <Property Name="ModifiedPersonelID" Type="Guid" />
+          <Property Name="ModifiedDatetime" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="SPA_RezervationSchedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="PersonelID" Type="Guid" Nullable="false" />
+          <Property Name="GuestID" Type="Guid" />
+          <Property Name="IsCanceled" Type="Boolean" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="EndDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="TherapyID" Type="Guid" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="GuestNote" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="Subject" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
+          <Property Name="Location" Type="String" MaxLength="1500" Unicode="true" FixedLength="false" />
+          <Property Name="IzinID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="SPA_Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPA_Therapy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="TherapyName" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="ServisTime" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="IsTax" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="View_SPA_GuestDiagnosticDetail">
+          <Key>
+            <PropertyRef Name="GuestID" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="RoomNumber" />
+            <PropertyRef Name="ArriveDate" />
+            <PropertyRef Name="DepartureDate" />
+            <PropertyRef Name="DescDiagnosis" />
+            <PropertyRef Name="Completed" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="PersonelID" />
+          </Key>
+          <Property Name="GuestID" Type="Guid" Nullable="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="RoomNumber" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="ArriveDate" Type="DateTime" Nullable="false" />
+          <Property Name="DepartureDate" Type="DateTime" Nullable="false" />
+          <Property Name="DescDiagnosis" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="PersonelID" Type="Guid" Nullable="false" />
+          <Property Name="DiagnosisID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="View_SPA_GuestReservation">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="SearchName" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="ArriveDate" />
+            <PropertyRef Name="CInStatus" />
+            <PropertyRef Name="DepartureDate" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SearchName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="ArriveDate" Type="DateTime" Nullable="false" />
+          <Property Name="CInStatus" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="true" />
+          <Property Name="DepartureDate" Type="DateTime" Nullable="false" />
+          <Property Name="Telephone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="View_SPA_ReservationList">
+          <Key>
+            <PropertyRef Name="ReservationID" />
+            <PropertyRef Name="PersonelID" />
+            <PropertyRef Name="StartDateTime" />
+            <PropertyRef Name="EndDateTime" />
+            <PropertyRef Name="RoomNumber" />
+            <PropertyRef Name="TherapyName" />
+          </Key>
+          <Property Name="ReservationID" Type="Guid" Nullable="false" />
+          <Property Name="GuestID" Type="Guid" />
+          <Property Name="PersonelID" Type="Guid" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="EndDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="TherapyID" Type="Guid" />
+          <Property Name="FullName" Type="String" MaxLength="113" Unicode="true" FixedLength="false" />
+          <Property Name="RoomNumber" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="Telephone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="GuestNote" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="XSchDesc" Type="String" MaxLength="553" Unicode="true" FixedLength="false" />
+          <Property Name="TherapyName" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="ServisTime" Type="Int32" />
+          <Property Name="XSchLocation" Type="String" MaxLength="257" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="View_SPA_ScheduleReservation">
+          <Key>
+            <PropertyRef Name="GuestID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="GuestID" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AtoZCapriceModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="SPA_Diagnosis">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_Diagnosis">
+              <MappingFragment StoreEntitySet="SPA_Diagnosis">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DiagnosisName" ColumnName="DiagnosisName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPA_GuestDiagnosisDetail">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_GuestDiagnosisDetail">
+              <MappingFragment StoreEntitySet="SPA_GuestDiagnosisDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="DescDiagnosis" ColumnName="DescDiagnosis" />
+                <ScalarProperty Name="DiagnosisID" ColumnName="DiagnosisID" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="CompletedDateTime" ColumnName="CompletedDateTime" />
+                <ScalarProperty Name="CreatedPersonelID" ColumnName="CreatedPersonelID" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="ModifiedPersonelID" ColumnName="ModifiedPersonelID" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPA_GuestTherapyDetail">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_GuestTherapyDetail">
+              <MappingFragment StoreEntitySet="SPA_GuestTherapyDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TherapyID" ColumnName="TherapyID" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="TherapyDateTime" ColumnName="TherapyDateTime" />
+                <ScalarProperty Name="TherapyNote" ColumnName="TherapyNote" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPA_PersonelJobDetail">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_PersonelJobDetail">
+              <MappingFragment StoreEntitySet="SPA_PersonelJobDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="TherapyID" ColumnName="TherapyID" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="PersonelPhoto" ColumnName="PersonelPhoto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPA_PersonelTherapyDetail">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_PersonelTherapyDetail">
+              <MappingFragment StoreEntitySet="SPA_PersonelTherapyDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="IsReplecment" ColumnName="IsReplecment" />
+                <ScalarProperty Name="CreatedPersonelID" ColumnName="CreatedPersonelID" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="ModifiedPersonelID" ColumnName="ModifiedPersonelID" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPA_RezervationSchedule">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_RezervationSchedule">
+              <MappingFragment StoreEntitySet="SPA_RezervationSchedule">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="TherapyID" ColumnName="TherapyID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="GuestNote" ColumnName="GuestNote" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="IzinID" ColumnName="IzinID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPA_Status">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_Status">
+              <MappingFragment StoreEntitySet="SPA_Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPA_Therapy">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.SPA_Therapy">
+              <MappingFragment StoreEntitySet="SPA_Therapy">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TherapyName" ColumnName="TherapyName" />
+                <ScalarProperty Name="ServisTime" ColumnName="ServisTime" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsTax" ColumnName="IsTax" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_SPA_GuestDiagnosticDetail">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.View_SPA_GuestDiagnosticDetail">
+              <MappingFragment StoreEntitySet="View_SPA_GuestDiagnosticDetail">
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="ArriveDate" ColumnName="ArriveDate" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="DescDiagnosis" ColumnName="DescDiagnosis" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="DiagnosisID" ColumnName="DiagnosisID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_SPA_GuestReservation">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.View_SPA_GuestReservation">
+              <MappingFragment StoreEntitySet="View_SPA_GuestReservation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SearchName" ColumnName="SearchName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="ArriveDate" ColumnName="ArriveDate" />
+                <ScalarProperty Name="CInStatus" ColumnName="CInStatus" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_SPA_ReservationList">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.View_SPA_ReservationList">
+              <MappingFragment StoreEntitySet="View_SPA_ReservationList">
+                <ScalarProperty Name="ReservationID" ColumnName="ReservationID" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="TherapyID" ColumnName="TherapyID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="GuestNote" ColumnName="GuestNote" />
+                <ScalarProperty Name="XSchDesc" ColumnName="XSchDesc" />
+                <ScalarProperty Name="TherapyName" ColumnName="TherapyName" />
+                <ScalarProperty Name="ServisTime" ColumnName="ServisTime" />
+                <ScalarProperty Name="XSchLocation" ColumnName="XSchLocation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_SPA_ScheduleReservation">
+            <EntityTypeMapping TypeName="AtoZCapriceModel.View_SPA_ScheduleReservation">
+              <MappingFragment StoreEntitySet="View_SPA_ScheduleReservation">
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="AtozCaprice">
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_Diagnosis" Width="1.5" PointX="0.75" PointY="0.75" Height="1.59568359375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_GuestDiagnosisDetail" Width="1.5" PointX="2.75" PointY="0.75" Height="3.1340950520833326" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_GuestTherapyDetail" Width="1.5" PointX="4.75" PointY="0.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_PersonelJobDetail" Width="1.5" PointX="0.75" PointY="4.75" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_PersonelTherapyDetail" Width="1.5" PointX="2.75" PointY="4.75" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_RezervationSchedule" Width="1.5" PointX="4.75" PointY="3.75" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_Status" Width="1.5" PointX="6.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.SPA_Therapy" Width="1.5" PointX="6.75" PointY="3.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.View_SPA_GuestDiagnosticDetail" Width="1.5" PointX="6.75" PointY="6.75" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.View_SPA_GuestReservation" Width="1.5" PointX="8.75" PointY="0.75" Height="2.7494921875000031" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.View_SPA_ReservationList" Width="1.5" PointX="0.75" PointY="8.75" Height="3.9033007812500031" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtoZCapriceModel.View_SPA_ScheduleReservation" Width="1.5" PointX="2.75" PointY="8.75" Height="1.7879850260416674" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

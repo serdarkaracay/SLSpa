@@ -1,0 +1,169 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using VesselTracking.Classes;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
+
+namespace VesselTracking.Controls
+{
+    public partial class CColumnSelectControl : UserControl
+    {
+
+        public CColumnSelectControl(DataGrid datagrid, Type boundType)
+        {
+            InitializeComponent();
+            t = boundType;
+            dg = datagrid;
+            columns = dg.Columns.OrderBy(f => f.DisplayIndex).Select(f => (f as DataGridBoundColumn).Binding.Path.Path);
+            Loaded += new RoutedEventHandler(CColumnSelectControl_Loaded);
+        }
+
+        public List<object> ColumnList { get { return listBox2.Items.ToList(); } }
+        IEnumerable <string>  columns=null;
+        Type t=null;
+        DataGrid dg=null;
+
+        void CColumnSelectControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            var x=t.GetProperties().OrderBy(c => c.Name).Select(p => p.Name);
+            foreach (var item in columns)
+            {
+                listBox2.Items.Add(item);
+
+            }
+            foreach (var item in x)
+            {
+                if (!columns.Contains(item)) listBox1.Items.Add(item);
+            }
+
+        }
+        //ADD
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBox1.SelectedItem != null)
+            {
+                int i=listBox1.SelectedIndex;
+                int j=listBox2.SelectedIndex;
+                listBox2.Items.Insert(j == -1 ? 0 : j, listBox1.SelectedItem);
+                listBox1.Items.Remove(listBox1.SelectedItem);
+
+                if (listBox1.Items.Count > 0) listBox1.SelectedIndex = i == listBox1.Items.Count ? i - 1 : i;
+            }
+        }
+        //REMOVE
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBox2.SelectedItem != null)
+            {
+                int i=listBox2.SelectedIndex;
+                listBox1.Items.Insert(0, listBox2.SelectedItem);
+                listBox2.Items.Remove(listBox2.SelectedItem);
+                if (listBox2.Items.Count > 0) listBox2.SelectedIndex = i == listBox2.Items.Count ? i - 1 : i;
+            }
+        }
+        //UP
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBox2.SelectedItem != null)
+            {
+                int i=listBox2.SelectedIndex;
+                if (i == 0) return;
+                object o=listBox2.SelectedItem;
+                listBox2.Items.RemoveAt(i);
+                listBox2.Items.Insert(i - 1, o);
+                listBox2.SelectedIndex = i - 1;
+            }
+        }
+        //DOWN
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBox2.SelectedItem != null)
+            {
+                int i=listBox2.SelectedIndex;
+                if (i == listBox2.Items.Count - 1) return;
+                object o=listBox2.SelectedItem;
+                listBox2.Items.RemoveAt(i);
+                listBox2.Items.Insert(i + 1, o);
+                listBox2.SelectedIndex = i + 1;
+            }
+        }
+
+        private void listBox1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                if (listBox1.SelectedItem != null)
+                {
+                    listBox2.Items.Insert(0, listBox1.SelectedItem);
+                    listBox1.Items.Remove(listBox1.SelectedItem);
+                    if (listBox1.Items.Count > 0) listBox1.SelectedIndex = 0;
+                }
+            }
+        }
+
+        private void listBox2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                if (listBox2.SelectedItem != null)
+                {
+                    listBox1.Items.Insert(0, listBox2.SelectedItem);
+                    listBox2.Items.Remove(listBox2.SelectedItem);
+                    if (listBox2.Items.Count > 0) listBox2.SelectedIndex = 0;
+                }
+            }
+        }
+
+        internal void Update()
+        {
+            if (ColumnList.Count > 0)
+            {
+                dg.Columns.Clear();
+                foreach (object item in ColumnList)
+                {
+                  
+                    dg.Columns.Add(GetColumn(item.ToString ()));
+                }
+            }
+        }
+
+        private DataGridBoundColumn GetColumn(string prop)
+        {
+            Binding bi=new Binding(prop);
+            
+            object[] o=t.GetProperty(prop).GetCustomAttributes(true);
+            ABinding abi=null;
+            if (o.Length > 0) abi = o[0] as ABinding;
+            if (abi.ConverterType != null)
+            {
+                bi.Converter = (IValueConverter)Activator.CreateInstance(abi.ConverterType);
+                bi.ConverterParameter = abi.ConverterParameter;
+                bi.FallbackValue = abi.ConverterFallBackValue;
+            
+            }
+            DataGridBoundColumn dc=Activator.CreateInstance(abi.DataGridColumnType) as DataGridBoundColumn;
+            dc.SortMemberPath = prop;
+            dc.IsReadOnly = true;
+            dc.CanUserSort = true;
+            dc.CanUserResize = true;
+          
+            //dc.CellStyle = s;
+                
+            
+            dc.Header = abi.Header;
+            dc.Binding = bi;
+            return dc;
+
+        }
+    }
+}

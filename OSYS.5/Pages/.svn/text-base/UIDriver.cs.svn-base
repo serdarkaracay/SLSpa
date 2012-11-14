@@ -1,0 +1,170 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Collections.Generic;
+using iDeal.silverlight;
+using iDeal.silverlight.controls;
+using System.Diagnostics;
+
+namespace VesselTracking.Pages
+{
+    public enum EPages
+    {
+        Logon,
+        Initial,
+        Vessels,
+        Data,
+        System,
+        Settings,
+        Reports,
+        Profile,
+        Help,
+        Test,
+		Test2
+    }
+
+    public delegate void PageEventHandler(BasePage page);
+
+    public class UIDriver
+    {
+
+        
+        public event PageEventHandler PageLoading;
+        public event PageEventHandler PageLoaded;
+        public event PageEventHandler PageUnLoading;
+
+        public event AuthenticatedHandler AuthenticationSucceded;
+        public event EventHandler LogOff;
+
+        public UIDriver(mainPage MainPage,Grid Container)
+        {
+            container = Container;
+            mainPage = MainPage; 
+            pages.Add(EPages.Logon, typeof(pageLogon));
+            pages.Add(EPages.Initial, typeof(pageInitial));
+            pages.Add(EPages.Vessels, typeof(pageVessels));
+            pages.Add(EPages.System, typeof(pageSystem));
+            pages.Add(EPages.Settings, typeof(pageSettings));
+            pages.Add(EPages.Reports, typeof(pageReports));
+            pages.Add(EPages.Profile, typeof(pageUserProfile));
+            //pages.Add(EPages.Test, typeof(TestControl));
+            //pages.Add(EPages.Test2, typeof(pageTest));
+            pages.Add(EPages.Help, typeof(pageHelp));
+        }
+
+        Dictionary<EPages ,Type> pages=new Dictionary<EPages, Type>();
+
+
+        Grid container=null;
+        mainPage mainPage=null;
+
+
+
+        private static BasePage  currentPage=null;
+
+        public static BasePage CurrentPage
+        {
+            get { return currentPage; }
+            set { currentPage = value; }
+        }
+
+        public void Activate(EPages page)
+        {
+            if (CurrentPage != null)
+            {
+                PageUnLoading(CurrentPage);
+                container.Children.Clear();
+                CurrentPage.Dispose();
+            }
+            CurrentPage = Activator.CreateInstance(pages[page]) as BasePage;
+            CurrentPage.uiDriver = this;
+            CurrentPage.container = mainPage;
+            if (pages[page] == typeof(pageLogon))
+            {
+                LogOff(this, new EventArgs());
+                (CurrentPage as pageLogon).AuthenticationSucceded += new AuthenticatedHandler(UIDriver_AuthenticationSucceded);
+            }
+            //TODO:CurrentPage null ise bir uyarı 
+            PageLoading(CurrentPage);
+            if (CurrentPage is AuthenticatedPage)
+            {
+                AuthenticatedPage cp =CurrentPage as AuthenticatedPage;
+                if (cp.Authenticate() && cp.Authorize())
+                {
+                    container.Children.Add(CurrentPage);
+                    PageLoaded(CurrentPage);
+                }
+                else
+                {
+                    CurrentPage.Dispose();
+                    Activate(EPages.Logon);
+                }
+            }
+            else
+            {
+                container.Children.Add(CurrentPage);
+                PageLoaded(CurrentPage);
+            }
+        }
+
+        void UIDriver_AuthenticationSucceded(object sender, AuthenticationEventArgs e)
+        {
+            AuthenticationSucceded(sender, e);
+        }
+
+        internal static DateTime GetTime()
+        {
+           
+            return DateTime.UtcNow.Add (UI.TIME_DIFF);
+        }
+
+        internal static string GetFormattedTime(DateTime dt)
+        {
+            if (Security.CurrentUser.GetProfileItem("TimeZone").ToString() == "UTC")
+                return dt.ToString(Security .CurrentUser .GetProfileItem ("TimeFormat").ToString () + " " +
+                                        Security.CurrentUser.GetProfileItem("TimeZone").ToString());
+            else
+                return dt.ToLocalTime().ToString(Security.CurrentUser.GetProfileItem("TimeFormat").ToString() + " " +
+                                        Security.CurrentUser.GetProfileItem("TimeZone").ToString());
+         
+        }
+
+        internal static string GetFormattedDate(DateTime dt)
+        {
+                return dt.ToString(Security.CurrentUser.GetProfileItem("DateFormat").ToString());
+        }
+
+        internal static string GetFormattedDateTime(DateTime dt)
+        {
+            if (Security.CurrentUser == null) return dt.ToString(UI.DATE_FORMAT_ARRAY[0] + " " + UI.TIME_FORMAT_ARRAY [0] + " " + UI.TIME_ZONE_ARRAY [0]);
+            if (Security.CurrentUser.GetProfileItem("TimeZone").ToString()=="UTC")
+                return dt.ToString(Security.CurrentUser.GetProfileItem("DateFormat").ToString() + " " +
+                                        Security.CurrentUser.GetProfileItem("TimeFormat").ToString() + " " +
+                                        Security.CurrentUser.GetProfileItem("TimeZone").ToString());
+            else
+                return dt.ToLocalTime().ToString(Security.CurrentUser.GetProfileItem("DateFormat").ToString() + " " +
+                                        Security.CurrentUser.GetProfileItem("TimeFormat").ToString() + " " +
+                                        Security.CurrentUser.GetProfileItem("TimeZone").ToString());
+        }
+
+        internal static object GetFormattedPosition(Point point)
+        {
+            try
+            {
+                return CMapControl.FormatCoordinates(point, (ECoordinatesView)Enum.Parse(typeof(ECoordinatesView), Security.CurrentUser.GetProfileItem("LatLongFormat").ToString(), true));
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Coordinates format exception");
+                return "";
+            }
+        }
+    }
+}

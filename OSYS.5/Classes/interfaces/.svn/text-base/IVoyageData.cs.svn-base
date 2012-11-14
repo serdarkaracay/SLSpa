@@ -1,0 +1,34 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+
+namespace VesselTracking.Classes
+{
+    public interface IVoyageData
+    {
+        [ABinding("SOG", typeof(DataGridTextColumn), typeof(ConverterDouble), "0.0 kn", "-")]
+        double SOG { get; set; }
+
+        [ABinding("COG", typeof(DataGridTextColumn), typeof(ConverterDouble), "0 °", "-")]
+        double COG { get; set; }
+
+        [ABinding("HDG", typeof(DataGridTextColumn), typeof(ConverterInt), "0 °", "-")]
+        int HDG { get; set; }
+
+        [ABinding("ROT", typeof(DataGridTextColumn), typeof(ConverterInt), "", "-")]
+        int ROT { get; set; }
+
+        [ABinding("Report Date", typeof(DataGridTextColumn), typeof(ConverterDateTime), "", "-")]
+        DateTime ReportDate { get; set; }
+
+        [ABinding("Position", typeof(DataGridTextColumn), typeof(ConverterLatLong), "", "-")]
+        Point LatLong { get; set; }
+    }
+}

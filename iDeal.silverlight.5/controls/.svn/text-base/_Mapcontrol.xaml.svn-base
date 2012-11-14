@@ -1,0 +1,405 @@
+﻿<UserControl x:Class="iDeal.silverlight.controls.CMapControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:c1maps="clr-namespace:C1.Silverlight.Maps;assembly=C1.Silverlight.Maps.5"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+             xmlns:iDeal_silverlight="clr-namespace:iDeal.silverlight"
+             xmlns:iDeal_silverlight_controls="clr-namespace:iDeal.silverlight.controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:my="clr-namespace:iDeal.silverlight.controls"
+             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
+             d:DesignHeight="496"
+             d:DesignWidth="776"
+             KeyDown="UserControl_KeyDown"
+             KeyUp="UserControl_KeyUp"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid x:Name="grid" Opacity="0.495">
+                            <Grid.Effect>
+                                <DropShadowEffect BlurRadius="6" ShadowDepth="1" />
+                            </Grid.Effect>
+
+                            <vsm:VisualStateManager.VisualStateGroups>
+                                <vsm:VisualStateGroup x:Name="FocusStates">
+                                    <vsm:VisualState x:Name="Focused" />
+                                    <vsm:VisualState x:Name="Unfocused" />
+                                </vsm:VisualStateGroup>
+                                <vsm:VisualStateGroup x:Name="CommonStates">
+                                    <vsm:VisualState x:Name="Normal" />
+                                    <vsm:VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="rectangleToggle"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <!--
+                                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="rectangle_Copy" d:IsOptimized="True"/>
+                                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid" d:IsOptimized="True"/>
+                                            -->
+                                            <ColorAnimation d:IsOptimized="True"
+                                                            Duration="0"
+                                                            Storyboard.TargetName="rectangleToggle"
+                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                            To="#FFFFFFFF" />
+                                        </Storyboard>
+                                    </vsm:VisualState>
+                                    <vsm:VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="grid"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <ColorAnimation d:IsOptimized="True"
+                                                            Duration="0"
+                                                            Storyboard.TargetName="rectangle"
+                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                            To="Black" />
+                                        </Storyboard>
+                                    </vsm:VisualState>
+                                    <vsm:VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="rectangle"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="0.1" />
+                                        </Storyboard>
+                                    </vsm:VisualState>
+                                </vsm:VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="rectangle"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="rectangle_Copy"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="grid"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <ColorAnimation d:IsOptimized="True"
+                                                            Duration="0"
+                                                            Storyboard.TargetName="rectangle"
+                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                            To="White" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked" />
+                                    <VisualState x:Name="Indeterminate" />
+                                </VisualStateGroup>
+
+                            </vsm:VisualStateManager.VisualStateGroups>
+
+                            <Rectangle x:Name="rectangle"
+                                       Fill="#FFB4B4B4"
+                                       RadiusX="3"
+                                       RadiusY="3"
+                                       Stroke="#FF4B4B4B" />
+                            <Rectangle x:Name="rectangleToggle"
+                                       Fill="#00B4B4B4"
+                                       RadiusX="3"
+                                       RadiusY="3" />
+                            <Rectangle x:Name="rectangle_Copy"
+                                       Margin="3"
+                                       Fill="{TemplateBinding Background}"
+                                       RadiusX="3"
+                                       RadiusY="3" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="grid" Opacity="0.495">
+                            <Grid.Effect>
+                                <DropShadowEffect BlurRadius="6" ShadowDepth="1" />
+                            </Grid.Effect>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="rectangle"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="rectangle_Copy"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="grid"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <ColorAnimation d:IsOptimized="True"
+                                                            Duration="0"
+                                                            Storyboard.TargetName="rectangle"
+                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                            To="White" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="grid"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="1" />
+                                            <ColorAnimation d:IsOptimized="True"
+                                                            Duration="0"
+                                                            Storyboard.TargetName="rectangle"
+                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                            To="#FF2D2D2D" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation d:IsOptimized="True"
+                                                             Duration="0"
+                                                             Storyboard.TargetName="rectangle"
+                                                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                             To="0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="rectangle"
+                                       Fill="#FFB4B4B4"
+                                       RadiusX="3"
+                                       RadiusY="3"
+                                       Stroke="#FF4B4B4B" />
+                            <Rectangle x:Name="rectangle_Copy"
+                                       Margin="3"
+                                       Fill="{TemplateBinding Background}"
+                                       RadiusX="3"
+                                       RadiusY="3" />
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="mapTextBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0" Color="#FFC0C000" />
+            <GradientStop Offset="1" Color="Yellow" />
+        </LinearGradientBrush>
+        <DropShadowEffect x:Key="mapTextEffect"
+                          BlurRadius="2"
+                          Direction="333"
+                          ShadowDepth="1" />
+
+
+    </UserControl.Resources>
+
+
+    <Grid x:Name="LayoutRoot" Background="#FF141313">
+        <Rectangle Name="rectangle"
+                   Margin="0"
+                   Fill="#FF35496A"
+                   Stroke="#FF0B0F16" />
+        <Grid Margin="1">
+
+
+            <c1:C1Maps x:Name="map"
+                       Margin="0"
+                       Background="Black"
+                       BorderBrush="#FF868686"
+                       ShowTools="False"
+                       TargetCenterSpeed="0"
+                       TargetZoomSpeed="0.5"
+                       Zoom="12"
+                       d:LayoutOverrides="GridBox">
+                <c1:C1MapTilesLayer Background="Aqua" />
+            </c1:C1Maps>
+            <Border Width="154"
+                    Height="79"
+                    Margin="0,0,15,13"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Background="#FFB8B8B8"
+                    BorderBrush="#FF373737"
+                    BorderThickness="1"
+                    CornerRadius="3"
+                    d:LayoutOverrides="GridBox">
+                <c1maps:C1Maps x:Name="map1"
+                               Margin="1"
+                               Background="Black"
+                               BorderBrush="White"
+                               BorderThickness="1"
+                               FadeInTiles="False"
+                               IsHitTestVisible="False"
+                               IsTabStop="False"
+                               ShowTools="False"
+                               TargetCenterSpeed="0.5"
+                               TargetZoomSpeed="0.5"
+                               UseLayoutRounding="False" />
+            </Border>
+            <Rectangle Width="150"
+                       Height="75"
+                       Margin="0,0,17,15"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Bottom"
+                       Fill="Black"
+                       Opacity="0.15" />
+            <StackPanel x:Name="stackPanel1"
+                        Margin="0,14,13,18"
+                        HorizontalAlignment="Right">
+                <my:CButton x:Name="btnMapSource"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,2,4"
+                            HorizontalAlignment="Right"
+                            BackImage="/iDeal.silverlight.5;component/controls/1308507268_map.png"
+                            Clicked="btnMapSource_Clicked"
+                            ImageOpacity="0.7" />
+                <my:CButton x:Name="btnRuler"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,2,4"
+                            HorizontalAlignment="Right"
+                            BackImage="/iDeal.silverlight.5;component/controls/1308508013_ruler.png"
+                            Clicked="btnRuler_Clicked"
+                            ImageOpacity="0.7"
+                            IsToggle="True"
+                            Loaded="btnRuler_Loaded" />
+                <my:CButton x:Name="btnPolygon"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,2,4"
+                            HorizontalAlignment="Right"
+                            BackImage="/iDeal.silverlight.5;component/controls/region.png"
+                            Clicked="btnPolygon_Clicked"
+                            ImageOpacity="0.7"
+                            IsToggle="True" />
+                <iDeal_silverlight:CGroupButton x:Name="btngrTag"
+                                                Margin="0,0,0,4"
+                                                HorizontalAlignment="Right"
+                                                ButtonHeight="32"
+                                                ButtonWidth="32"
+                                                MainButtonBackImage="/iDeal.silverlight.5;component/controls/1308656547_Restart.png">
+                    <iDeal_silverlight:CGroupButton.Buttons>
+                        <iDeal_silverlight_controls:CButton BackImage="/iDeal.silverlight.5;component/controls/1308656547_Restart.png" />
+                        <iDeal_silverlight_controls:CButton BackImage="/iDeal.silverlight.5;component/controls/1308656547_Restart.png" />
+                        <iDeal_silverlight_controls:CButton BackImage="/iDeal.silverlight.5;component/controls/1308656547_Restart.png" />
+                    </iDeal_silverlight:CGroupButton.Buttons>
+                </iDeal_silverlight:CGroupButton>
+                <iDeal_silverlight:CGroupButton x:Name="btngrZoom"
+                                                Margin="0,0,0,4"
+                                                HorizontalAlignment="Right"
+                                                ButtonHeight="32"
+                                                ButtonWidth="32"
+                                                MainButtonBackImage="/iDeal.silverlight.5;component/controls/zoom.png">
+                    <iDeal_silverlight:CGroupButton.Buttons>
+                        <iDeal_silverlight_controls:CButton BackImage="/iDeal.silverlight.5;component/controls/1308517879_Zoom%20out.png" />
+                        <iDeal_silverlight_controls:CButton BackImage="/iDeal.silverlight.5;component/controls/1308517959_Zoom%20in.png" />
+                    </iDeal_silverlight:CGroupButton.Buttons>
+                </iDeal_silverlight:CGroupButton>
+                <my:CButton x:Name="btnFullScreen"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,2,4"
+                            HorizontalAlignment="Right"
+                            BackImage="/iDeal.silverlight.5;component/controls/1308656615_monitor.png"
+                            Clicked="btnFullScreen_Clicked"
+                            ImageOpacity="0.7"
+                            IsToggle="True" />
+                <my:CButton x:Name="btnHelp"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,2,4"
+                            HorizontalAlignment="Right"
+                            BackImage="/iDeal.silverlight.5;component/controls/1308518044_Help.png"
+                            Clicked="btnHelp_Clicked"
+                            ImageOpacity="0.7" />
+            </StackPanel>
+            <TextBlock x:Name="textBlock1"
+                       Width="177"
+                       Height="22"
+                       Margin="0,0,13,4"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Bottom"
+                       FontSize="14"
+                       Foreground="White"
+                       Opacity="0.5"
+                       Text="iDeal Teknoloji 2011"
+                       TextAlignment="Right">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="3"
+                                      Direction="333"
+                                      ShadowDepth="2" />
+                </TextBlock.Effect>
+            </TextBlock>
+            <StackPanel Margin="14,0,142,13"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                <Grid x:Name="gridCoordinates" Margin="3,0">
+                    <Rectangle Margin="0"
+                               Fill="Black"
+                               Opacity="0.395"
+                               RadiusX="2"
+                               RadiusY="2"
+                               StrokeThickness="0" />
+                    <TextBlock x:Name="coordinatesLabel"
+                               Margin="6,3"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Effect="{StaticResource mapTextEffect}"
+                               FontFamily="Consolas"
+                               FontSize="14"
+                               FontWeight="Black"
+                               Foreground="{StaticResource mapTextBrush}"
+                               Text="137° 23'.156 N 28° 56'.156 E" />
+                </Grid>
+                <Grid x:Name="gridMessage" Margin="3,0">
+                    <Rectangle Margin="0"
+                               Fill="Black"
+                               Opacity="0.395"
+                               RadiusX="2"
+                               RadiusY="2"
+                               StrokeThickness="0" />
+                    <TextBlock x:Name="messageLabel"
+                               Margin="6,3"
+                               VerticalAlignment="Center"
+                               Effect="{StaticResource mapTextEffect}"
+                               FontFamily="Consolas"
+                               FontSize="14"
+                               FontWeight="Black"
+                               Foreground="{StaticResource mapTextBrush}"
+                               Text="400 m."
+                               TextAlignment="Left"
+                               d:LayoutOverrides="Height" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

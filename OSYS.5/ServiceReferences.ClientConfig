@@ -1,0 +1,18 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <customBinding>
+                <binding name="CustomBinding_SpaOperationService">
+                    <binaryMessageEncoding />
+                    <httpTransport maxReceivedMessageSize="2147483647" maxBufferSize="2147483647" />
+                </binding>
+            </customBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://localhost:5002/WSSpa.svc" binding="customBinding"
+                bindingConfiguration="CustomBinding_SpaOperationService" contract="ServiceReference1.IOSYSWcfService"
+                name="CustomBinding_SpaOperationService" />
+        </client>
+    </system.serviceModel>
+</configuration>
+

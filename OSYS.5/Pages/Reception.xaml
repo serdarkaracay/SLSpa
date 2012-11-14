@@ -1,0 +1,289 @@
+﻿<vtClasses:AuthenticatedPage xmlns:vtClasses="clr-namespace:OSYS.Pages"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
+    xmlns:controlsToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
+    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+	xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduler"
+    xmlns:Scheduler="clr-namespace:DevExpress.Xpf.Scheduler;assembly=DevExpress.Xpf.Scheduler.v12.1"
+    xmlns:dxschcore="clr-namespace:DevExpress.XtraScheduler;assembly=DevExpress.XtraScheduler.v12.1.Core"
+	xmlns:dxschint="http://schemas.devexpress.com/winfx/2008/xaml/scheduler/internal"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+	xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:riaControls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.DomainServices"
+    xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:local="clr-namespace:DevExpress.Xpf.Scheduler.UI;assembly=DevExpress.Xpf.Scheduler.v12.1"
+    x:Class="OSYS.Pages.Reception"
+    mc:Ignorable="d"
+    d:DesignWidth="800" d:DesignHeight="900"
+    Title="Rezervasyon">
+    <!--Region Resources-->
+    <UserControl.Resources>
+        <DataTemplate x:Key="PersonelListBox">
+            <Grid x:Name="gridDataTemplatePersonelList">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <sdk:Label HorizontalAlignment="Left" Grid.Row="0" Margin="5" FontWeight="Bold" Grid.Column="0" HorizontalContentAlignment="Center" Content="Adı : " />
+                <sdk:Label HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" Content="{Binding SearchName}"></sdk:Label>
+                <TextBox Grid.Row="1" Text="{Binding ID}" Visibility="Collapsed"></TextBox>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MisafirListBox">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="3" Text="{Binding Adi}"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="AppointmentCustoTooltip">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Margin="2" Text="Servis Bilgileri :" FontSize="9"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="1" Margin="2" Text="Misafir Bilgileri :" FontSize="9"></TextBlock>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Margin="2" Text="{Binding Location}" FontSize="9"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" Margin="2" Text="{Binding Description}" FontSize="9"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="VerticalAppointmentContentTemplate">
+            <Grid x:Name="aptContent" 
+          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+          Background="Transparent">
+                <StackPanel>
+                    <dxschint:VerticalAppointmentClockControl FontFamily="Tahoma" FontSize="9"
+                                                      HorizontalAlignment="Center"
+                                                      ViewInfo="{Binding}" />
+                    <TextBlock FontFamily="Tahoma" FontSize="9"
+                       FontWeight="Bold"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
+                       Text="{Binding Subject}" />
+                    <TextBlock FontFamily="Tahoma" FontSize="9"
+                       TextAlignment="Center"
+                       Text="{Binding Location}" />
+
+                    <controlsToolkit:WrapPanel Orientation="Horizontal"
+                       Margin="2,2,2,2"
+                       Background="#EDFCFCBB">
+                        <controlsToolkit:WrapPanel.Effect>
+                            <DropShadowEffect Color="Black" Direction="320"
+                                      ShadowDepth="5" BlurRadius="5" Opacity="0.3" />
+                        </controlsToolkit:WrapPanel.Effect>
+                        <TextBlock Margin="2,2,2,2"
+                            FontSize="9"
+                            FontFamily="MV Boli"
+                            Text="Misafir Not" />
+                        <TextBlock Margin="2" FontSize="9"
+                            FontFamily="MV Boli"
+                            Text="Room Number"></TextBlock>
+                        <TextBlock Margin="2" FontSize="9"
+                            FontFamily="MV Boli"
+                            Text="Telephone"></TextBlock>
+                        <TextBlock Margin="2" FontSize="9"
+                            FontFamily="MV Boli"
+                            Text="Servis Time"></TextBlock>
+                        <TextBlock Margin="5,0,2,2"
+                            FontFamily="MV Boli"
+                            FontSize="9"
+                            TextWrapping="Wrap" TextAlignment="Left"
+                            Text="{Binding Description}" />
+                    </controlsToolkit:WrapPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <!--EndRegion-->
+
+    <Grid x:Name="LayoutRoot">
+        <Grid x:Name="rezerContainer" Margin="3" Background="#FF135889">
+            <!--Region Panel-->
+            <dxdo:DockLayoutManager x:Name="contentDock" Background="#FF135889">
+                <!--Region SolPanel-->
+                <dxdo:DockLayoutManager.AutoHideGroups>
+                    <dxdo:AutoHideGroup DockType="Left" x:Name="LefthideGroup" Background="#FF135889">
+                        <dxdo:LayoutPanel Caption="Bekleyenler" x:Name="lpPersonel" Background="#FF135889" 
+                			ShowCloseButton="False" 
+                			ToolTipService.ToolTip="Personel Ekranı">
+                            <Grid x:Name="gridSolPanel">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="28"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <ListBox x:Name="listBoxReservation" Grid.Row="0" Margin="3" SelectionChanged="listBoxReservation_SelectionChanged" 
+                                         Width="200" Height="auto" Background="#FF135889" VerticalAlignment="Top">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="90"></ColumnDefinition>
+                                                    <ColumnDefinition Width="90"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" Margin="3" HorizontalAlignment="Right" FontSize="8" FontWeight="Normal" Foreground="White"></TextBlock>
+                                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="3,3,3,3" HorizontalAlignment="Left" FontSize="8" FontWeight="Normal" Foreground="White"></TextBlock>
+                                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Number}" HorizontalAlignment="Right" FontSize="8" FontWeight="Normal" Foreground="White"></TextBlock>
+                                                <TextBlock Text="{Binding GuestID}" Visibility="Collapsed"></TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <dxe:DateNavigator Grid.Row="2" x:Name="dnTakvim1" Margin="3" VerticalAlignment="Bottom" Width="200">
+                                    <dxe:DateNavigator.StyleSettings>
+                                        <Scheduler:SchedulerDateNavigatorStyleSettings SchedulerControl="{Binding ElementName=schRezervasyon}" ></Scheduler:SchedulerDateNavigatorStyleSettings>
+                                    </dxe:DateNavigator.StyleSettings>
+                                </dxe:DateNavigator>
+                            </Grid>
+                        </dxdo:LayoutPanel>
+                    </dxdo:AutoHideGroup>
+                    <!--EndRegion-->
+                    <!--Region SagPanel-->
+                    <dxdo:AutoHideGroup x:Name="RightthideGroup" DockType="Right">
+                        <dxdo:LayoutPanel Caption="Misafir" x:Name="lpMusteri" Background="#FF135889" 
+                			ShowCloseButton="False" 
+                			ToolTip="Misafir">
+                            <Grid x:Name="gridSagPanel">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Orientation="Vertical" Height="auto">
+                                    <Border CornerRadius="3" Background="#FF135889">
+                                        <TextBlock Text="Fizyoterapist Kaydı" TextAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="9"></TextBlock>
+                                    </Border>
+                                    <sdk:AutoCompleteBox x:Name="autoCompRoomNumber" Width="300" Margin="5" VerticalAlignment="Stretch" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch"
+                                                        BorderThickness="2" BorderBrush="#FF4C4CDA" Height="25" IsDropDownOpen="True" Populating="autoCompRoomNumber_Populating"></sdk:AutoCompleteBox>
+                                    <!--<ComboBox x:Name="cbFizyoterapist" Width="200"></ComboBox>-->
+                                    <dxe:ComboBoxEdit x:Name="cbFizyoterapist" Width="200" NullText="Fizyoterapist Seçiniz."></dxe:ComboBoxEdit>
+                                    <ListBox x:Name="listBoxMisafir" SelectionChanged="listBoxMisafir_SelectionChanged" Margin="5" Width="300" Height="100" BorderThickness="2" BorderBrush="#FF3978DE" 
+                                             Foreground="Black" ItemTemplate="{StaticResource PersonelListBox}"></ListBox>
+                                    <Button x:Name="btnMisafirYeni" Content="Fizyoterapist" VerticalAlignment="Bottom" Width="300" Margin="5" Click="btnMisafirYeni_Click"></Button>
+                                    <Button x:Name="btnMisafirGecmis" Content="Geçmiş" VerticalAlignment="Bottom" Width="300" Margin="5" Click="btnMisafirGecmis_Click"></Button>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1">
+                                    <dxsch:ResourcesPopupCheckedListBoxControl x:Name="cbPersonelList" SchedulerControl="{Binding ElementName=schRezervasyon}" SelectedIndex="1" Width="295" Margin="2"
+                                                               Height="25"></dxsch:ResourcesPopupCheckedListBoxControl>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Orientation="Vertical" Width="300">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                            <Button x:Name="BtnOk" Content="Rezerve Et" Margin="2" Width="300" Click="BtnRezerve_Click" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Column="1">
+                                            <dxe:DateEdit Name="dateStart" Grid.Column="0" HorizontalAlignment="Left"
+                                             EditValue="{Binding Controller.DisplayStartDate}" Width="90" Margin="2" NullText="Başlangıç Tarihi" />
+                                            <inputToolkit:TimePicker Background="White" Margin="2"
+                                                                     x:Name="tpStart" PopupMinutesInterval="20" Height="22" Width="80" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                            <dxe:DateEdit Name="dateEnd"
+                EditValue="{Binding Controller.DisplayStartDate}" Width="90" Margin="2" NullText="Bitiş Tarihi" />
+                                            <inputToolkit:TimePicker Background="White" Margin="2"
+                                                                     x:Name="tpEnd" PopupMinutesInterval="20" Culture="tr-TR" Width="80" Height="22" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="3" Grid.Column="1">
+                                            <dxe:ComboBoxEdit x:Name="cbServisList" Margin="2" Background="White" NullText="Servis Seçiniz."></dxe:ComboBoxEdit>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2" Grid.Column="1">
+                                            <!--<ComboBox Margin="5" x:Name="cbServisList"></ComboBox>-->
+                                            <dxsch:ResourcesComboBoxControl Margin="2" x:Name="resCb" ShowAllResourcesItem="False" ShowNoneResourcesItem="False" 
+                                                                            NullText="İşlemci" SchedulerControl="{Binding ElementName=schRezervasyon}" SelectedIndexChanged="resCb_SelectedIndexChanged" />
+
+
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="4" Grid.Column="1">
+                                            <dxe:MemoEdit x:Name="txtDesc" Margin="2" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                          NullText="Misafire Özel" ShowIcon="False" TextWrapping="Wrap" 
+                                                          PrintTextWrapping="Wrap" MemoTextWrapping="Wrap"></dxe:MemoEdit>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </StackPanel>
+
+                            </Grid>
+                        </dxdo:LayoutPanel>
+                    </dxdo:AutoHideGroup>
+                </dxdo:DockLayoutManager.AutoHideGroups>
+                <!--EndRegion-->
+                <!--Region Schedule-->
+                <dxdo:LayoutGroup x:Name="lgScheduler" Background="#FF135889">
+                    <dxdo:LayoutPanel Background="#FF135889" x:Name="lpScheduler" 
+						ShowBorder="False" ShowCaption="False">
+                        <dxsch:SchedulerControl x:Name="schRezervasyon" ActiveViewType="Day" VerticalAlignment="Stretch" 
+                                                GroupType="Resource" 
+                                                
+                                                ShowBorder="False" Margin="0"
+                                                AppointmentDrop="schRezervasyon_AppointmentDrop"
+                                                AppointmentResized="schRezervasyon_AppointmentResized"
+                                                >
+                            <dxsch:SchedulerControl.DayView>
+                                <dxsch:DayView ResourcesPerPage="7" FontSize="9" TimeScale="0:10:0" 
+                                                 FontFamily="Calibri" Enabled="True" AppointmentToolTipVisibility="Never" DisplayName="Bugün" Visibility="Collapsed" ShowAllDayArea="False">
+                                    <dxsch:DayView.VisibleTime>
+                                        <dxschcore:TimeOfDayInterval Start="08:00:00" End="19:00:00"></dxschcore:TimeOfDayInterval>
+
+                                    </dxsch:DayView.VisibleTime>
+                                </dxsch:DayView>
+                            </dxsch:SchedulerControl.DayView>
+                            <dxsch:SchedulerControl.WorkWeekView>
+                                <dxsch:WorkWeekView Enabled="False" FontSize="9" TimeScale="0:20:0" DayCount="1" />
+                            </dxsch:SchedulerControl.WorkWeekView>
+                            <dxsch:SchedulerControl.MonthView>
+                                <dxsch:MonthView Enabled="False" />
+                            </dxsch:SchedulerControl.MonthView>
+                            <dxsch:SchedulerControl.TimelineView>
+                                <dxsch:TimelineView Enabled="False" FontSize="9" ShowMoreButtons="True" />
+                            </dxsch:SchedulerControl.TimelineView>
+
+                            <dxsch:SchedulerControl.OptionsCustomization>
+                                <dxsch:OptionsCustomization AllowDisplayAppointmentForm="Never" AllowAppointmentResize="None" AllowAppointmentMultiSelect="False" AllowAppointmentConflicts="Forbidden"></dxsch:OptionsCustomization>
+                            </dxsch:SchedulerControl.OptionsCustomization>
+                        </dxsch:SchedulerControl>
+                    </dxdo:LayoutPanel>
+                </dxdo:LayoutGroup>
+                <!--EndRegion-->
+            </dxdo:DockLayoutManager>
+            <!--EndRegion-->
+        </Grid>
+    </Grid>
+</vtClasses:AuthenticatedPage>

@@ -1,0 +1,230 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Windows.Navigation;
+using VesselTracking.Classes;
+using iDeal.silverlight;
+
+namespace VesselTracking.Pages
+{
+    public partial class pageSettings : AuthenticatedPage
+    {
+        public pageSettings()
+            : base()
+        {
+            InitializeComponent();
+            Loaded += new RoutedEventHandler(pageSettings_Loaded);
+            Unloaded += new RoutedEventHandler(pageSettings_Unloaded);
+            LostFocus += new RoutedEventHandler(pageSettings_LostFocus);
+        }
+
+     
+
+      
+        bool readyToChange=false;
+        double brightness=0;
+        double contrast=0;
+
+        void pageSettings_Loaded(object sender, RoutedEventArgs e)
+        {
+            cmbSignToRemoveSecond1.ItemsSource = UI.SECOND_TIME_ARRAY;
+            cmbRemoveSecond1.ItemsSource = UI.SECOND_TIME_ARRAY;
+            cmbVoyageServicePeriod1.ItemsSource = UI.SERVICE_PERIOD_ARRAY;
+            cmbStaticServicePeriod1.ItemsSource = UI.SERVICE_PERIOD_ARRAY;
+            cmbNodeServicePeriod.ItemsSource = UI.SERVICE_PERIOD_ARRAY;
+            cmbTrackLinePeriod1.ItemsSource = UI.MIN_TIME_ARRAY;
+            cmbDateFormat1.ItemsSource = UI.DATE_FORMAT_ARRAY;
+            cmbTimeFormat1.ItemsSource = UI.TIME_FORMAT_ARRAY;
+            cmbTimeZone1.ItemsSource = UI.TIME_ZONE_ARRAY;
+            cmbPositionFormat1.ItemsSource = Enum.GetNames(typeof(ECoordinatesView));
+            //cmbMapType .ItemsSource=
+
+            cmbRemoveSecond1.SelectedItem = Security.CurrentUser.GetProfileItem("RemoveItemTimeSec");
+            cmbSignToRemoveSecond1.SelectedItem = Security.CurrentUser.GetProfileItem("SignToRemoveItemTimeSec");
+            cmbVoyageServicePeriod1.SelectedItem = Security.CurrentUser.GetProfileItem("VoyageDataPeriodTimeSec");
+            cmbStaticServicePeriod1.SelectedItem = Security.CurrentUser.GetProfileItem("StaticDataPeriodTimeSec");
+            cmbNodeServicePeriod.SelectedItem = Security.CurrentUser.GetProfileItem("NodeServicePeriodTimeSec");
+            cmbTrackLinePeriod1.SelectedItem = Security.CurrentUser.GetProfileItem("ItemTrackLineTimeMin");
+             brightness=sliderBrightness1.Value= (double)Security.CurrentUser.GetProfileItem("Brightness");
+             contrast=sliderContrast1.Value = (double)Security.CurrentUser.GetProfileItem("Contrast");
+             cmbDateFormat1.SelectedItem = Security.CurrentUser.GetProfileItem("DateFormat");
+             cmbTimeFormat1.SelectedItem = Security.CurrentUser.GetProfileItem("TimeFormat");
+             cmbPositionFormat1.SelectedItem = Security.CurrentUser.GetProfileItem("LatLongFormat");
+             cmbTimeZone1.SelectedItem = Security.CurrentUser.GetProfileItem("TimeZone");
+
+            readyToChange = true;
+        }
+  void pageSettings_Unloaded(object sender, RoutedEventArgs e)
+        {
+            
+        } 
+        void pageSettings_LostFocus(object sender, RoutedEventArgs e)
+        {
+           
+         
+        }
+        void ChangeSetting(string setting, object value)
+        {
+            //container.BusyStart("Profile setting is being sent.");
+            Security.CurrentUser.SetProfileItem(setting, value,
+                (a, b) =>
+                {
+                    //Dispatcher.BeginInvoke(() =>
+                    //{
+                    //    container.BusyEnd();
+                    //    container.MsgBox("Profile was changed successfully.", EButtons.Ok, EIcon.Info);
+                    //});
+                },
+                (s, ex) =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                     {
+                         //container.BusyEnd();
+                         container.MsgBox(ex.Message, EButtons.Ok, EIcon.Error);
+                     });
+                }
+            );
+        }
+
+        // Executes when the user navigates to this page.
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+        }
+
+        private void rbClockLocal_Checked(object sender, RoutedEventArgs e)
+        {
+            UI.IsClockUTC = false;
+        }
+
+        private void rbClockUTC_Checked(object sender, RoutedEventArgs e)
+        {
+            UI.IsClockUTC = true;
+        }
+
+        private void cmbRemoveSecond_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbRemoveSecond1.SelectedIndex != -1 && readyToChange)
+            {
+                //UI.MAPITEM_REMOVE_SECOND = (int)cmbRemoveSecond.SelectedItem;
+                ChangeSetting("RemoveItemTimeSec", cmbRemoveSecond1.SelectedItem);
+            }
+        }
+
+        private void cmbSignToRemoveSecond_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbSignToRemoveSecond1.SelectedIndex != -1 && readyToChange)
+            {
+                //UI.MAPITEM_SIGN_TO_REMOVE_SECOND =(int) cmbSignToRemoveSecond.SelectedItem;
+                ChangeSetting("SignToRemoveItemTimeSec", cmbSignToRemoveSecond1.SelectedItem);
+            }
+        }
+
+        private void cmbTrackLinePeriod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbTrackLinePeriod1.SelectedIndex != -1 && readyToChange)
+            {
+                //UI.TRACKLINE_PERIOD_MIN = (int)cmbTrackLinePeriod.SelectedItem;
+                ChangeSetting("ItemTrackLineTimeMin", cmbTrackLinePeriod1.SelectedItem);
+            }
+        }
+
+        private void cmbMapType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void cmbRefreshPeriod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbVoyageServicePeriod1.SelectedIndex != -1 && readyToChange)
+            {
+                //UI.VOYAGE_SERVICE_PERIOD_SECOND = (int)cmbVoyageServicePeriod.SelectedItem;
+                ChangeSetting("VoyageDataPeriodTimeSec", cmbVoyageServicePeriod1.SelectedItem);
+            }
+        }
+
+        private void cmbStaticServicePeriod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbStaticServicePeriod1.SelectedIndex != -1 && readyToChange)
+            {
+                // UI.STATIC_SERVICE_PERIOD_SECOND = (int)cmbStaticServicePeriod.SelectedItem;
+                ChangeSetting("StaticDataPeriodTimeSec", cmbStaticServicePeriod1.SelectedItem);
+            }
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+           
+        }
+
+        private void sliderBrightness_LostFocus(object sender, RoutedEventArgs e)
+        {
+         Security.CurrentUser.SetProfileItem("Brightness", brightness ,null ,null);
+           }
+
+        private void sliderContrast_LostFocus(object sender, RoutedEventArgs e)
+        {
+        Security.CurrentUser.SetProfileItem("Contrast", contrast,null,null); }
+
+        private void sliderBrightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (container == null) return;
+            container.SetBrightness(brightness = e.NewValue);
+        }
+
+        private void sliderContrast_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (container == null) return;
+            container.SetContrast(contrast=e.NewValue);
+        }
+
+        private void cmbDateFormat1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbDateFormat1.SelectedIndex != -1 && readyToChange)
+            {
+                ChangeSetting("DateFormat", cmbDateFormat1.SelectedItem);
+            }
+        }
+
+        private void cmbTimeFormat1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbTimeFormat1.SelectedIndex != -1 && readyToChange)
+            {
+                ChangeSetting("TimeFormat", cmbTimeFormat1.SelectedItem);
+            }
+        }
+
+        private void cmbTimeZone1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbTimeZone1.SelectedIndex != -1 && readyToChange)
+            {
+                ChangeSetting("TimeZone", cmbTimeZone1.SelectedItem);
+            }
+        }
+
+        private void cmbPositionFormat1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbPositionFormat1.SelectedIndex != -1 && readyToChange)
+            {
+                ChangeSetting("LatLongFormat", cmbPositionFormat1.SelectedItem);
+            }
+        }
+
+        private void cmbNodeServicePeriod_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (cmbNodeServicePeriod.SelectedIndex != -1 && readyToChange)
+            {
+                //UI.VOYAGE_SERVICE_PERIOD_SECOND = (int)cmbVoyageServicePeriod.SelectedItem;
+                ChangeSetting("NodeServicePeriodTimeSec", cmbNodeServicePeriod.SelectedItem);
+            }
+        }
+
+    }
+}

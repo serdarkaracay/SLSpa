@@ -1,0 +1,565 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Xml.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using C1.Silverlight.Maps;
+using iDeal.silverlight;
+using iDeal.silverlight.controls;
+using System.Windows.Threading;
+using System.Diagnostics;
+using VesselTracking.Pages;
+using System.Reflection;
+
+namespace VesselTracking.Classes
+{
+    public class CMapItem : CBoundItemBase
+    {
+        #region STATIC METHODS
+
+        public static bool ValidateCoordinate(Point oldPoint, Point newPoint)
+        {
+            return (oldPoint.X != newPoint.X || oldPoint.Y != newPoint.Y);
+        }
+
+        public static bool ValidateCoordinate(Point point)
+        {
+            return       (point.X <= 180 && point.X >= -180) &&
+                         (point.Y <= 90 && point.Y >= -90) &&
+                         (point.X != 0 && point.Y != 0);
+        }
+
+        #endregion
+
+        #region CTORS
+
+        public CMapItem()
+        {
+            IsSelectable = true;
+        }
+
+        public CMapItem(CMapControl _map, CMapItemCollection _parentCollection)
+            : this()
+        {
+            try
+            {
+                Parent = map = _map;
+                map.OnZoomChanged += new ZoomControl(map_OnZoomChanged);
+                ParentCollection = _parentCollection;
+            }
+            catch (Exception)
+            {
+                
+               
+            }
+        }
+     
+        public CMapItem(XElement xml)
+            : base(xml)
+        {
+
+        }
+
+        public CMapItem(XElement xml, CMapControl _map, CMapItemCollection _parentCollection)
+            : this(_map, _parentCollection)
+        {
+
+
+            Type t=GetType();
+            foreach (XAttribute  item in xml.Attributes())
+            {
+                PropertyInfo pi=t.GetProperty(item.Name.ToString());
+                if (pi == null) continue;
+
+                try
+                {
+                    pi.SetValue(this, CService.GetValue(item.Value, pi.PropertyType), null);
+                }
+                catch (Exception)
+                {
+
+                    Debug.WriteLine(pi.Name + " type conversion error");
+                }
+            }
+
+
+
+        }
+
+        #endregion
+
+        #region EVENTS
+
+
+        #endregion
+
+        #region PROPERTIES
+
+        public bool IsSelectable
+        {
+            get;
+            set;
+        }
+        public bool Signed
+        {
+            get { return signed; }
+            set
+            {
+                signed = value;
+                NotifyPropertyChanged("Signed");
+            }
+        }
+        public bool Selected
+        {
+            get { return selected; }
+            set
+            {
+                if (IsSelectable)
+                {
+                    selected = value;
+                    NotifyPropertyChanged("Selected");
+                }
+            }
+        }
+        public bool DefaultSelected
+        {
+            get
+            {
+                return SelectedIndex == 0;
+            }
+        }
+        public bool Removed
+        {
+            get
+            {
+                return removed;
+            }
+            set
+            {
+                removed = value;
+                if (value) Selected = false;
+                NotifyPropertyChanged("Removed");
+                NotifyPropertyChanged("LatLong");
+            }
+        }
+        public bool InfoEnabled
+        {
+            get
+            {
+                return infoenabled;
+            }
+            set
+            {
+                infoenabled = value;
+                NotifyPropertyChanged("InfoEnabled");
+            }
+        }
+        public bool HasPosition
+        {
+            get
+            {
+                return hasPosition;
+            }
+        }
+        public bool ShowTrackLine
+        {
+            get
+            {
+                return showTrackLine;
+            }
+            set
+            {
+                showTrackLine = value;
+                if (!value)
+                {
+                    TrackLinePointList.Clear();
+                    Map.VectorLayer.Children.Remove(Lines); 
+                }
+            }
+        }
+        
+        public int DimA
+        {
+            get
+            {
+
+                return dimA;
+
+            }
+            set
+            {
+                dimA = value;
+                //deviceOrigin.Y = (dimA + dimB) == 0 ? .5 : dimA / (dimA + dimB);
+                NotifyPropertyChanged("DimA");
+            }
+        }
+        public int DimB
+        {
+            get
+            {
+
+                return dimB;
+
+            }
+            set
+            {
+                dimB = value;
+                //deviceOrigin.Y = (dimA + dimB) == 0 ? .5 : dimA / (dimA + dimB);
+                NotifyPropertyChanged("DimB");
+            }
+        }
+        public int DimC
+        {
+            get
+            {
+
+                return dimC;
+
+            }
+            set
+            {
+                dimC = value;
+                //deviceOrigin.X = (dimC + dimD) == 0 ? .5 : dimD / (dimC + dimD);
+                NotifyPropertyChanged("DimC");
+            }
+        }
+        public int DimD
+        {
+            get
+            {
+
+                return dimD;
+
+            }
+            set
+            {
+                dimD = value;
+                //deviceOrigin.X = (dimC + dimD) == 0 ? .5 : dimD / (dimC + dimD);
+                NotifyPropertyChanged("DimD");
+            }
+        }
+        public int PixWidth
+        {
+            get
+            {
+                int x=(int)Map.GetScreenLength(LatLong, DimA+DimB);
+               
+                return x;
+            }
+        }
+        public int PixLength
+        {
+            get
+            {
+                int y=(int)Map.GetScreenLength(LatLong, DimC + DimD);
+               
+                return y;
+            }
+        }
+      
+        public int SelectedIndex
+        {
+            get
+            {
+                return selectedIndex;
+            }
+            set
+            {
+                selectedIndex = value; NotifyPropertyChanged("DefaultSelected");
+            }
+        }
+        
+        public double Distance
+        {
+            get;
+            set;
+        }
+        
+        public string GroupName
+        {
+            get
+            { return groupName; }
+            set
+            {
+                groupName = value;
+                NotifyPropertyChanged("GroupName");
+            }
+        }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                if (ParentItemLayer != null)
+                {
+                    ParentItemLayer.Dispatcher.BeginInvoke(() =>
+                    {
+                        NotifyPropertyChanged("Name");
+                    });
+                }
+            }
+        }
+        public string LabelName
+        {
+            get
+            {
+                if (Map.Zoom < 13) return ""; else return name;
+            }
+        }
+        public string Location
+        {
+            get
+            {
+                return CMapControl.FormatCoordinates(LatLong, ECoordinatesView.DegMin);
+            }
+        }
+        public string Info
+        {
+            get
+            { return info; }
+            set
+            {
+                info = value;
+                NotifyPropertyChanged("Info");
+            }
+        }
+
+     
+        public CMapItemCollection ParentCollection
+        {
+            get
+            {
+                return parentCollection;
+            }
+            set
+            {
+                parentCollection = value;
+            }
+        }
+        public C1MapItemsLayer ParentItemLayer
+        {
+            get
+            {
+                if (Map == null) return null; return Map.ItemLayer;
+            }
+        }
+        public C1VectorLayer ParentVectorLayer
+        {
+            get
+            {
+                if (Map == null) return null; return Map.VectorLayer;
+            }
+        }
+        public CMapControl Map
+        {
+            get
+            {
+                return map;
+            }
+            set
+            {
+                map = value; Parent = map;
+            }
+        }
+        public List<Point> TrackLinePointList
+        {
+            get
+            {
+                return trackLinePointList;
+            }
+        }
+        public Point LatLong
+        {
+            get
+            {
+                return latLong;
+            }
+            set
+            {
+                if ((ValidateCoordinate(value) && ValidateCoordinate(latLong, value)))
+                {
+                    latLong = value;
+                    try
+                    {
+                        if (!HasPosition)
+                            Map.AddToItemsLayer(this);
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Debug.WriteLine("Exception : Map reference null for CMapItem");
+                    }
+                    catch (Exception x)
+                    {
+                        Debug.WriteLine("Exception : " + x.Message);
+                    }
+                    hasPosition = true;
+                    if (ShowTrackLine)
+                    {
+                        Map.Dispatcher.BeginInvoke(() =>
+                       {
+                           TrackLinePointList.Insert(0, latLong);
+                           Lines.PointsSource = null;
+                           Lines.PointsSource = TrackLinePointList;
+                       });
+                    }
+                    NotifyPropertyChanged("LatLong");
+                    NotifyPropertyChanged("Location");
+                }
+            }
+        }
+        public Point DevicePosition { get { return devicePosition; } }
+        
+        #endregion
+
+        #region METHODS
+
+      
+
+        public void Update(XElement xml)
+        {
+            Removed = false;
+
+            Type t=GetType();
+            foreach (XAttribute  item in xml.Attributes())
+            {
+                PropertyInfo pi=t.GetProperty(item.Name.ToString());
+                if (pi == null) continue;
+
+                try
+                {
+                    pi.SetValue(this, CService.GetValue(item.Value, pi.PropertyType), null);
+                }
+                catch (Exception)
+                {
+
+                    Debug.WriteLine(pi.Name + " type conversion error");
+                }
+            }
+
+        }
+     
+        public void Copy(CMapItem item)
+        {
+            item.Name = Name;
+          
+            item.DimA = DimA;
+            item.DimB = DimB;
+            item.DimC = DimC;
+            item.DimD = DimD;
+            item.LatLong = LatLong;
+            item.ParentCollection = ParentCollection;
+
+        }
+
+        public void DrawTrackLine()
+        {
+            Map.Dispatcher.BeginInvoke(() =>
+            {
+                if (red == null) red = new SolidColorBrush(Colors.Red);
+                if (Blue == null) Blue = new SolidColorBrush(Colors.Blue);
+                C1VectorPolyline lines =Lines = new C1VectorPolyline();
+
+                lines.Stroke = Blue;
+                lines.StrokeThickness = 2;
+                lines.StrokeLineJoin = PenLineJoin.Round;
+                lines.StrokeDashCap = PenLineCap.Round;
+                lines.StrokeEndLineCap = PenLineCap.Round;
+                lines.StrokeDashArray = new DoubleCollection { 4, 2 };
+                lines.PointsSource = TrackLinePointList;
+                map.VectorLayer.Children.Add(lines);
+
+                //for (int i = 0; i < Points.Count; i++)
+                //{
+                //    C1VectorPlacemark vp1=new C1VectorPlacemark();
+                //    vp1.Stroke = red;
+                //    vp1.Fill = red;
+                //    vp1.Geometry = new EllipseGeometry() { RadiusX = 2, RadiusY = 2 };
+                //    vp1.GeoPoint = Points[i];
+                //    try
+                //    {
+                //        map.VectorLayer.Children.Add(vp1);
+                //    }
+                //    catch (Exception)
+                //    {
+
+                //        throw;
+                //    }
+                //}
+                //Map.VectorLayer.UpdateLayout();
+            });
+        }
+
+        public void SetTrackLinePointList(XElement xml)
+        {
+            TrackLinePointList.Clear();
+            Point tempPoint=new Point();
+
+            foreach (XElement x in xml.DescendantsAndSelf("row"))
+            {
+                Point po=new Point(CService.GetDouble(x, "Lon"), CService.GetDouble(x, "Lat"));
+                if (tempPoint == po) continue;
+                tempPoint = po;
+                TrackLinePointList.Add(po);
+            }
+        }
+
+        public void Dispose()
+        {
+
+        }
+      
+        #endregion
+
+        #region FIELDS
+
+        bool selected                             = false;
+        bool removed                              = false;
+        bool infoenabled                          = false;
+        bool signed                               = false;
+        bool hasPosition                          = false;
+        bool showTrackLine                        = false;
+       
+        int dimA                                  = 0;
+        int dimB                                  = 0;
+        int dimC                                  = 0;
+        int dimD                                  = 0;
+        int selectedIndex                         = -1;
+      
+        
+        string name                               = string.Empty;
+        string groupName                          = string.Empty;
+        string info                               = string.Empty;
+
+        Point latLong                                = new Point();
+        Point devicePosition                         = new Point(.5, .5);
+        CMapItemCollection parentCollection          = null;
+        CMapControl map                              = null;
+       
+        C1VectorPolyline Lines                       =null;
+        SolidColorBrush red                          =null;
+        SolidColorBrush Blue                         =null;
+        List<Point> trackLinePointList               =new List<Point>();
+       
+        #endregion
+
+        void map_OnZoomChanged()
+        {
+            NotifyPropertyChanged("LabelName");
+            NotifyPropertyChanged("PixWidth"); 
+            NotifyPropertyChanged("PixLength");
+     
+        }
+
+
+    }
+}

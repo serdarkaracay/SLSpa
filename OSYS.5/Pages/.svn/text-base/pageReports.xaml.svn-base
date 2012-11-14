@@ -1,0 +1,589 @@
+﻿<vtClasses:AuthenticatedPage x:Class="VesselTracking.Pages.pageReports"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:iDeal_silverlight="clr-namespace:iDeal.silverlight;assembly=iDeal.silverlight.5"
+                             xmlns:iDeal_silverlight_controls="clr-namespace:iDeal.silverlight.controls;assembly=iDeal.silverlight.5"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+                             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+                             xmlns:vtClasses="clr-namespace:VesselTracking.Pages"
+                             Title="Reports"
+                             d:DesignHeight="480"
+                             d:DesignWidth="640"
+                             mc:Ignorable="d">
+    <Grid x:Name="LayoutRoot">
+        <c1:C1TabControl x:Name="c1TabControl"
+                         Margin="0"
+                         RenderTransformOrigin="0.5,0.5"
+                         SelectedIndex="2"
+                         TabItemShape="Sloped"
+                         TabStripPlacement="Right">
+            <c1:C1TabControl.RenderTransform>
+                <CompositeTransform />
+            </c1:C1TabControl.RenderTransform>
+            <c1:C1TabControl.SelectedBackground>
+                <SolidColorBrush Color="{StaticResource LightBlue}" />
+            </c1:C1TabControl.SelectedBackground>
+            <c1:C1TabControl.Background>
+                <SolidColorBrush Color="{StaticResource LightBlue}" />
+            </c1:C1TabControl.Background>
+            <c1:C1TabItem x:Name="tiVessels"
+                          Foreground="White"
+                          Header="Vessels"
+                          Style="{StaticResource C1TabItemStyle1}">
+                <c1:C1TabItem.MouseOverBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.MouseOverBrush>
+                <c1:C1TabItem.PressedBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.PressedBrush>
+                <c1:C1TabItem.Background>
+                    <SolidColorBrush Color="{StaticResource DarkBlue}" />
+                </c1:C1TabItem.Background>
+                <c1:C1TabItem.SelectedBackground>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.SelectedBackground>
+                <Grid Width="596" Height="458">
+                    <Grid x:Name="dataGridContainer">
+
+                        <Rectangle Width="36"
+                                   HorizontalAlignment="Right"
+                                   Fill="#FF104F7C"
+                                   RadiusX="2"
+                                   RadiusY="2">
+                            <Rectangle.Stroke>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#FF00487C" />
+                                    <GradientStop Offset="1" Color="#FF005A9D" />
+                                </LinearGradientBrush>
+
+                            </Rectangle.Stroke>
+                        </Rectangle>
+
+                        <sdk:DataGrid x:Name="dataGridVessels"
+                                      Margin="0,0,40,0"
+                                      AutoGenerateColumns="False"
+                                      ColumnWidth="*"
+                                      IsReadOnly="True">
+                            <sdk:DataGrid.Columns>
+
+                                <sdk:DataGridTextColumn Width="80"
+                                                        Binding="{Binding MMSI}"
+                                                        CanUserResize="False"
+                                                        CanUserSort="True"
+                                                        Header="MMSI"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="MMSI" />
+                                <sdk:DataGridTextColumn Width="SizeToCells"
+                                                        MinWidth="20"
+                                                        Binding="{Binding Name}"
+                                                        CanUserSort="True"
+                                                        Header="Name"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="Name" />
+                                <sdk:DataGridTextColumn Width="SizeToHeader"
+                                                        Binding="{Binding AISType}"
+                                                        CanUserSort="True"
+                                                        Header="AIS Type"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="AISType" />
+                                <sdk:DataGridTextColumn Width="160"
+                                                        Binding="{Binding Location}"
+                                                        CanUserSort="True"
+                                                        Header="Location"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="Location" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding SOG,
+                                                                          ConverterParameter=0.0 kn,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="SOG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="SOG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding COG,
+                                                                          ConverterParameter=0 °,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="COG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="COG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding HDG,
+                                                                          ConverterParameter=0 °,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="HDG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="HDG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ROT}"
+                                                        CanUserSort="True"
+                                                        Header="ROT"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ROT" />
+                                <sdk:DataGridTextColumn Width="100"
+                                                        Binding="{Binding ShipAndCargo}"
+                                                        CanUserSort="True"
+                                                        Header="ShipAndCargo"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ShipAndCargo" />
+                                <sdk:DataGridTextColumn Width="100"
+                                                        Binding="{Binding ReportDate,
+                                                                          ConverterParameter=dd.MM.yy HH:mm:ss,
+                                                                          Converter={StaticResource ConverterDateTime},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="ReportDate"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ReportDate" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ReportPeriodSecond,
+                                                                          ConverterParameter=# sec,
+                                                                          Converter={StaticResource ConverterInt},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="Report Period"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ReportPeriodSecond" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ViaMedia}"
+                                                        CanUserSort="True"
+                                                        Header="ViaMedia"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ViaMedia" />
+
+
+                            </sdk:DataGrid.Columns>
+
+                        </sdk:DataGrid>
+                        <StackPanel Margin="0,0,0,28"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Vertical">
+                            <iDeal_silverlight_controls:CButton x:Name="btnFilter_Copy"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,2,2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/refresh.png"
+                                                                RenderTransformOrigin="0.562,-3.016"
+                                                                ToolTipService.ToolTip="Refresh the data" />
+                            <iDeal_silverlight:CGroupButton x:Name="btngrExport"
+                                                            Margin="0,1"
+                                                            HorizontalAlignment="Right"
+                                                            ButtonWidth="32"
+                                                            MainButtonBackImage="/VesselTracking;component/Images/export.png"
+                                                            ToolTipService.ToolTip="Export the data">
+                                <iDeal_silverlight:CGroupButton.Buttons>
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/excel.png" ToolTipService.ToolTip="Export to an excel file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/csv.png" ToolTipService.ToolTip="Export to a csv file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/xml.png" ToolTipService.ToolTip="Export to a xml file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/png.png" ToolTipService.ToolTip="Export to an png file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/pdf.png" ToolTipService.ToolTip="Export to an pdf file" />
+                                </iDeal_silverlight:CGroupButton.Buttons>
+                            </iDeal_silverlight:CGroupButton>
+                            <iDeal_silverlight_controls:CButton x:Name="btnFilter"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/search.png"
+                                                                RenderTransformOrigin="0.656,0.552"
+                                                                ToolTipService.ToolTip="Filter the data" />
+                            <iDeal_silverlight_controls:CButton x:Name="btnGridColumns"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/column.png"
+                                                                RenderTransformOrigin="0.656,0.552"
+                                                                ToolTipService.ToolTip="Add/remove columns on the grid" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </c1:C1TabItem>
+            <c1:C1TabItem x:Name="tiATONs"
+                          Foreground="White"
+                          Header="ATONs"
+                          Style="{StaticResource C1TabItemStyle1}">
+                <c1:C1TabItem.MouseOverBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.MouseOverBrush>
+                <c1:C1TabItem.PressedBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.PressedBrush>
+                <c1:C1TabItem.Background>
+                    <SolidColorBrush Color="{StaticResource DarkBlue}" />
+                </c1:C1TabItem.Background>
+                <c1:C1TabItem.SelectedBackground>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.SelectedBackground>
+                <Grid Width="596" Height="458">
+                    <Grid x:Name="dataGridContainer_Copy">
+
+                        <Rectangle Width="36"
+                                   HorizontalAlignment="Right"
+                                   Fill="#FF104F7C"
+                                   RadiusX="2"
+                                   RadiusY="2">
+                            <Rectangle.Stroke>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#FF00487C" />
+                                    <GradientStop Offset="1" Color="#FF005A9D" />
+                                </LinearGradientBrush>
+
+                            </Rectangle.Stroke>
+                        </Rectangle>
+
+                        <sdk:DataGrid x:Name="dataGridVessels1"
+                                      Margin="0,0,40,0"
+                                      AutoGenerateColumns="False"
+                                      ColumnWidth="*"
+                                      IsReadOnly="True">
+                            <sdk:DataGrid.Columns>
+
+                                <sdk:DataGridTextColumn Width="80"
+                                                        Binding="{Binding MMSI}"
+                                                        CanUserResize="False"
+                                                        CanUserSort="True"
+                                                        Header="MMSI"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="MMSI" />
+                                <sdk:DataGridTextColumn Width="SizeToCells"
+                                                        MinWidth="20"
+                                                        Binding="{Binding Name}"
+                                                        CanUserSort="True"
+                                                        Header="Name"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="Name" />
+                                <sdk:DataGridTextColumn Width="SizeToHeader"
+                                                        Binding="{Binding AISType}"
+                                                        CanUserSort="True"
+                                                        Header="AIS Type"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="AISType" />
+                                <sdk:DataGridTextColumn Width="160"
+                                                        Binding="{Binding Location}"
+                                                        CanUserSort="True"
+                                                        Header="Location"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="Location" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding SOG,
+                                                                          ConverterParameter=0.0 kn,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="SOG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="SOG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding COG,
+                                                                          ConverterParameter=0 °,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="COG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="COG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding HDG,
+                                                                          ConverterParameter=0 °,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="HDG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="HDG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ROT}"
+                                                        CanUserSort="True"
+                                                        Header="ROT"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ROT" />
+                                <sdk:DataGridTextColumn Width="100"
+                                                        Binding="{Binding ShipAndCargo}"
+                                                        CanUserSort="True"
+                                                        Header="ShipAndCargo"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ShipAndCargo" />
+                                <sdk:DataGridTextColumn Width="100"
+                                                        Binding="{Binding ReportDate,
+                                                                          ConverterParameter=dd.MM.yy HH:mm:ss,
+                                                                          Converter={StaticResource ConverterDateTime},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="ReportDate"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ReportDate" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ReportPeriodSecond,
+                                                                          ConverterParameter=# sec,
+                                                                          Converter={StaticResource ConverterInt},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="Report Period"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ReportPeriodSecond" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ViaMedia}"
+                                                        CanUserSort="True"
+                                                        Header="ViaMedia"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ViaMedia" />
+
+
+                            </sdk:DataGrid.Columns>
+
+                        </sdk:DataGrid>
+                        <StackPanel Margin="0,0,0,28"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Vertical">
+                            <iDeal_silverlight_controls:CButton x:Name="btnFilter_Copy1"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,2,2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/refresh.png"
+                                                                RenderTransformOrigin="0.562,-3.016"
+                                                                ToolTipService.ToolTip="Refresh the data" />
+                            <iDeal_silverlight:CGroupButton x:Name="btngrExport1"
+                                                            Margin="0,1"
+                                                            HorizontalAlignment="Right"
+                                                            ButtonWidth="32"
+                                                            MainButtonBackImage="/VesselTracking;component/Images/export.png"
+                                                            ToolTipService.ToolTip="Export the data">
+                                <iDeal_silverlight:CGroupButton.Buttons>
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/excel.png" ToolTipService.ToolTip="Export to an excel file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/csv.png" ToolTipService.ToolTip="Export to a csv file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/xml.png" ToolTipService.ToolTip="Export to a xml file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/png.png" ToolTipService.ToolTip="Export to an png file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/pdf.png" ToolTipService.ToolTip="Export to an pdf file" />
+                                </iDeal_silverlight:CGroupButton.Buttons>
+                            </iDeal_silverlight:CGroupButton>
+                            <iDeal_silverlight_controls:CButton x:Name="btnFilter1"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/search.png"
+                                                                RenderTransformOrigin="0.656,0.552"
+                                                                ToolTipService.ToolTip="Filter the data" />
+                            <iDeal_silverlight_controls:CButton x:Name="btnGridColumns1"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/column.png"
+                                                                RenderTransformOrigin="0.656,0.552"
+                                                                ToolTipService.ToolTip="Add/remove columns on the grid" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </c1:C1TabItem>
+            <c1:C1TabItem x:Name="tiSecurity"
+                          Foreground="White"
+                          Header="Security"
+                          Style="{StaticResource C1TabItemStyle1}">
+                <c1:C1TabItem.MouseOverBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.MouseOverBrush>
+                <c1:C1TabItem.PressedBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.PressedBrush>
+                <c1:C1TabItem.Background>
+                    <SolidColorBrush Color="{StaticResource DarkBlue}" />
+                </c1:C1TabItem.Background>
+                <c1:C1TabItem.SelectedBackground>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.SelectedBackground>
+                <Grid Width="596" Height="458">
+                    <Grid x:Name="dataGridContainer_Copy1">
+
+                        <Rectangle Width="36"
+                                   HorizontalAlignment="Right"
+                                   Fill="#FF104F7C"
+                                   RadiusX="2"
+                                   RadiusY="2">
+                            <Rectangle.Stroke>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#FF00487C" />
+                                    <GradientStop Offset="1" Color="#FF005A9D" />
+                                </LinearGradientBrush>
+
+                            </Rectangle.Stroke>
+                        </Rectangle>
+
+                        <sdk:DataGrid x:Name="dataGridVessels2"
+                                      Margin="0,0,40,0"
+                                      AutoGenerateColumns="False"
+                                      ColumnWidth="*"
+                                      IsReadOnly="True">
+                            <sdk:DataGrid.Columns>
+
+                                <sdk:DataGridTextColumn Width="80"
+                                                        Binding="{Binding MMSI}"
+                                                        CanUserResize="False"
+                                                        CanUserSort="True"
+                                                        Header="MMSI"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="MMSI" />
+                                <sdk:DataGridTextColumn Width="SizeToCells"
+                                                        MinWidth="20"
+                                                        Binding="{Binding Name}"
+                                                        CanUserSort="True"
+                                                        Header="Name"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="Name" />
+                                <sdk:DataGridTextColumn Width="SizeToHeader"
+                                                        Binding="{Binding AISType}"
+                                                        CanUserSort="True"
+                                                        Header="AIS Type"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="AISType" />
+                                <sdk:DataGridTextColumn Width="160"
+                                                        Binding="{Binding Location}"
+                                                        CanUserSort="True"
+                                                        Header="Location"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="Location" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding SOG,
+                                                                          ConverterParameter=0.0 kn,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="SOG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="SOG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding COG,
+                                                                          ConverterParameter=0 °,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="COG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="COG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding HDG,
+                                                                          ConverterParameter=0 °,
+                                                                          Converter={StaticResource ConverterDouble},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="HDG"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="HDG" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ROT}"
+                                                        CanUserSort="True"
+                                                        Header="ROT"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ROT" />
+                                <sdk:DataGridTextColumn Width="100"
+                                                        Binding="{Binding ShipAndCargo}"
+                                                        CanUserSort="True"
+                                                        Header="ShipAndCargo"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ShipAndCargo" />
+                                <sdk:DataGridTextColumn Width="100"
+                                                        Binding="{Binding ReportDate,
+                                                                          ConverterParameter=dd.MM.yy HH:mm:ss,
+                                                                          Converter={StaticResource ConverterDateTime},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="ReportDate"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ReportDate" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ReportPeriodSecond,
+                                                                          ConverterParameter=# sec,
+                                                                          Converter={StaticResource ConverterInt},
+                                                                          FallbackValue=-}"
+                                                        CanUserSort="True"
+                                                        Header="Report Period"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ReportPeriodSecond" />
+                                <sdk:DataGridTextColumn Width="60"
+                                                        Binding="{Binding ViaMedia}"
+                                                        CanUserSort="True"
+                                                        Header="ViaMedia"
+                                                        IsReadOnly="True"
+                                                        SortMemberPath="ViaMedia" />
+
+
+                            </sdk:DataGrid.Columns>
+
+                        </sdk:DataGrid>
+                        <StackPanel Margin="0,0,0,28"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Vertical">
+                            <iDeal_silverlight_controls:CButton x:Name="btnFilter_Copy2"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,2,2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/refresh.png"
+                                                                RenderTransformOrigin="0.562,-3.016"
+                                                                ToolTipService.ToolTip="Refresh the data" />
+                            <iDeal_silverlight:CGroupButton x:Name="btngrExport2"
+                                                            Margin="0,1"
+                                                            HorizontalAlignment="Right"
+                                                            ButtonWidth="32"
+                                                            MainButtonBackImage="/VesselTracking;component/Images/export.png"
+                                                            ToolTipService.ToolTip="Export the data">
+                                <iDeal_silverlight:CGroupButton.Buttons>
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/excel.png" ToolTipService.ToolTip="Export to an excel file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/csv.png" ToolTipService.ToolTip="Export to a csv file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/xml.png" ToolTipService.ToolTip="Export to a xml file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/png.png" ToolTipService.ToolTip="Export to an png file" />
+                                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/pdf.png" ToolTipService.ToolTip="Export to an pdf file" />
+                                </iDeal_silverlight:CGroupButton.Buttons>
+                            </iDeal_silverlight:CGroupButton>
+                            <iDeal_silverlight_controls:CButton x:Name="btnFilter2"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/search.png"
+                                                                RenderTransformOrigin="0.656,0.552"
+                                                                ToolTipService.ToolTip="Filter the data" />
+                            <iDeal_silverlight_controls:CButton x:Name="btnGridColumns2"
+                                                                Width="32"
+                                                                Height="32"
+                                                                Margin="2,1"
+                                                                HorizontalAlignment="Right"
+                                                                BackImage="/VesselTracking;component/Images/column.png"
+                                                                RenderTransformOrigin="0.656,0.552"
+                                                                ToolTipService.ToolTip="Add/remove columns on the grid" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </c1:C1TabItem>
+            <c1:C1TabItem x:Name="tiHelp"
+                          Foreground="White"
+                          Header="Help"
+                          Style="{StaticResource C1TabItemStyle1}">
+                <c1:C1TabItem.MouseOverBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.MouseOverBrush>
+                <c1:C1TabItem.PressedBrush>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.PressedBrush>
+                <c1:C1TabItem.Background>
+                    <SolidColorBrush Color="{StaticResource DarkBlue}" />
+                </c1:C1TabItem.Background>
+                <c1:C1TabItem.SelectedBackground>
+                    <SolidColorBrush Color="{StaticResource LightBlue}" />
+                </c1:C1TabItem.SelectedBackground>
+                <Grid />
+            </c1:C1TabItem>
+        </c1:C1TabControl>
+    </Grid>
+</vtClasses:AuthenticatedPage>

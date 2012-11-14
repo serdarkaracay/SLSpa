@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes
+END
+CMapItemCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/CMapItemCollection.cs
+END
+ABinding.cs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/ABinding.cs
+END
+CData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/CData.cs
+END
+CUser.cs
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/CUser.cs
+END
+ShipService.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/ShipService.cs
+END
+CBoundItemBase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/CBoundItemBase.cs
+END
+Converters.cs
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/Converters.cs
+END
+CAISItem.cs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/CAISItem.cs
+END
+Extensions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/Extensions.cs
+END
+CMapItem.cs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/CMapItem.cs
+END
+BrightnessShader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/BrightnessShader.cs
+END
+CSettings.cs
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/das/!svn/ver/2133/VesselTracking.5/VesselTracking.5/Classes/CSettings.cs
+END
+CProfile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/CProfile.cs
+END
+NodeService.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/NodeService.cs
+END
+FrameCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/FrameCollection.cs
+END
+_declarations.cs
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/das/!svn/ver/2161/VesselTracking.5/VesselTracking.5/Classes/_declarations.cs
+END

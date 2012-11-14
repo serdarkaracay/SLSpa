@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="OSYS.Web.WSSpa" CodeBehind="WSSpa.svc.cs" %>

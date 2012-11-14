@@ -1,0 +1,16 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="VesselTracking.logo"
+	d:DesignWidth="510" d:DesignHeight="312">
+
+	<Viewbox>
+
+		<Grid x:Name="LayoutRoot">
+			<Image x:Name="image1" Source="../Images/socar_logo.png" Margin="0"/>
+		</Grid>
+	</Viewbox>
+</UserControl>

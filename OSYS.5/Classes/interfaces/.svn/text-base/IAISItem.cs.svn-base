@@ -1,0 +1,97 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+
+namespace VesselTracking.Classes
+{
+    public interface IAISItem
+    {
+        [ABinding("Name", typeof(DataGridTextColumn), null, "", "-")]
+        string Name { get; set; }
+
+        [ABinding("AIS Type", typeof(DataGridTextColumn), null, "", "-")]
+        string AISType { get; set; }
+
+        [ABinding("MMSI", typeof(DataGridTextColumn), null, "", "-")]
+        int MMSI { get; set; }
+
+        [ABinding("DimA", typeof(DataGridTextColumn), typeof(ConverterInt), "0 m", "-")]
+        int DimA { get; set; }
+
+        [ABinding("DimB", typeof(DataGridTextColumn), typeof(ConverterInt), "0 m", "-")]
+        int DimB { get; set; }
+
+        [ABinding("DimC", typeof(DataGridTextColumn), typeof(ConverterInt), "0 m", "-")]
+        int DimC { get; set; }
+
+        [ABinding("DimD", typeof(DataGridTextColumn), typeof(ConverterInt), "0 m", "-")]
+        int DimD { get; set; }
+
+        [ABinding("SOG", typeof(DataGridTextColumn), typeof(ConverterDouble), "0.0 kn", "-")]
+        double SOG { get; set; }
+
+        [ABinding("COG", typeof(DataGridTextColumn), typeof(ConverterDouble), "0 °", "-")]
+        double COG { get; set; }
+
+        [ABinding("HDG", typeof(DataGridTextColumn), typeof(ConverterInt), "0 °", "-")]
+        int HDG { get; set; }
+
+        [ABinding("ROT", typeof(DataGridTextColumn), typeof(ConverterInt), "", "-")]
+        int ROT { get; set; }
+
+        [ABinding("Report Date", typeof(DataGridTextColumn), typeof(ConverterDateTime), "", "-")]
+        DateTime ReportDate { get; set; }
+
+        [ABinding("Position", typeof(DataGridTextColumn), typeof(ConverterLatLong), "", "-")]
+        Point LatLong { get; set; }
+
+        [ABinding("via Media", typeof(DataGridTextColumn), null, "", "-")]
+        string ViaMedia { get; set; }
+
+        [ABinding("via Node", typeof(DataGridTextColumn), null, "", "-")]
+        int ViaNode { get; set; }
+
+        [ABinding("IsSelected", typeof(DataGridCheckBoxColumn), null, "","-")]
+        bool Selected { get; set; }
+
+        [ABinding("CallSign", typeof(DataGridTextColumn), null, "", "-")]
+        string CallSign { get; set; }
+        
+        [ABinding("IMO", typeof(DataGridTextColumn), null, "", "-")]
+        string IMO { get; set; }
+
+        [ABinding("Destination", typeof(DataGridTextColumn), null, "", "-")]
+        string Destination { get; set; }
+
+        [ABinding("ShipAndCargo", typeof(DataGridTextColumn), typeof(ConverterShipAndCargoForTooltip), "", "-")]
+        int ShipAndCargo { get; set; }
+        
+        [ABinding("ETAMin", typeof(DataGridTextColumn), null, "", "-")]
+        int ETAMin { get; set; }
+        
+        [ABinding("ETAHour", typeof(DataGridTextColumn), null, "", "-")]
+        int ETAHour { get; set; }
+
+        
+        [ABinding("ETADay", typeof(DataGridTextColumn), null, "", "-")]
+        int ETADay { get; set; }
+
+        [ABinding("ETAMonth", typeof(DataGridTextColumn), null, "", "-")]
+        int ETAMonth { get; set; }
+        
+        [ABinding("Draught", typeof(DataGridTextColumn), typeof(ConverterInt), " m", "-")]
+        int Draught { get; set; }
+
+        [ABinding("Report Period", typeof(DataGridTextColumn), typeof(ConverterInt), " s", "-")]
+        int ReportPeriodSecond { get;  }
+    }
+
+   
+}

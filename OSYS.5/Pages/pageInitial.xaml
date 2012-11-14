@@ -1,0 +1,49 @@
+﻿<vtClasses:AuthenticatedPage x:Class="OSYS.Pages.pageInitial"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+                             xmlns:OSYS="clr-namespace:OSYS"
+                             xmlns:vtClasses="clr-namespace:OSYS.Pages"
+                             Title=" "
+                             d:DesignHeight="480"
+                             d:DesignWidth="640"
+                             mc:Ignorable="d">
+    <Grid x:Name="LayoutRoot">
+        <Grid Width="208"
+              Height="88"
+              Margin="0,0,4,6"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom">
+            <Image x:Name="image"
+                   Margin="103,0,2,7"
+                   RenderTransformOrigin="0.5,0.5"
+                   Source="../Images/capricelogo.png" Height="34" VerticalAlignment="Bottom">
+                <Image.Effect>
+                    <DropShadowEffect />
+                </Image.Effect>
+            </Image>
+        </Grid>
+        <Viewbox Margin="0,10,0,120">
+            <Grid Width="361" Height="350.025001525879">
+                <TextBlock x:Name="textBlock"
+                           Width="361"
+                           Margin="0,46,0,0"
+                           HorizontalAlignment="Center"
+                           Effect="{StaticResource SoftwareNameEffect}"
+                           FontFamily="Arial Rounded MT Bold"
+                           FontSize="36"
+                           FontWeight="Normal"
+                           Foreground="#FFB8AF64"
+                           Text="S.P.A YÖNETİM SİSTEMİ"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" Height="88" VerticalAlignment="Top" />
+                <Image x:Name="imageLogo" Source="/OSYS;component/Images/capricelogo.png" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Margin="39,192,35,0">
+                	
+                </Image>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</vtClasses:AuthenticatedPage>

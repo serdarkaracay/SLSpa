@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="VesselTracking.test"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:iDeal_silverlight_controls="clr-namespace:iDeal.silverlight.controls;assembly=iDeal.silverlight.5"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:my="clr-namespace:iDeal.silverlight;assembly=iDeal.silverlight.5"
+             d:DesignHeight="343"
+             d:DesignWidth="469"
+             mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <StackPanel VerticalAlignment="Top"
+                    Orientation="Vertical"
+                    d:LayoutOverrides="Height">
+            <my:CGroupButton x:Name="cGroupButton1"
+                             HorizontalAlignment="Right"
+                            MainButtonBackImage="/VesselTracking;component/Images/i.png" ButtonHeight="32"  HorizontalButtonMargin="2" ButtonWidth="32" Margin="0,2" >
+                <my:CGroupButton.Buttons>
+                    <iDeal_silverlight_controls:CButton  BackImage="/VesselTracking;component/Images/li.png" GroupName="zoom" IsToggle="True" IsChecked="True" />
+                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/lw.png" GroupName="zoom" IsToggle="True" />
+                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/le.png" GroupName="zoom" IsToggle="True" />
+                    <iDeal_silverlight_controls:CButton BackImage="/VesselTracking;component/Images/Otas7.png" GroupName="zoom" IsToggle="True" />
+                </my:CGroupButton.Buttons>
+            </my:CGroupButton>
+            <my:CGroupButton x:Name="cGroupButton2"
+                             HorizontalAlignment="Right"
+                            HorizontalButtonMargin="2" ButtonHeight="32" ButtonWidth="32" Margin="0,2">
+                <my:CGroupButton.Buttons>
+                    <iDeal_silverlight_controls:CButton />
+                    <iDeal_silverlight_controls:CButton />
+                    <iDeal_silverlight_controls:CButton />
+                </my:CGroupButton.Buttons>
+            </my:CGroupButton>
+            <my:CGroupButton x:Name="cGroupButton3"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Top"
+                             HorizontalButtonMargin="2" ButtonHeight="32" ButtonWidth="32" Margin="0,2">
+                <my:CGroupButton.Buttons>
+                    <iDeal_silverlight_controls:CButton />
+                    <iDeal_silverlight_controls:CButton />
+                </my:CGroupButton.Buttons>
+            </my:CGroupButton>
+        </StackPanel>
+        <Rectangle Fill="#7E808080" Margin="100,86,134,99" RadiusY="2" RadiusX="2" Stroke="#FF7E7E7E" StrokeThickness="1"/>
+        <Path Data="M387,86 L100,282" Fill="#7E808080" Margin="100,86,133,98" Stretch="Fill" Stroke="#FF7E7E7E" StrokeThickness="1" UseLayoutRounding="False"/>
+        <Path Data="M100,86 L387,282" Fill="#7E808080" Margin="100,86,133,98" Stretch="Fill" Stroke="#FF7E7E7E" StrokeThickness="1" UseLayoutRounding="False"/>
+    </Grid>
+</UserControl>

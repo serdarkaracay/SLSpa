@@ -1,0 +1,1552 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Caprice_OfisModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="Caprice_OfisModelStoreContainer">
+          <EntitySet Name="DepartmanGorevler" EntityType="Caprice_OfisModel.Store.DepartmanGorevler" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Departmanlar" EntityType="Caprice_OfisModel.Store.Departmanlar" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Personel" EntityType="Caprice_OfisModel.Store.Personel" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PersonelIzinDatalari" EntityType="Caprice_OfisModel.Store.PersonelIzinDatalari" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PersonelProfili" EntityType="Caprice_OfisModel.Store.PersonelProfili" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="Caprice_OfisModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserApplications" EntityType="Caprice_OfisModel.Store.UserApplications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserAppRoles" EntityType="Caprice_OfisModel.Store.UserAppRoles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRightDefinitions" EntityType="Caprice_OfisModel.Store.UserRightDefinitions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRoleDetails" EntityType="Caprice_OfisModel.Store.UserRoleDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRoles" EntityType="Caprice_OfisModel.Store.UserRoles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="View_SPA_PersonelIzin" EntityType="Caprice_OfisModel.Store.View_SPA_PersonelIzin" store:Type="Views" store:Schema="dbo" store:Name="View_SPA_PersonelIzin">
+            <DefiningQuery>SELECT 
+      [View_SPA_PersonelIzin].[IzinID] AS [IzinID], 
+      [View_SPA_PersonelIzin].[OID] AS [OID], 
+      [View_SPA_PersonelIzin].[BaslangicTarihi] AS [BaslangicTarihi], 
+      [View_SPA_PersonelIzin].[BitisTarihi] AS [BitisTarihi]
+      FROM [dbo].[View_SPA_PersonelIzin] AS [View_SPA_PersonelIzin]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_SPA_PersonelProfil" EntityType="Caprice_OfisModel.Store.View_SPA_PersonelProfil" store:Type="Views" store:Schema="dbo" store:Name="View_SPA_PersonelProfil">
+            <DefiningQuery>SELECT 
+      [View_SPA_PersonelProfil].[PersonelID] AS [PersonelID], 
+      [View_SPA_PersonelProfil].[DepartmanID] AS [DepartmanID], 
+      [View_SPA_PersonelProfil].[Adi] AS [Adi], 
+      [View_SPA_PersonelProfil].[PersonelProfilID] AS [PersonelProfilID], 
+      [View_SPA_PersonelProfil].[PersonelFoto] AS [PersonelFoto]
+      FROM [dbo].[View_SPA_PersonelProfil] AS [View_SPA_PersonelProfil]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_DepartmanGorevler_Departmanlar" Association="Caprice_OfisModel.Store.FK_DepartmanGorevler_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="DepartmanGorevler" EntitySet="DepartmanGorevler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departmanlar_Departmanlar" Association="Caprice_OfisModel.Store.FK_Departmanlar_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Departmanlar1" EntitySet="Departmanlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departmanlar_Personel" Association="Caprice_OfisModel.Store.FK_Departmanlar_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personel_Departmanlar" Association="Caprice_OfisModel.Store.FK_Personel_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personel_PersonelProfili" Association="Caprice_OfisModel.Store.FK_Personel_PersonelProfili">
+            <End Role="PersonelProfili" EntitySet="PersonelProfili" />
+            <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelIzinDatalari_Personel" Association="Caprice_OfisModel.Store.FK_PersonelIzinDatalari_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelIzinDatalari" EntitySet="PersonelIzinDatalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelIzinDatalari_User2" Association="Caprice_OfisModel.Store.FK_PersonelIzinDatalari_User2">
+            <End Role="User" EntitySet="User" />
+            <End Role="PersonelIzinDatalari" EntitySet="PersonelIzinDatalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelIzinDatalari_User3" Association="Caprice_OfisModel.Store.FK_PersonelIzinDatalari_User3">
+            <End Role="User" EntitySet="User" />
+            <End Role="PersonelIzinDatalari" EntitySet="PersonelIzinDatalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Personel" Association="Caprice_OfisModel.Store.FK_User_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppRoles_User" Association="Caprice_OfisModel.Store.FK_UserAppRoles_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserAppRoles" EntitySet="UserAppRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppRoles_UserApplications" Association="Caprice_OfisModel.Store.FK_UserAppRoles_UserApplications">
+            <End Role="UserApplications" EntitySet="UserApplications" />
+            <End Role="UserAppRoles" EntitySet="UserAppRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppRoles_UserRoles" Association="Caprice_OfisModel.Store.FK_UserAppRoles_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="UserAppRoles" EntitySet="UserAppRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRightDefinitions_UserApplications" Association="Caprice_OfisModel.Store.FK_UserRightDefinitions_UserApplications">
+            <End Role="UserApplications" EntitySet="UserApplications" />
+            <End Role="UserRightDefinitions" EntitySet="UserRightDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRightDefinitions_UserRightDefinitions" Association="Caprice_OfisModel.Store.FK_UserRightDefinitions_UserRightDefinitions">
+            <End Role="UserRightDefinitions" EntitySet="UserRightDefinitions" />
+            <End Role="UserRightDefinitions1" EntitySet="UserRightDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoleDetails_UserRightDefinitions" Association="Caprice_OfisModel.Store.FK_UserRoleDetails_UserRightDefinitions">
+            <End Role="UserRightDefinitions" EntitySet="UserRightDefinitions" />
+            <End Role="UserRoleDetails" EntitySet="UserRoleDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoleDetails_UserRoles" Association="Caprice_OfisModel.Store.FK_UserRoleDetails_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="UserRoleDetails" EntitySet="UserRoleDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_UserApplications" Association="Caprice_OfisModel.Store.FK_UserRoles_UserApplications">
+            <End Role="UserApplications" EntitySet="UserApplications" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DepartmanGorevler">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GorevID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DepartmanID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SiraNumarasi" Type="int" />
+          <Property Name="Aktif" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departmanlar">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BolumNo" Type="int" />
+          <Property Name="DepartmanAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="SirketId" Type="uniqueidentifier" />
+          <Property Name="UstDepartmanId" Type="uniqueidentifier" />
+          <Property Name="YoneticiId" Type="uniqueidentifier" />
+          <Property Name="KisaKod1" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisaKod2" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisaKod3" Type="nvarchar" MaxLength="10" />
+          <Property Name="GsmKisaKod1" Type="nvarchar" MaxLength="10" />
+          <Property Name="GsmKisaKod2" Type="nvarchar" MaxLength="10" />
+          <Property Name="GsmKisaKod3" Type="nvarchar" MaxLength="10" />
+          <Property Name="IKLogoNum" Type="int" />
+          <Property Name="IKVisible" Type="bit" />
+          <Property Name="TalepPerSayiAl" Type="bit" />
+          <Property Name="UstDepartmanlaBirlestir" Type="bit" />
+        </EntityType>
+        <EntityType Name="Personel">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DepartmanID" Type="uniqueidentifier" />
+          <Property Name="PersonelTipiID" Type="uniqueidentifier" />
+          <Property Name="IzinEskiDatalarID" Type="uniqueidentifier" />
+          <Property Name="UnvanId" Type="uniqueidentifier" />
+          <Property Name="PersonelProfilID" Type="uniqueidentifier" />
+          <Property Name="GorevID" Type="uniqueidentifier" />
+          <Property Name="Aktif" Type="bit" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="100" />
+          <Property Name="SicilNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="ParmakIziNu" Type="int" />
+          <Property Name="ParmakBasiyormu" Type="bit" />
+          <Property Name="IseGirisTarihi" Type="datetime" />
+          <Property Name="SosyalGuvNu" Type="nvarchar" MaxLength="50" />
+          <Property Name="VardiyaGirisNu" Type="int" />
+          <Property Name="LogoNumber" Type="int" />
+          <Property Name="TCNu" Type="nvarchar" MaxLength="20" />
+          <Property Name="Dogumtarihi" Type="datetime" />
+          <Property Name="Gorevi" Type="nvarchar" MaxLength="100" />
+          <Property Name="IstenCikisTarihi" Type="datetime" />
+          <Property Name="OzelPersonel" Type="bit" />
+          <Property Name="EskiParmakIzNu" Type="int" />
+          <Property Name="AileReisi" Type="nvarchar" MaxLength="75" />
+          <Property Name="IzinEskiDataNormal" Type="decimal" Scale="2" />
+          <Property Name="IzinEskiDataYillik" Type="decimal" Scale="2" />
+          <Property Name="ServisId" Type="uniqueidentifier" />
+          <Property Name="Yonetici" Type="bit" />
+          <Property Name="StajyerCalismaGrubu" Type="int" />
+          <Property Name="BirimID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="PersonelIzinDatalari">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IzinFormNumarasi" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IzinTipiID" Type="uniqueidentifier" />
+          <Property Name="IzinVerenKullaniciID" Type="uniqueidentifier" />
+          <Property Name="IKOnayKullaniciID" Type="uniqueidentifier" />
+          <Property Name="BaslangicTarihi" Type="datetime" />
+          <Property Name="BitisTarihi" Type="datetime" />
+          <Property Name="IzindeBulunucagiAdres" Type="nvarchar(max)" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+          <Property Name="IzinVerisTarihi" Type="datetime" />
+          <Property Name="IzinOnayTarihi" Type="datetime" />
+          <Property Name="PersonelID" Type="uniqueidentifier" />
+          <Property Name="IzinID" Type="uniqueidentifier" />
+          <Property Name="GunlukGorevBasSaati" Type="datetime" />
+          <Property Name="GunlukGorevBitSaati" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PersonelProfili">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="KimlikSeri" Type="nvarchar" MaxLength="50" />
+          <Property Name="KimlikNu" Type="nvarchar" MaxLength="50" />
+          <Property Name="AnaAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="BabaAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="DogumYeri" Type="nvarchar" MaxLength="50" />
+          <Property Name="MedeniDurum" Type="nvarchar" MaxLength="50" />
+          <Property Name="KanGrubu" Type="nvarchar" MaxLength="50" />
+          <Property Name="ILID" Type="uniqueidentifier" />
+          <Property Name="IlceID" Type="uniqueidentifier" />
+          <Property Name="PostaCodu" Type="nvarchar" MaxLength="50" />
+          <Property Name="Adres" Type="nvarchar(max)" />
+          <Property Name="EvTel" Type="nvarchar" MaxLength="50" />
+          <Property Name="CepTel" Type="nvarchar" MaxLength="50" />
+          <Property Name="AcilTelNu" Type="nvarchar" MaxLength="20" />
+          <Property Name="Eposta" Type="nvarchar" MaxLength="100" />
+          <Property Name="PersonelNotu" Type="nvarchar(max)" />
+          <Property Name="PersonelFoto" Type="image" />
+          <Property Name="Dahili" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cinsiyeti" Type="nvarchar" MaxLength="50" />
+          <Property Name="CapriceMail" Type="nvarchar" MaxLength="100" />
+          <Property Name="OgrenimDurumu" Type="nvarchar" MaxLength="100" />
+          <Property Name="SirketGSM" Type="nvarchar" MaxLength="50" />
+          <Property Name="SireketKisaKodu" Type="nvarchar" MaxLength="50" />
+          <Property Name="NufusKayitIl" Type="uniqueidentifier" />
+          <Property Name="NufusKayitIlce" Type="uniqueidentifier" />
+          <Property Name="NufusMahalle" Type="nvarchar" MaxLength="50" />
+          <Property Name="NufusCiltNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="NufusAileSiraNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="NufusSiraNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="NufusVerilYer" Type="nvarchar" MaxLength="20" />
+          <Property Name="NufusVerTar" Type="datetime" />
+          <Property Name="EgtOkul" Type="nvarchar" MaxLength="50" />
+          <Property Name="EgtBolum" Type="nvarchar" MaxLength="50" />
+          <Property Name="EgtMezYil" Type="nvarchar" MaxLength="10" />
+          <Property Name="EgtMezDer" Type="nvarchar" MaxLength="10" />
+          <Property Name="EgtYabanciDil" Type="nvarchar(max)" />
+          <Property Name="KisEvlenmeTar" Type="datetime" />
+          <Property Name="KisCocukSay" Type="nvarchar" MaxLength="5" />
+          <Property Name="NufDini" Type="nvarchar" MaxLength="50" />
+          <Property Name="KisOzurOran" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisKronikHastalik" Type="nvarchar(max)" />
+          <Property Name="KisSigaraKulla" Type="bit" />
+          <Property Name="KisServisGuzergah" Type="nvarchar" MaxLength="50" />
+          <Property Name="KisLojmanOda" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisEhliyet" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisAyakNu" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisGomlekBeden" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisPantolonNu" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisCeketBeden" Type="nvarchar" MaxLength="10" />
+          <Property Name="KisEmeklimi" Type="bit" />
+          <Property Name="KisOzurlumu" Type="bit" />
+          <Property Name="EgtYabIng" Type="nvarchar" MaxLength="20" />
+          <Property Name="EgtYabAlm" Type="nvarchar" MaxLength="20" />
+          <Property Name="EgtYabRus" Type="nvarchar" MaxLength="20" />
+          <Property Name="EgtYabArabca" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Initials" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmployeeId" Type="uniqueidentifier" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Culture" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoginValidFrom" Type="datetime" />
+          <Property Name="LoginValidTo" Type="datetime" />
+          <Property Name="CashierNumber" Type="int" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsFullTime" Type="bit" />
+          <Property Name="AccountDisabledFrom" Type="datetime" />
+          <Property Name="AccountDisabledTo" Type="datetime" />
+          <Property Name="AccountDisableReason" Type="nvarchar" />
+          <Property Name="Address" Type="nvarchar" />
+          <Property Name="DefectDepartmentID" Type="uniqueidentifier" />
+          <Property Name="SessionTimeOutPeriod" Type="int" />
+          <Property Name="SessionRenewalPeriod" Type="int" />
+          <Property Name="MainToolBarInfo" Type="image" />
+          <Property Name="OneDayRackCellWidth" Type="int" />
+          <Property Name="OneDayRackCellHeight" Type="int" />
+          <Property Name="RackViewSelection" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DateCulture" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsPasswordEncoded" Type="bit" />
+          <Property Name="PCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="KimlikNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDCardNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsHasBonusRight" Type="bit" />
+          <Property Name="SkinName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="UserApplications">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserAppRoles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="UserAppId" Type="uniqueidentifier" />
+          <Property Name="UserRolesId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="UserRightDefinitions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="ApplicationId" Type="uniqueidentifier" />
+          <Property Name="Element" Type="nvarchar" MaxLength="50" />
+          <Property Name="FixedDescription" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserRoleDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserRolesID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserRightDefinitionsID" Type="int" Nullable="false" />
+          <Property Name="IsAllowed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationId" Type="uniqueidentifier" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'Caprice_Ofis.dbo.View_SPA_PersonelIzin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="View_SPA_PersonelIzin">
+          <Key>
+            <PropertyRef Name="IzinID" />
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="IzinID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BaslangicTarihi" Type="datetime" />
+          <Property Name="BitisTarihi" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'Caprice_Ofis.dbo.View_SPA_PersonelProfil' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="View_SPA_PersonelProfil">
+          <Key>
+            <PropertyRef Name="PersonelID" />
+          </Key>
+          <Property Name="PersonelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DepartmanID" Type="uniqueidentifier" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="100" />
+          <Property Name="PersonelProfilID" Type="uniqueidentifier" />
+          <Property Name="PersonelFoto" Type="image" />
+        </EntityType>
+        <Association Name="FK_DepartmanGorevler_Departmanlar">
+          <End Role="Departmanlar" Type="Caprice_OfisModel.Store.Departmanlar" Multiplicity="1" />
+          <End Role="DepartmanGorevler" Type="Caprice_OfisModel.Store.DepartmanGorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="DepartmanGorevler">
+              <PropertyRef Name="DepartmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departmanlar_Departmanlar">
+          <End Role="Departmanlar" Type="Caprice_OfisModel.Store.Departmanlar" Multiplicity="0..1" />
+          <End Role="Departmanlar1" Type="Caprice_OfisModel.Store.Departmanlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Departmanlar1">
+              <PropertyRef Name="UstDepartmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departmanlar_Personel">
+          <End Role="Personel" Type="Caprice_OfisModel.Store.Personel" Multiplicity="0..1" />
+          <End Role="Departmanlar" Type="Caprice_OfisModel.Store.Departmanlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Departmanlar">
+              <PropertyRef Name="YoneticiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personel_Departmanlar">
+          <End Role="Departmanlar" Type="Caprice_OfisModel.Store.Departmanlar" Multiplicity="0..1" />
+          <End Role="Personel" Type="Caprice_OfisModel.Store.Personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Personel">
+              <PropertyRef Name="DepartmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personel_PersonelProfili">
+          <End Role="PersonelProfili" Type="Caprice_OfisModel.Store.PersonelProfili" Multiplicity="0..1" />
+          <End Role="Personel" Type="Caprice_OfisModel.Store.Personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonelProfili">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Personel">
+              <PropertyRef Name="PersonelProfilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelIzinDatalari_Personel">
+          <End Role="Personel" Type="Caprice_OfisModel.Store.Personel" Multiplicity="0..1" />
+          <End Role="PersonelIzinDatalari" Type="Caprice_OfisModel.Store.PersonelIzinDatalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="PersonelIzinDatalari">
+              <PropertyRef Name="PersonelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelIzinDatalari_User2">
+          <End Role="User" Type="Caprice_OfisModel.Store.User" Multiplicity="0..1" />
+          <End Role="PersonelIzinDatalari" Type="Caprice_OfisModel.Store.PersonelIzinDatalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonelIzinDatalari">
+              <PropertyRef Name="IzinVerenKullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelIzinDatalari_User3">
+          <End Role="User" Type="Caprice_OfisModel.Store.User" Multiplicity="0..1" />
+          <End Role="PersonelIzinDatalari" Type="Caprice_OfisModel.Store.PersonelIzinDatalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonelIzinDatalari">
+              <PropertyRef Name="IKOnayKullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Personel">
+          <End Role="Personel" Type="Caprice_OfisModel.Store.Personel" Multiplicity="0..1" />
+          <End Role="User" Type="Caprice_OfisModel.Store.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppRoles_User">
+          <End Role="User" Type="Caprice_OfisModel.Store.User" Multiplicity="0..1" />
+          <End Role="UserAppRoles" Type="Caprice_OfisModel.Store.UserAppRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppRoles_UserApplications">
+          <End Role="UserApplications" Type="Caprice_OfisModel.Store.UserApplications" Multiplicity="0..1" />
+          <End Role="UserAppRoles" Type="Caprice_OfisModel.Store.UserAppRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApplications">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppRoles">
+              <PropertyRef Name="UserAppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppRoles_UserRoles">
+          <End Role="UserRoles" Type="Caprice_OfisModel.Store.UserRoles" Multiplicity="0..1" />
+          <End Role="UserAppRoles" Type="Caprice_OfisModel.Store.UserAppRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppRoles">
+              <PropertyRef Name="UserRolesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRightDefinitions_UserApplications">
+          <End Role="UserApplications" Type="Caprice_OfisModel.Store.UserApplications" Multiplicity="0..1" />
+          <End Role="UserRightDefinitions" Type="Caprice_OfisModel.Store.UserRightDefinitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApplications">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRightDefinitions">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRightDefinitions_UserRightDefinitions">
+          <End Role="UserRightDefinitions" Type="Caprice_OfisModel.Store.UserRightDefinitions" Multiplicity="0..1" />
+          <End Role="UserRightDefinitions1" Type="Caprice_OfisModel.Store.UserRightDefinitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRightDefinitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRightDefinitions1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoleDetails_UserRightDefinitions">
+          <End Role="UserRightDefinitions" Type="Caprice_OfisModel.Store.UserRightDefinitions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserRoleDetails" Type="Caprice_OfisModel.Store.UserRoleDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRightDefinitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRoleDetails">
+              <PropertyRef Name="UserRightDefinitionsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoleDetails_UserRoles">
+          <End Role="UserRoles" Type="Caprice_OfisModel.Store.UserRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserRoleDetails" Type="Caprice_OfisModel.Store.UserRoleDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRoleDetails">
+              <PropertyRef Name="UserRolesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_UserApplications">
+          <End Role="UserApplications" Type="Caprice_OfisModel.Store.UserApplications" Multiplicity="0..1" />
+          <End Role="UserRoles" Type="Caprice_OfisModel.Store.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApplications">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Caprice_OfisModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="Caprice_OfisEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="View_SPA_PersonelIzin" EntityType="Caprice_OfisModel.View_SPA_PersonelIzin" />
+          <EntitySet Name="View_SPA_PersonelProfil" EntityType="Caprice_OfisModel.View_SPA_PersonelProfil" />
+          <EntitySet Name="DepartmanGorevler" EntityType="Caprice_OfisModel.DepartmanGorevler" />
+          <EntitySet Name="Departmanlar" EntityType="Caprice_OfisModel.Departmanlar" />
+          <EntitySet Name="Personel" EntityType="Caprice_OfisModel.Personel" />
+          <EntitySet Name="PersonelIzinDatalari" EntityType="Caprice_OfisModel.PersonelIzinDatalari" />
+          <EntitySet Name="PersonelProfili" EntityType="Caprice_OfisModel.PersonelProfili" />
+          <EntitySet Name="User" EntityType="Caprice_OfisModel.User" />
+          <EntitySet Name="UserApplications" EntityType="Caprice_OfisModel.UserApplications" />
+          <EntitySet Name="UserAppRoles" EntityType="Caprice_OfisModel.UserAppRoles" />
+          <EntitySet Name="UserRightDefinitions" EntityType="Caprice_OfisModel.UserRightDefinitions" />
+          <EntitySet Name="UserRoleDetails" EntityType="Caprice_OfisModel.UserRoleDetails" />
+          <EntitySet Name="UserRoles" EntityType="Caprice_OfisModel.UserRoles" />
+          <AssociationSet Name="FK_DepartmanGorevler_Departmanlar" Association="Caprice_OfisModel.FK_DepartmanGorevler_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="DepartmanGorevler" EntitySet="DepartmanGorevler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departmanlar_Departmanlar" Association="Caprice_OfisModel.FK_Departmanlar_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Departmanlar1" EntitySet="Departmanlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departmanlar_Personel" Association="Caprice_OfisModel.FK_Departmanlar_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personel_Departmanlar" Association="Caprice_OfisModel.FK_Personel_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personel_PersonelProfili" Association="Caprice_OfisModel.FK_Personel_PersonelProfili">
+            <End Role="PersonelProfili" EntitySet="PersonelProfili" />
+            <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelIzinDatalari_Personel" Association="Caprice_OfisModel.FK_PersonelIzinDatalari_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelIzinDatalari" EntitySet="PersonelIzinDatalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Personel" Association="Caprice_OfisModel.FK_User_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelIzinDatalari_User2" Association="Caprice_OfisModel.FK_PersonelIzinDatalari_User2">
+            <End Role="User" EntitySet="User" />
+            <End Role="PersonelIzinDatalari" EntitySet="PersonelIzinDatalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelIzinDatalari_User3" Association="Caprice_OfisModel.FK_PersonelIzinDatalari_User3">
+            <End Role="User" EntitySet="User" />
+            <End Role="PersonelIzinDatalari" EntitySet="PersonelIzinDatalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppRoles_User" Association="Caprice_OfisModel.FK_UserAppRoles_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserAppRoles" EntitySet="UserAppRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppRoles_UserApplications" Association="Caprice_OfisModel.FK_UserAppRoles_UserApplications">
+            <End Role="UserApplications" EntitySet="UserApplications" />
+            <End Role="UserAppRoles" EntitySet="UserAppRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRightDefinitions_UserApplications" Association="Caprice_OfisModel.FK_UserRightDefinitions_UserApplications">
+            <End Role="UserApplications" EntitySet="UserApplications" />
+            <End Role="UserRightDefinitions" EntitySet="UserRightDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_UserApplications" Association="Caprice_OfisModel.FK_UserRoles_UserApplications">
+            <End Role="UserApplications" EntitySet="UserApplications" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAppRoles_UserRoles" Association="Caprice_OfisModel.FK_UserAppRoles_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="UserAppRoles" EntitySet="UserAppRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRightDefinitions_UserRightDefinitions" Association="Caprice_OfisModel.FK_UserRightDefinitions_UserRightDefinitions">
+            <End Role="UserRightDefinitions" EntitySet="UserRightDefinitions" />
+            <End Role="UserRightDefinitions1" EntitySet="UserRightDefinitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoleDetails_UserRightDefinitions" Association="Caprice_OfisModel.FK_UserRoleDetails_UserRightDefinitions">
+            <End Role="UserRightDefinitions" EntitySet="UserRightDefinitions" />
+            <End Role="UserRoleDetails" EntitySet="UserRoleDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoleDetails_UserRoles" Association="Caprice_OfisModel.FK_UserRoleDetails_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="UserRoleDetails" EntitySet="UserRoleDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="View_SPA_PersonelIzin">
+          <Key>
+            <PropertyRef Name="IzinID" />
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="IzinID" Type="Guid" Nullable="false" />
+          <Property Name="OID" Type="Guid" Nullable="false" />
+          <Property Name="BaslangicTarihi" Type="DateTime" Precision="3" />
+          <Property Name="BitisTarihi" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_SPA_PersonelProfil">
+          <Key>
+            <PropertyRef Name="PersonelID" />
+          </Key>
+          <Property Name="PersonelID" Type="Guid" Nullable="false" />
+          <Property Name="DepartmanID" Type="Guid" />
+          <Property Name="Adi" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="PersonelProfilID" Type="Guid" />
+          <Property Name="PersonelFoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="DepartmanGorevler">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Type="Guid" Name="OID" Nullable="false" />
+          <Property Type="Guid" Name="GorevID" Nullable="false" />
+          <Property Type="Guid" Name="DepartmanID" Nullable="false" />
+          <Property Type="Int32" Name="SiraNumarasi" />
+          <Property Type="Boolean" Name="Aktif" Nullable="false" />
+          <NavigationProperty Name="Departmanlar" Relationship="Caprice_OfisModel.FK_DepartmanGorevler_Departmanlar" FromRole="DepartmanGorevler" ToRole="Departmanlar" />
+        </EntityType>
+        <EntityType Name="Departmanlar">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Type="Guid" Name="OID" Nullable="false" />
+          <Property Type="Int32" Name="BolumNo" />
+          <Property Type="String" Name="DepartmanAdi" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="SirketId" />
+          <Property Type="Guid" Name="UstDepartmanId" />
+          <Property Type="Guid" Name="YoneticiId" />
+          <Property Type="String" Name="KisaKod1" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisaKod2" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisaKod3" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GsmKisaKod1" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GsmKisaKod2" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GsmKisaKod3" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="IKLogoNum" />
+          <Property Type="Boolean" Name="IKVisible" />
+          <Property Type="Boolean" Name="TalepPerSayiAl" />
+          <Property Type="Boolean" Name="UstDepartmanlaBirlestir" />
+          <NavigationProperty Name="DepartmanGorevler" Relationship="Caprice_OfisModel.FK_DepartmanGorevler_Departmanlar" FromRole="Departmanlar" ToRole="DepartmanGorevler" />
+          <NavigationProperty Name="Departmanlar1" Relationship="Caprice_OfisModel.FK_Departmanlar_Departmanlar" FromRole="Departmanlar" ToRole="Departmanlar1" />
+          <NavigationProperty Name="Departmanlar2" Relationship="Caprice_OfisModel.FK_Departmanlar_Departmanlar" FromRole="Departmanlar1" ToRole="Departmanlar" />
+          <NavigationProperty Name="Personel" Relationship="Caprice_OfisModel.FK_Departmanlar_Personel" FromRole="Departmanlar" ToRole="Personel" />
+          <NavigationProperty Name="Personel1" Relationship="Caprice_OfisModel.FK_Personel_Departmanlar" FromRole="Departmanlar" ToRole="Personel" />
+        </EntityType>
+        <EntityType Name="Personel">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Type="Guid" Name="OID" Nullable="false" />
+          <Property Type="Guid" Name="DepartmanID" />
+          <Property Type="Guid" Name="PersonelTipiID" />
+          <Property Type="Guid" Name="IzinEskiDatalarID" />
+          <Property Type="Guid" Name="UnvanId" />
+          <Property Type="Guid" Name="PersonelProfilID" />
+          <Property Type="Guid" Name="GorevID" />
+          <Property Type="Boolean" Name="Aktif" />
+          <Property Type="String" Name="Adi" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SicilNo" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ParmakIziNu" />
+          <Property Type="Boolean" Name="ParmakBasiyormu" />
+          <Property Type="DateTime" Name="IseGirisTarihi" Precision="3" />
+          <Property Type="String" Name="SosyalGuvNu" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="VardiyaGirisNu" />
+          <Property Type="Int32" Name="LogoNumber" />
+          <Property Type="String" Name="TCNu" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Dogumtarihi" Precision="3" />
+          <Property Type="String" Name="Gorevi" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="IstenCikisTarihi" Precision="3" />
+          <Property Type="Boolean" Name="OzelPersonel" />
+          <Property Type="Int32" Name="EskiParmakIzNu" />
+          <Property Type="String" Name="AileReisi" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="IzinEskiDataNormal" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="IzinEskiDataYillik" Precision="18" Scale="2" />
+          <Property Type="Guid" Name="ServisId" />
+          <Property Type="Boolean" Name="Yonetici" />
+          <Property Type="Int32" Name="StajyerCalismaGrubu" />
+          <Property Type="Guid" Name="BirimID" />
+          <NavigationProperty Name="Departmanlar" Relationship="Caprice_OfisModel.FK_Departmanlar_Personel" FromRole="Personel" ToRole="Departmanlar" />
+          <NavigationProperty Name="Departmanlar1" Relationship="Caprice_OfisModel.FK_Personel_Departmanlar" FromRole="Personel" ToRole="Departmanlar" />
+          <NavigationProperty Name="PersonelProfili" Relationship="Caprice_OfisModel.FK_Personel_PersonelProfili" FromRole="Personel" ToRole="PersonelProfili" />
+          <NavigationProperty Name="PersonelIzinDatalari" Relationship="Caprice_OfisModel.FK_PersonelIzinDatalari_Personel" FromRole="Personel" ToRole="PersonelIzinDatalari" />
+          <NavigationProperty Name="User" Relationship="Caprice_OfisModel.FK_User_Personel" FromRole="Personel" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PersonelIzinDatalari">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Type="Guid" Name="OID" Nullable="false" />
+          <Property Type="Int32" Name="IzinFormNumarasi" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Guid" Name="IzinTipiID" />
+          <Property Type="Guid" Name="IzinVerenKullaniciID" />
+          <Property Type="Guid" Name="IKOnayKullaniciID" />
+          <Property Type="DateTime" Name="BaslangicTarihi" Precision="3" />
+          <Property Type="DateTime" Name="BitisTarihi" Precision="3" />
+          <Property Type="String" Name="IzindeBulunucagiAdres" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Aciklama" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="IzinVerisTarihi" Precision="3" />
+          <Property Type="DateTime" Name="IzinOnayTarihi" Precision="3" />
+          <Property Type="Guid" Name="PersonelID" />
+          <Property Type="Guid" Name="IzinID" />
+          <Property Type="DateTime" Name="GunlukGorevBasSaati" Precision="3" />
+          <Property Type="DateTime" Name="GunlukGorevBitSaati" Precision="3" />
+          <NavigationProperty Name="Personel" Relationship="Caprice_OfisModel.FK_PersonelIzinDatalari_Personel" FromRole="PersonelIzinDatalari" ToRole="Personel" />
+          <NavigationProperty Name="User" Relationship="Caprice_OfisModel.FK_PersonelIzinDatalari_User2" FromRole="PersonelIzinDatalari" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Caprice_OfisModel.FK_PersonelIzinDatalari_User3" FromRole="PersonelIzinDatalari" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PersonelProfili">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Type="Guid" Name="OID" Nullable="false" />
+          <Property Type="String" Name="KimlikSeri" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KimlikNu" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AnaAdi" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BabaAdi" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DogumYeri" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MedeniDurum" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KanGrubu" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="ILID" />
+          <Property Type="Guid" Name="IlceID" />
+          <Property Type="String" Name="PostaCodu" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Adres" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EvTel" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CepTel" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AcilTelNu" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Eposta" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PersonelNotu" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Binary" Name="PersonelFoto" MaxLength="Max" FixedLength="false" />
+          <Property Type="String" Name="Dahili" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Cinsiyeti" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CapriceMail" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OgrenimDurumu" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SirketGSM" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SireketKisaKodu" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="NufusKayitIl" />
+          <Property Type="Guid" Name="NufusKayitIlce" />
+          <Property Type="String" Name="NufusMahalle" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NufusCiltNo" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NufusAileSiraNo" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NufusSiraNo" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NufusVerilYer" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="NufusVerTar" Precision="3" />
+          <Property Type="String" Name="EgtOkul" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EgtBolum" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EgtMezYil" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EgtMezDer" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EgtYabanciDil" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="KisEvlenmeTar" Precision="3" />
+          <Property Type="String" Name="KisCocukSay" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NufDini" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisOzurOran" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisKronikHastalik" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="KisSigaraKulla" />
+          <Property Type="String" Name="KisServisGuzergah" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisLojmanOda" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisEhliyet" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisAyakNu" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisGomlekBeden" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisPantolonNu" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KisCeketBeden" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="KisEmeklimi" />
+          <Property Type="Boolean" Name="KisOzurlumu" />
+          <Property Type="String" Name="EgtYabIng" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EgtYabAlm" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EgtYabRus" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EgtYabArabca" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Personel" Relationship="Caprice_OfisModel.FK_Personel_PersonelProfili" FromRole="PersonelProfili" ToRole="Personel" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Initials" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="EmployeeId" />
+          <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Culture" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LoginName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LoginValidFrom" Precision="3" />
+          <Property Type="DateTime" Name="LoginValidTo" Precision="3" />
+          <Property Type="Int32" Name="CashierNumber" />
+          <Property Type="String" Name="Sex" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsFullTime" />
+          <Property Type="DateTime" Name="AccountDisabledFrom" Precision="3" />
+          <Property Type="DateTime" Name="AccountDisabledTo" Precision="3" />
+          <Property Type="String" Name="AccountDisableReason" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="DefectDepartmentID" />
+          <Property Type="Int32" Name="SessionTimeOutPeriod" />
+          <Property Type="Int32" Name="SessionRenewalPeriod" />
+          <Property Type="Binary" Name="MainToolBarInfo" MaxLength="Max" FixedLength="false" />
+          <Property Type="Int32" Name="OneDayRackCellWidth" />
+          <Property Type="Int32" Name="OneDayRackCellHeight" />
+          <Property Type="String" Name="RackViewSelection" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsActive" />
+          <Property Type="String" Name="DateCulture" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsPasswordEncoded" />
+          <Property Type="String" Name="PCode" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="KimlikNo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="IDCardNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsHasBonusRight" />
+          <Property Type="String" Name="SkinName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Personel" Relationship="Caprice_OfisModel.FK_User_Personel" FromRole="User" ToRole="Personel" />
+          <NavigationProperty Name="PersonelIzinDatalari" Relationship="Caprice_OfisModel.FK_PersonelIzinDatalari_User2" FromRole="User" ToRole="PersonelIzinDatalari" />
+          <NavigationProperty Name="PersonelIzinDatalari1" Relationship="Caprice_OfisModel.FK_PersonelIzinDatalari_User3" FromRole="User" ToRole="PersonelIzinDatalari" />
+          <NavigationProperty Name="UserAppRoles" Relationship="Caprice_OfisModel.FK_UserAppRoles_User" FromRole="User" ToRole="UserAppRoles" />
+        </EntityType>
+        <EntityType Name="UserApplications">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ApplicationName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserAppRoles" Relationship="Caprice_OfisModel.FK_UserAppRoles_UserApplications" FromRole="UserApplications" ToRole="UserAppRoles" />
+          <NavigationProperty Name="UserRightDefinitions" Relationship="Caprice_OfisModel.FK_UserRightDefinitions_UserApplications" FromRole="UserApplications" ToRole="UserRightDefinitions" />
+          <NavigationProperty Name="UserRoles" Relationship="Caprice_OfisModel.FK_UserRoles_UserApplications" FromRole="UserApplications" ToRole="UserRoles" />
+        </EntityType>
+        <EntityType Name="UserAppRoles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="Guid" Name="UserId" />
+          <Property Type="Guid" Name="UserAppId" />
+          <Property Type="Guid" Name="UserRolesId" />
+          <NavigationProperty Name="User" Relationship="Caprice_OfisModel.FK_UserAppRoles_User" FromRole="UserAppRoles" ToRole="User" />
+          <NavigationProperty Name="UserApplications" Relationship="Caprice_OfisModel.FK_UserAppRoles_UserApplications" FromRole="UserAppRoles" ToRole="UserApplications" />
+          <NavigationProperty Name="UserRoles" Relationship="Caprice_OfisModel.FK_UserAppRoles_UserRoles" FromRole="UserAppRoles" ToRole="UserRoles" />
+        </EntityType>
+        <EntityType Name="UserRightDefinitions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ParentID" />
+          <Property Type="Guid" Name="ApplicationId" />
+          <Property Type="String" Name="Element" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FixedDescription" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserApplications" Relationship="Caprice_OfisModel.FK_UserRightDefinitions_UserApplications" FromRole="UserRightDefinitions" ToRole="UserApplications" />
+          <NavigationProperty Name="UserRightDefinitions1" Relationship="Caprice_OfisModel.FK_UserRightDefinitions_UserRightDefinitions" FromRole="UserRightDefinitions" ToRole="UserRightDefinitions1" />
+          <NavigationProperty Name="UserRightDefinitions2" Relationship="Caprice_OfisModel.FK_UserRightDefinitions_UserRightDefinitions" FromRole="UserRightDefinitions1" ToRole="UserRightDefinitions" />
+          <NavigationProperty Name="UserRoleDetails" Relationship="Caprice_OfisModel.FK_UserRoleDetails_UserRightDefinitions" FromRole="UserRightDefinitions" ToRole="UserRoleDetails" />
+        </EntityType>
+        <EntityType Name="UserRoleDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="Guid" Name="UserRolesID" Nullable="false" />
+          <Property Type="Int32" Name="UserRightDefinitionsID" Nullable="false" />
+          <Property Type="Boolean" Name="IsAllowed" Nullable="false" />
+          <NavigationProperty Name="UserRightDefinitions" Relationship="Caprice_OfisModel.FK_UserRoleDetails_UserRightDefinitions" FromRole="UserRoleDetails" ToRole="UserRightDefinitions" />
+          <NavigationProperty Name="UserRoles" Relationship="Caprice_OfisModel.FK_UserRoleDetails_UserRoles" FromRole="UserRoleDetails" ToRole="UserRoles" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="Guid" Name="ApplicationId" />
+          <Property Type="String" Name="Code" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsActive" />
+          <NavigationProperty Name="UserApplications" Relationship="Caprice_OfisModel.FK_UserRoles_UserApplications" FromRole="UserRoles" ToRole="UserApplications" />
+          <NavigationProperty Name="UserAppRoles" Relationship="Caprice_OfisModel.FK_UserAppRoles_UserRoles" FromRole="UserRoles" ToRole="UserAppRoles" />
+          <NavigationProperty Name="UserRoleDetails" Relationship="Caprice_OfisModel.FK_UserRoleDetails_UserRoles" FromRole="UserRoles" ToRole="UserRoleDetails" />
+        </EntityType>
+        <Association Name="FK_DepartmanGorevler_Departmanlar">
+          <End Type="Caprice_OfisModel.Departmanlar" Role="Departmanlar" Multiplicity="1" />
+          <End Type="Caprice_OfisModel.DepartmanGorevler" Role="DepartmanGorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="DepartmanGorevler">
+              <PropertyRef Name="DepartmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departmanlar_Departmanlar">
+          <End Type="Caprice_OfisModel.Departmanlar" Role="Departmanlar" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.Departmanlar" Role="Departmanlar1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Departmanlar1">
+              <PropertyRef Name="UstDepartmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departmanlar_Personel">
+          <End Type="Caprice_OfisModel.Personel" Role="Personel" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.Departmanlar" Role="Departmanlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Departmanlar">
+              <PropertyRef Name="YoneticiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personel_Departmanlar">
+          <End Type="Caprice_OfisModel.Departmanlar" Role="Departmanlar" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.Personel" Role="Personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Personel">
+              <PropertyRef Name="DepartmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personel_PersonelProfili">
+          <End Type="Caprice_OfisModel.PersonelProfili" Role="PersonelProfili" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.Personel" Role="Personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonelProfili">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Personel">
+              <PropertyRef Name="PersonelProfilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelIzinDatalari_Personel">
+          <End Type="Caprice_OfisModel.Personel" Role="Personel" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.PersonelIzinDatalari" Role="PersonelIzinDatalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="PersonelIzinDatalari">
+              <PropertyRef Name="PersonelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Personel">
+          <End Type="Caprice_OfisModel.Personel" Role="Personel" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelIzinDatalari_User2">
+          <End Type="Caprice_OfisModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.PersonelIzinDatalari" Role="PersonelIzinDatalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonelIzinDatalari">
+              <PropertyRef Name="IzinVerenKullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelIzinDatalari_User3">
+          <End Type="Caprice_OfisModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.PersonelIzinDatalari" Role="PersonelIzinDatalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonelIzinDatalari">
+              <PropertyRef Name="IKOnayKullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppRoles_User">
+          <End Type="Caprice_OfisModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.UserAppRoles" Role="UserAppRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppRoles_UserApplications">
+          <End Type="Caprice_OfisModel.UserApplications" Role="UserApplications" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.UserAppRoles" Role="UserAppRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApplications">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppRoles">
+              <PropertyRef Name="UserAppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRightDefinitions_UserApplications">
+          <End Type="Caprice_OfisModel.UserApplications" Role="UserApplications" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.UserRightDefinitions" Role="UserRightDefinitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApplications">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRightDefinitions">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_UserApplications">
+          <End Type="Caprice_OfisModel.UserApplications" Role="UserApplications" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.UserRoles" Role="UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserApplications">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAppRoles_UserRoles">
+          <End Type="Caprice_OfisModel.UserRoles" Role="UserRoles" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.UserAppRoles" Role="UserAppRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAppRoles">
+              <PropertyRef Name="UserRolesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRightDefinitions_UserRightDefinitions">
+          <End Type="Caprice_OfisModel.UserRightDefinitions" Role="UserRightDefinitions" Multiplicity="0..1" />
+          <End Type="Caprice_OfisModel.UserRightDefinitions" Role="UserRightDefinitions1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRightDefinitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRightDefinitions1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoleDetails_UserRightDefinitions">
+          <End Type="Caprice_OfisModel.UserRightDefinitions" Role="UserRightDefinitions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Caprice_OfisModel.UserRoleDetails" Role="UserRoleDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRightDefinitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRoleDetails">
+              <PropertyRef Name="UserRightDefinitionsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoleDetails_UserRoles">
+          <End Type="Caprice_OfisModel.UserRoles" Role="UserRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Caprice_OfisModel.UserRoleDetails" Role="UserRoleDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRoleDetails">
+              <PropertyRef Name="UserRolesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Caprice_OfisModelStoreContainer" CdmEntityContainer="Caprice_OfisEntities">
+          <EntitySetMapping Name="View_SPA_PersonelIzin">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.View_SPA_PersonelIzin">
+              <MappingFragment StoreEntitySet="View_SPA_PersonelIzin">
+                <ScalarProperty Name="IzinID" ColumnName="IzinID" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+                <ScalarProperty Name="BaslangicTarihi" ColumnName="BaslangicTarihi" />
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_SPA_PersonelProfil">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.View_SPA_PersonelProfil">
+              <MappingFragment StoreEntitySet="View_SPA_PersonelProfil">
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="DepartmanID" ColumnName="DepartmanID" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="PersonelProfilID" ColumnName="PersonelProfilID" />
+                <ScalarProperty Name="PersonelFoto" ColumnName="PersonelFoto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DepartmanGorevler">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.DepartmanGorevler">
+              <MappingFragment StoreEntitySet="DepartmanGorevler">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="SiraNumarasi" ColumnName="SiraNumarasi" />
+                <ScalarProperty Name="DepartmanID" ColumnName="DepartmanID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departmanlar">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.Departmanlar">
+              <MappingFragment StoreEntitySet="Departmanlar">
+                <ScalarProperty Name="UstDepartmanlaBirlestir" ColumnName="UstDepartmanlaBirlestir" />
+                <ScalarProperty Name="TalepPerSayiAl" ColumnName="TalepPerSayiAl" />
+                <ScalarProperty Name="IKVisible" ColumnName="IKVisible" />
+                <ScalarProperty Name="IKLogoNum" ColumnName="IKLogoNum" />
+                <ScalarProperty Name="GsmKisaKod3" ColumnName="GsmKisaKod3" />
+                <ScalarProperty Name="GsmKisaKod2" ColumnName="GsmKisaKod2" />
+                <ScalarProperty Name="GsmKisaKod1" ColumnName="GsmKisaKod1" />
+                <ScalarProperty Name="KisaKod3" ColumnName="KisaKod3" />
+                <ScalarProperty Name="KisaKod2" ColumnName="KisaKod2" />
+                <ScalarProperty Name="KisaKod1" ColumnName="KisaKod1" />
+                <ScalarProperty Name="YoneticiId" ColumnName="YoneticiId" />
+                <ScalarProperty Name="UstDepartmanId" ColumnName="UstDepartmanId" />
+                <ScalarProperty Name="SirketId" ColumnName="SirketId" />
+                <ScalarProperty Name="DepartmanAdi" ColumnName="DepartmanAdi" />
+                <ScalarProperty Name="BolumNo" ColumnName="BolumNo" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personel">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.Personel">
+              <MappingFragment StoreEntitySet="Personel">
+                <ScalarProperty Name="BirimID" ColumnName="BirimID" />
+                <ScalarProperty Name="StajyerCalismaGrubu" ColumnName="StajyerCalismaGrubu" />
+                <ScalarProperty Name="Yonetici" ColumnName="Yonetici" />
+                <ScalarProperty Name="ServisId" ColumnName="ServisId" />
+                <ScalarProperty Name="IzinEskiDataYillik" ColumnName="IzinEskiDataYillik" />
+                <ScalarProperty Name="IzinEskiDataNormal" ColumnName="IzinEskiDataNormal" />
+                <ScalarProperty Name="AileReisi" ColumnName="AileReisi" />
+                <ScalarProperty Name="EskiParmakIzNu" ColumnName="EskiParmakIzNu" />
+                <ScalarProperty Name="OzelPersonel" ColumnName="OzelPersonel" />
+                <ScalarProperty Name="IstenCikisTarihi" ColumnName="IstenCikisTarihi" />
+                <ScalarProperty Name="Gorevi" ColumnName="Gorevi" />
+                <ScalarProperty Name="Dogumtarihi" ColumnName="Dogumtarihi" />
+                <ScalarProperty Name="TCNu" ColumnName="TCNu" />
+                <ScalarProperty Name="LogoNumber" ColumnName="LogoNumber" />
+                <ScalarProperty Name="VardiyaGirisNu" ColumnName="VardiyaGirisNu" />
+                <ScalarProperty Name="SosyalGuvNu" ColumnName="SosyalGuvNu" />
+                <ScalarProperty Name="IseGirisTarihi" ColumnName="IseGirisTarihi" />
+                <ScalarProperty Name="ParmakBasiyormu" ColumnName="ParmakBasiyormu" />
+                <ScalarProperty Name="ParmakIziNu" ColumnName="ParmakIziNu" />
+                <ScalarProperty Name="SicilNo" ColumnName="SicilNo" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="PersonelProfilID" ColumnName="PersonelProfilID" />
+                <ScalarProperty Name="UnvanId" ColumnName="UnvanId" />
+                <ScalarProperty Name="IzinEskiDatalarID" ColumnName="IzinEskiDatalarID" />
+                <ScalarProperty Name="PersonelTipiID" ColumnName="PersonelTipiID" />
+                <ScalarProperty Name="DepartmanID" ColumnName="DepartmanID" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonelIzinDatalari">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.PersonelIzinDatalari">
+              <MappingFragment StoreEntitySet="PersonelIzinDatalari">
+                <ScalarProperty Name="GunlukGorevBitSaati" ColumnName="GunlukGorevBitSaati" />
+                <ScalarProperty Name="GunlukGorevBasSaati" ColumnName="GunlukGorevBasSaati" />
+                <ScalarProperty Name="IzinID" ColumnName="IzinID" />
+                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
+                <ScalarProperty Name="IzinOnayTarihi" ColumnName="IzinOnayTarihi" />
+                <ScalarProperty Name="IzinVerisTarihi" ColumnName="IzinVerisTarihi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="IzindeBulunucagiAdres" ColumnName="IzindeBulunucagiAdres" />
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+                <ScalarProperty Name="BaslangicTarihi" ColumnName="BaslangicTarihi" />
+                <ScalarProperty Name="IKOnayKullaniciID" ColumnName="IKOnayKullaniciID" />
+                <ScalarProperty Name="IzinVerenKullaniciID" ColumnName="IzinVerenKullaniciID" />
+                <ScalarProperty Name="IzinTipiID" ColumnName="IzinTipiID" />
+                <ScalarProperty Name="IzinFormNumarasi" ColumnName="IzinFormNumarasi" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonelProfili">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.PersonelProfili">
+              <MappingFragment StoreEntitySet="PersonelProfili">
+                <ScalarProperty Name="EgtYabArabca" ColumnName="EgtYabArabca" />
+                <ScalarProperty Name="EgtYabRus" ColumnName="EgtYabRus" />
+                <ScalarProperty Name="EgtYabAlm" ColumnName="EgtYabAlm" />
+                <ScalarProperty Name="EgtYabIng" ColumnName="EgtYabIng" />
+                <ScalarProperty Name="KisOzurlumu" ColumnName="KisOzurlumu" />
+                <ScalarProperty Name="KisEmeklimi" ColumnName="KisEmeklimi" />
+                <ScalarProperty Name="KisCeketBeden" ColumnName="KisCeketBeden" />
+                <ScalarProperty Name="KisPantolonNu" ColumnName="KisPantolonNu" />
+                <ScalarProperty Name="KisGomlekBeden" ColumnName="KisGomlekBeden" />
+                <ScalarProperty Name="KisAyakNu" ColumnName="KisAyakNu" />
+                <ScalarProperty Name="KisEhliyet" ColumnName="KisEhliyet" />
+                <ScalarProperty Name="KisLojmanOda" ColumnName="KisLojmanOda" />
+                <ScalarProperty Name="KisServisGuzergah" ColumnName="KisServisGuzergah" />
+                <ScalarProperty Name="KisSigaraKulla" ColumnName="KisSigaraKulla" />
+                <ScalarProperty Name="KisKronikHastalik" ColumnName="KisKronikHastalik" />
+                <ScalarProperty Name="KisOzurOran" ColumnName="KisOzurOran" />
+                <ScalarProperty Name="NufDini" ColumnName="NufDini" />
+                <ScalarProperty Name="KisCocukSay" ColumnName="KisCocukSay" />
+                <ScalarProperty Name="KisEvlenmeTar" ColumnName="KisEvlenmeTar" />
+                <ScalarProperty Name="EgtYabanciDil" ColumnName="EgtYabanciDil" />
+                <ScalarProperty Name="EgtMezDer" ColumnName="EgtMezDer" />
+                <ScalarProperty Name="EgtMezYil" ColumnName="EgtMezYil" />
+                <ScalarProperty Name="EgtBolum" ColumnName="EgtBolum" />
+                <ScalarProperty Name="EgtOkul" ColumnName="EgtOkul" />
+                <ScalarProperty Name="NufusVerTar" ColumnName="NufusVerTar" />
+                <ScalarProperty Name="NufusVerilYer" ColumnName="NufusVerilYer" />
+                <ScalarProperty Name="NufusSiraNo" ColumnName="NufusSiraNo" />
+                <ScalarProperty Name="NufusAileSiraNo" ColumnName="NufusAileSiraNo" />
+                <ScalarProperty Name="NufusCiltNo" ColumnName="NufusCiltNo" />
+                <ScalarProperty Name="NufusMahalle" ColumnName="NufusMahalle" />
+                <ScalarProperty Name="NufusKayitIlce" ColumnName="NufusKayitIlce" />
+                <ScalarProperty Name="NufusKayitIl" ColumnName="NufusKayitIl" />
+                <ScalarProperty Name="SireketKisaKodu" ColumnName="SireketKisaKodu" />
+                <ScalarProperty Name="SirketGSM" ColumnName="SirketGSM" />
+                <ScalarProperty Name="OgrenimDurumu" ColumnName="OgrenimDurumu" />
+                <ScalarProperty Name="CapriceMail" ColumnName="CapriceMail" />
+                <ScalarProperty Name="Cinsiyeti" ColumnName="Cinsiyeti" />
+                <ScalarProperty Name="Dahili" ColumnName="Dahili" />
+                <ScalarProperty Name="PersonelFoto" ColumnName="PersonelFoto" />
+                <ScalarProperty Name="PersonelNotu" ColumnName="PersonelNotu" />
+                <ScalarProperty Name="Eposta" ColumnName="Eposta" />
+                <ScalarProperty Name="AcilTelNu" ColumnName="AcilTelNu" />
+                <ScalarProperty Name="CepTel" ColumnName="CepTel" />
+                <ScalarProperty Name="EvTel" ColumnName="EvTel" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="PostaCodu" ColumnName="PostaCodu" />
+                <ScalarProperty Name="IlceID" ColumnName="IlceID" />
+                <ScalarProperty Name="ILID" ColumnName="ILID" />
+                <ScalarProperty Name="KanGrubu" ColumnName="KanGrubu" />
+                <ScalarProperty Name="MedeniDurum" ColumnName="MedeniDurum" />
+                <ScalarProperty Name="DogumYeri" ColumnName="DogumYeri" />
+                <ScalarProperty Name="BabaAdi" ColumnName="BabaAdi" />
+                <ScalarProperty Name="AnaAdi" ColumnName="AnaAdi" />
+                <ScalarProperty Name="KimlikNu" ColumnName="KimlikNu" />
+                <ScalarProperty Name="KimlikSeri" ColumnName="KimlikSeri" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="SkinName" ColumnName="SkinName" />
+                <ScalarProperty Name="IsHasBonusRight" ColumnName="IsHasBonusRight" />
+                <ScalarProperty Name="IDCardNumber" ColumnName="IDCardNumber" />
+                <ScalarProperty Name="KimlikNo" ColumnName="KimlikNo" />
+                <ScalarProperty Name="PCode" ColumnName="PCode" />
+                <ScalarProperty Name="IsPasswordEncoded" ColumnName="IsPasswordEncoded" />
+                <ScalarProperty Name="DateCulture" ColumnName="DateCulture" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RackViewSelection" ColumnName="RackViewSelection" />
+                <ScalarProperty Name="OneDayRackCellHeight" ColumnName="OneDayRackCellHeight" />
+                <ScalarProperty Name="OneDayRackCellWidth" ColumnName="OneDayRackCellWidth" />
+                <ScalarProperty Name="MainToolBarInfo" ColumnName="MainToolBarInfo" />
+                <ScalarProperty Name="SessionRenewalPeriod" ColumnName="SessionRenewalPeriod" />
+                <ScalarProperty Name="SessionTimeOutPeriod" ColumnName="SessionTimeOutPeriod" />
+                <ScalarProperty Name="DefectDepartmentID" ColumnName="DefectDepartmentID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="AccountDisableReason" ColumnName="AccountDisableReason" />
+                <ScalarProperty Name="AccountDisabledTo" ColumnName="AccountDisabledTo" />
+                <ScalarProperty Name="AccountDisabledFrom" ColumnName="AccountDisabledFrom" />
+                <ScalarProperty Name="IsFullTime" ColumnName="IsFullTime" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="CashierNumber" ColumnName="CashierNumber" />
+                <ScalarProperty Name="LoginValidTo" ColumnName="LoginValidTo" />
+                <ScalarProperty Name="LoginValidFrom" ColumnName="LoginValidFrom" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Initials" ColumnName="Initials" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserApplications">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.UserApplications">
+              <MappingFragment StoreEntitySet="UserApplications">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAppRoles">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.UserAppRoles">
+              <MappingFragment StoreEntitySet="UserAppRoles">
+                <ScalarProperty Name="UserRolesId" ColumnName="UserRolesId" />
+                <ScalarProperty Name="UserAppId" ColumnName="UserAppId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRightDefinitions">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.UserRightDefinitions">
+              <MappingFragment StoreEntitySet="UserRightDefinitions">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FixedDescription" ColumnName="FixedDescription" />
+                <ScalarProperty Name="Element" ColumnName="Element" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoleDetails">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.UserRoleDetails">
+              <MappingFragment StoreEntitySet="UserRoleDetails">
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+                <ScalarProperty Name="UserRightDefinitionsID" ColumnName="UserRightDefinitionsID" />
+                <ScalarProperty Name="UserRolesID" ColumnName="UserRolesID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="Caprice_OfisModel.UserRoles">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="COfis">
+        <EntityTypeShape EntityType="Caprice_OfisModel.View_SPA_PersonelIzin" Width="1.5" PointX="0.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.View_SPA_PersonelProfil" Width="1.5" PointX="2.75" PointY="0.75" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.DepartmanGorevler" Width="1.5" PointX="7.5" PointY="5.875" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.Departmanlar" Width="1.5" PointX="5.25" PointY="4.375" Height="5.057109375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.Personel" Width="1.5" PointX="3" PointY="7.625" Height="7.5570279947916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.PersonelIzinDatalari" Width="1.5" PointX="7.5" PointY="13.375" Height="4.4802050781249978" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.PersonelProfili" Width="1.5" PointX="0.75" PointY="5.375" Height="11.979960937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.User" Width="1.5" PointX="5.25" PointY="15.375" Height="8.1339322916666674" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserApplications" Width="1.5" PointX="5.25" PointY="11.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserAppRoles" Width="1.5" PointX="7.5" PointY="19.375" Height="2.3648893229166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserRightDefinitions" Width="1.5" PointX="7.5" PointY="9.25" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserRoleDetails" Width="1.5" PointX="9.75" PointY="17.125" Height="2.1725878906250031" IsExpanded="true" />
+        <EntityTypeShape EntityType="Caprice_OfisModel.UserRoles" Width="1.5" PointX="5.25" PointY="24.625" Height="2.5571907552083388" IsExpanded="true" />
+        <AssociationConnector Association="Caprice_OfisModel.FK_DepartmanGorevler_Departmanlar" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="6.9612939453125" />
+          <ConnectorPoint PointX="7.5" PointY="6.9612939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_Departmanlar_Departmanlar" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.7819230769230767" PointY="9.432109375" />
+          <ConnectorPoint PointX="5.7819230769230767" PointY="9.682109375" />
+          <ConnectorPoint PointX="6.2284615384615378" PointY="9.682109375" />
+          <ConnectorPoint PointX="6.2284615384615378" PointY="9.432109375" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_Departmanlar_Personel" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="8.5285546875" />
+          <ConnectorPoint PointX="5.25" PointY="8.5285546875" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_Personel_Departmanlar" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.25" PointY="8.014277343749999" />
+          <ConnectorPoint PointX="4.5" PointY="8.014277343749999" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_Personel_PersonelProfili" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="11.403513997395834" />
+          <ConnectorPoint PointX="3" PointY="11.403513997395834" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_PersonelIzinDatalari_Personel" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="14.583557942708334" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="14.583557942708334" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="14.583557942708334" />
+          <ConnectorPoint PointX="7.041666666666667" PointY="14.583557942708334" />
+          <ConnectorPoint PointX="7.208333333333333" PointY="14.583557942708334" />
+          <ConnectorPoint PointX="7.5" PointY="14.583557942708334" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_User_Personel" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.75" PointY="15.182027994791667" />
+          <ConnectorPoint PointX="3.75" PointY="19.441966145833334" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="19.441966145833334" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="19.441966145833334" />
+          <ConnectorPoint PointX="5.25" PointY="19.441966145833334" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_PersonelIzinDatalari_User2" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="16.615102539062498" />
+          <ConnectorPoint PointX="7.041666666666667" PointY="16.615102539062498" />
+          <ConnectorPoint PointX="7.208333333333333" PointY="16.615102539062498" />
+          <ConnectorPoint PointX="7.5" PointY="16.615102539062498" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_PersonelIzinDatalari_User3" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="15.932551269531249" />
+          <ConnectorPoint PointX="7.041666666666667" PointY="15.932551269531249" />
+          <ConnectorPoint PointX="7.208333333333333" PointY="15.932551269531249" />
+          <ConnectorPoint PointX="7.5" PointY="15.932551269531249" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserAppRoles_User" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="20.557444661458334" />
+          <ConnectorPoint PointX="7.5" PointY="20.557444661458334" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserAppRoles_UserApplications" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="13.922587890625" />
+          <ConnectorPoint PointX="7.125" PointY="14.297587890625" />
+          <ConnectorPoint PointX="7.125" PointY="19.934970330729165" />
+          <ConnectorPoint PointX="7.5" PointY="19.934970330729165" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRightDefinitions_UserApplications" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="12.067047526041666" />
+          <ConnectorPoint PointX="7.5" PointY="12.067047526041666" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRoles_UserApplications" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.2511528461538459" PointY="13.922587890625" />
+          <ConnectorPoint PointX="4.875" PointY="14.298740736778846" />
+          <ConnectorPoint PointX="4.875" PointY="24.248847153846153" />
+          <ConnectorPoint PointX="5.2511528461538459" PointY="24.625" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserAppRoles_UserRoles" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="25.903595377604169" />
+          <ConnectorPoint PointX="8.25" PointY="25.903595377604169" />
+          <ConnectorPoint PointX="8.25" PointY="21.739889322916667" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRightDefinitions_UserRightDefinitions" ManuallyRouted="false">
+          <ConnectorPoint PointX="8.0319230769230767" PointY="12.384095052083332" />
+          <ConnectorPoint PointX="8.0319230769230767" PointY="12.634095052083332" />
+          <ConnectorPoint PointX="8.47846153846154" PointY="12.634095052083332" />
+          <ConnectorPoint PointX="8.47846153846154" PointY="12.384095052083332" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRoleDetails_UserRightDefinitions" ManuallyRouted="false">
+          <ConnectorPoint PointX="9" PointY="10.817047526041666" />
+          <ConnectorPoint PointX="10.5" PointY="10.817047526041666" />
+          <ConnectorPoint PointX="10.5" PointY="17.125" />
+        </AssociationConnector>
+        <AssociationConnector Association="Caprice_OfisModel.FK_UserRoleDetails_UserRoles" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="25.233045188802084" />
+          <ConnectorPoint PointX="8.1666666666666661" PointY="25.233045188802084" />
+          <ConnectorPoint PointX="8.3333333333333339" PointY="25.233045188802084" />
+          <ConnectorPoint PointX="10.5" PointY="25.233045188802084" />
+          <ConnectorPoint PointX="10.5" PointY="19.297587890625003" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
