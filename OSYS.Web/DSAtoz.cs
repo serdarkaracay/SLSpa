@@ -523,12 +523,13 @@ namespace OSYS.Web
         {
             return ObjectContext.SPA_Therapy.Where(t => t.Price == 0 || t.Price == null);
         }
-        //03.09.2013
-        public IQueryable<DTO.DbGuest> GetFizyoterapistGuest()
+        //03.09.2013 -- Fizyoterapiste Kayıtlı Olan Misafirleri getirir.
+        public IQueryable<DTO.DbGuest> GetFizyoterapistGuest(string fizyoterapisID)
         {
+            Guid _fizyoterapisID = Guid.Parse(fizyoterapisID);
             IQueryable<DTO.DbGuest> result = from p in ObjectContext.SPA_GuestDiagnosisDetail
                                              join c in ObjectContext.View_SPA_GuestReservation on p.GuestID equals c.ID
-                                             where p.Completed == false
+                                             where (p.Completed == false && p.PersonelID==_fizyoterapisID)
                                              select new DTO.DbGuest
                                              {
                                                  GuestID = p.GuestID,

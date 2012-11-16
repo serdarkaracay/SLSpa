@@ -113,10 +113,7 @@ namespace OSYS.Pages
             CProfile cp = new CProfile();
             cp.ProfileItems.Add("UTC", new object());
             AuthenticatedUser.Profile = new CProfile();
-
-
-
-
+                        
             //  AuthenticatedUser = AuthenticatedUser as CUser;
             AuthenticationSucceded(this, new AuthenticationEventArgs(AuthenticatedUser));
             container.BusyEnd();

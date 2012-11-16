@@ -1285,11 +1285,14 @@ namespace OSYS.Web
         /// <summary>
         /// Gets an EntityQuery instance that can be used to load <see cref="DbGuest"/> entity instances using the 'GetFizyoterapistGuest' query.
         /// </summary>
+        /// <param name="fizyoterapisID">The value for the 'fizyoterapisID' parameter of the query.</param>
         /// <returns>An EntityQuery that can be loaded to retrieve <see cref="DbGuest"/> entity instances.</returns>
-        public EntityQuery<DbGuest> GetFizyoterapistGuestQuery()
+        public EntityQuery<DbGuest> GetFizyoterapistGuestQuery(string fizyoterapisID)
         {
-            this.ValidateMethod("GetFizyoterapistGuestQuery", null);
-            return base.CreateQuery<DbGuest>("GetFizyoterapistGuest", null, false, true);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("fizyoterapisID", fizyoterapisID);
+            this.ValidateMethod("GetFizyoterapistGuestQuery", parameters);
+            return base.CreateQuery<DbGuest>("GetFizyoterapistGuest", parameters, false, true);
         }
         
         /// <summary>
@@ -1690,13 +1693,14 @@ namespace OSYS.Web
             /// <summary>
             /// Asynchronously invokes the 'GetFizyoterapistGuest' operation.
             /// </summary>
+            /// <param name="fizyoterapisID">The value for the 'fizyoterapisID' parameter of this action.</param>
             /// <param name="callback">Callback to invoke on completion.</param>
             /// <param name="asyncState">Optional state object.</param>
             /// <returns>An IAsyncResult that can be used to monitor the request.</returns>
             [FaultContract(typeof(DomainServiceFault), Action="http://tempuri.org/DSAtoz/GetFizyoterapistGuestDomainServiceFault", Name="DomainServiceFault", Namespace="DomainServices")]
             [OperationContract(AsyncPattern=true, Action="http://tempuri.org/DSAtoz/GetFizyoterapistGuest", ReplyAction="http://tempuri.org/DSAtoz/GetFizyoterapistGuestResponse")]
             [WebGet()]
-            IAsyncResult BeginGetFizyoterapistGuest(AsyncCallback callback, object asyncState);
+            IAsyncResult BeginGetFizyoterapistGuest(string fizyoterapisID, AsyncCallback callback, object asyncState);
             
             /// <summary>
             /// Completes the asynchronous operation begun by 'BeginGetFizyoterapistGuest'.

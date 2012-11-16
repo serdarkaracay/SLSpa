@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using OSYS.Web;
 using System.ServiceModel.DomainServices.Client;
 using System.ServiceModel.DomainServices;
+using OSYS.Classes;
 
 namespace OSYS.Pages
 {
@@ -37,7 +38,7 @@ namespace OSYS.Pages
 
         public void BindGuestList()
         {
-            loadOpGuest = context.Load(context.GetFizyoterapistGuestQuery());
+            loadOpGuest = context.Load(context.GetFizyoterapistGuestQuery(UserSession.UserID.ToString()));
             loadOpGuest.Completed += loadOpGuest_Completed;
         }
 

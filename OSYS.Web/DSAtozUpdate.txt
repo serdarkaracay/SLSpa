@@ -1,4 +1,4 @@
-﻿  #region CustomQuerys
+﻿   #region CustomQuerys
 
         //22.08.2012
         public IQueryable<SPA_Therapy> GetTherapyByID(string ID)
@@ -31,12 +31,13 @@
         {
             return ObjectContext.SPA_Therapy.Where(t => t.Price == 0 || t.Price == null);
         }
-        //03.09.2013
-        public IQueryable<DTO.DbGuest> GetFizyoterapistGuest()
+        //03.09.2013 -- Fizyoterapiste Kayıtlı Olan Misafirleri getirir.
+        public IQueryable<DTO.DbGuest> GetFizyoterapistGuest(string fizyoterapisID)
         {
+            Guid _fizyoterapisID = Guid.Parse(fizyoterapisID);
             IQueryable<DTO.DbGuest> result = from p in ObjectContext.SPA_GuestDiagnosisDetail
                                              join c in ObjectContext.View_SPA_GuestReservation on p.GuestID equals c.ID
-                                             where p.Completed == false
+                                             where (p.Completed == false && p.PersonelID==_fizyoterapisID)
                                              select new DTO.DbGuest
                                              {
                                                  GuestID = p.GuestID,
@@ -140,8 +141,8 @@
         public IQueryable<DTO.DBIzinPersonel> InsertIzinliPersonel()
         {
             Caprice_OfisEntities capriceOfis = new Caprice_OfisEntities();
-            AtoZCapriceEntities atoz = new AtoZCapriceEntities();
-         
+            Entities atoz = new Entities();
+
 
             var resAtoz = new List<SPA_PersonelJobDetail>(atoz.SPA_PersonelJobDetail);
             var resOfis = new List<View_SPA_PersonelIzin>(capriceOfis.View_SPA_PersonelIzin);
@@ -218,7 +219,11 @@
             return ObjectContext.SPA_PersonelJobDetail.Where(p => p.TherapyID == _therapyID);
         }
 
-
+        public IQueryable<SPA_GuestTherapyDetail> GetTherapyGuestDetail(string id)
+        {
+            Guid _id = Guid.Parse(id);
+            return ObjectContext.SPA_GuestTherapyDetail.Where(t => t.ID == _id);
+        }
 
         #region LoginRole
         public int LoginRole(string username, string password, string menuAdi, string YetkiAdi)
