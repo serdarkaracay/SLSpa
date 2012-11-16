@@ -142,5 +142,13 @@ namespace OSYS.Pages
             gridPersonelList.ItemsSource = loadOp.Entities;
             container.BusyEnd();
         }
+
+        private void btnPersonelCikar_Clicked(object sender, EventArgs e)
+        {
+            if (this.gridPersonelList.SelectedItem == null) return;
+            SPA_PersonelJobDetail personel = gridPersonelList.SelectedItem as SPA_PersonelJobDetail;
+            context.SPA_PersonelJobDetails.Remove(personel);
+            context.SubmitChanges().Completed+=CustMeterPage_Completed;
+        }
     }
 }

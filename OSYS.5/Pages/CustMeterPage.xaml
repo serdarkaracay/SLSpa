@@ -168,7 +168,7 @@
                         </Grid>
                         <StackPanel x:Name="spPersonelTool" Margin="800,25,0,0" RenderTransformOrigin="0,0" HorizontalAlignment="Right">
                             <my:CButton x:Name="btnPersonelEkle" BackImage="/OSYS;component/Images/add.png" Margin="5,0,0,0" Clicked="btnPersonelEkle_Clicked"></my:CButton>
-                            <my:CButton x:Name="btnPersonelCikar" BackImage="/OSYS;component/Images/deleteu.png" Margin="5,10,0,0" ></my:CButton>
+                            <my:CButton x:Name="btnPersonelCikar" BackImage="/OSYS;component/Images/deleteu.png" Margin="5,10,0,0" Clicked="btnPersonelCikar_Clicked"></my:CButton>
                         </StackPanel>
                     </Grid>
                 </c1:C1TabItem>
