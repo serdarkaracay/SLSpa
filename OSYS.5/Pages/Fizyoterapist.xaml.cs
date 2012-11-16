@@ -126,28 +126,19 @@ namespace OSYS.Pages
 
         void Fizyoterapist_Completed(object sender, EventArgs e)
         {
-            guestListRefresh = true;
+           
             this.BindGuestServicePlan(GuestID);
             txtDesc.Text = string.Empty;
             cbeServisList.Clear();
             dateEditServis.Clear();
+            if (refresh)
+            {
+                uiDriver.Activate(EPages.Fizyoterapist);
+            }
            
         }
 
         bool refresh = false;
-        private void GetSpa_DiagnosisDetailUpdate(LoadOperation<SPA_GuestDiagnosisDetail> args)
-        {
-            refresh = true;
-            SPA_GuestDiagnosisDetail db = args.Entities.First();
-            db.Completed = true;
-            //context.SubmitChanges();
-            context.SubmitChanges().Completed += Fizyoterapist_Completed;
-            
-
-        }
-
-
-
         private void btnMisafirEkle_Clicked(object sender, EventArgs e)
         {
             if (listboxGuestServisPlan.Items.Count > 0)
@@ -161,7 +152,18 @@ namespace OSYS.Pages
             }
         }
 
-        bool guestListRefresh = false;
+        private void GetSpa_DiagnosisDetailUpdate(LoadOperation<SPA_GuestDiagnosisDetail> args)
+        {
+            refresh = true;
+            SPA_GuestDiagnosisDetail db = args.Entities.First();
+            db.Completed = true;
+            //context.SubmitChanges();
+            context.SubmitChanges().Completed += Fizyoterapist_Completed;
+            
+
+        }
+
+     
         private void btnServisListPlan_Click(object sender, RoutedEventArgs e)
         {
 

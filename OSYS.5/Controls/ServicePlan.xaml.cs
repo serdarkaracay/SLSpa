@@ -31,7 +31,7 @@ namespace OSYS.Controls
         List<ServicePlanSurrogate> servisPlanList = new List<ServicePlanSurrogate>();
         List<ServicePlanReservationSurrogate> resList = new List<ServicePlanReservationSurrogate>();
         LoadOperation<SPA_RezervationSchedule> loadOpResSch;
-      
+
 
         public static string GuestID { get; set; }
         public string RoomNumber { get; set; }
@@ -51,6 +51,7 @@ namespace OSYS.Controls
         public ServicePlan(string guestID, string roomNumber)
         {
             InitializeComponent();
+            ListBoxClear();
             GuestID = guestID;
             RoomNumber = roomNumber;
             this.GetPersonelList();
@@ -85,7 +86,7 @@ namespace OSYS.Controls
 
         public void BindGuestServicePlanList()
         {
-            
+
             loadOpServicePlan = context.Load(context.GetGuestServicePlanQuery(GuestID));
             loadOpServicePlan.Completed += loadOpServicePlan_Completed;
         }
@@ -102,13 +103,18 @@ namespace OSYS.Controls
                     ServisDateTime = item.TherapyDateTime,
                     GuestNote = item.ServisDesc,
                     TherapyID = item.TherapID,
-                    ServiceID=item.GuestTherapyID
+                    ServiceID = item.GuestTherapyID
                 });
             }
 
-            this.lbServisPlanList.Items.Clear();
+
             this.lbServisPlanList.ItemsSource = servisPlanList;
 
+        }
+
+        public void ListBoxClear()
+        {
+            this.lbServisPlanList.ItemsSource = null;
         }
 
         public void GetPersonelList()
@@ -153,7 +159,7 @@ namespace OSYS.Controls
 
         void schServisPlan_EditAppointmentFormShowing(object sender, DevExpress.Xpf.Scheduler.EditAppointmentFormEventArgs e)
         {
-            e.Form = new CustomAppointmentServicePlan(this.schServisPlan, e.Appointment, GetPersonelByTherapyID(TherapyID), RoomNumber, GuestID,
+            e.Form = new CustomAppointmentServicePlan(this, this.schServisPlan, e.Appointment, GetPersonelByTherapyID(TherapyID), RoomNumber, GuestID,
                 GuestNote, StartDateTime, TherapyName, TherapyID, GuestName, ServicePlanID);
             e.AllowResize = false;
         }
@@ -180,18 +186,7 @@ namespace OSYS.Controls
         bool check = false;
         private void BtnServisPlanSave_Click(object sender, RoutedEventArgs e)
         {
-
-
-            //List<ListBox> itemlist = new List<ListBox>();
-
-            //foreach (var item in lbServisPlan.SelectedItems)
-            //{
-            //    var dd = item.ToString();
-
-            //    ListBox a = sender as ListBox;
-            //    ServicePlanSurrogate b = a.SelectedItem as ServicePlanSurrogate;
-            //    resList.Add(new ServicePlanReservationSurrogate { GuestID = b.GuestID });
-            //}
+            check = true;
         }
 
 

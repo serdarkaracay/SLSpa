@@ -94,8 +94,12 @@
     <Reference Include="C1.Silverlight.Maps.5">
       <HintPath>..\..\ComponentOne\v5\Kullanilan\C1.Silverlight.Maps.5.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Charts.v12.1.Core, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v12.1, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v12.1" />
+    <Reference Include="DevExpress.PivotGrid.v12.1.Core, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v12.1.Core, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v12.1.Core, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Controls.v12.1" />
     <Reference Include="devexpress.xpf.core.v12.1, Version=12.1.7.5, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Core.v12.1" />

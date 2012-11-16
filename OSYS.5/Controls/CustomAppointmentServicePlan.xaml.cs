@@ -32,17 +32,19 @@ namespace OSYS.Controls
         public Guid? TherapyID { get; set; }
         public string GuestName { get; set; }
         public string ServicePlanID { get; set; }
+        public ServicePlan ServisPlanClass { get; set; }
 
-        public CustomAppointmentServicePlan(SchedulerControl control, Appointment apt, List<OSYS.Controls.ServicePlan.ServicePlanPersonelSurrogate> list, string roomNumber, string guestID, string guestNote,
+        public CustomAppointmentServicePlan(ServicePlan sp, SchedulerControl control, Appointment apt, List<OSYS.Controls.ServicePlan.ServicePlanPersonelSurrogate> list, string roomNumber, string guestID, string guestNote,
             DateTime startDateTime, string therapyName, Guid? therapyID, string guestName, string servicePlanID)
         {
+
             InitializeComponent();
             if (control == null || apt == null)
                 throw new ArgumentNullException("control");
             if (control == null || apt == null)
                 throw new ArgumentNullException("apt");
 
-
+            ServisPlanClass = sp;
 
             RoomNumber = roomNumber;
             GuestID = guestID;
@@ -73,6 +75,7 @@ namespace OSYS.Controls
         private void BtnServisPlanSave_Click(object sender, RoutedEventArgs e)
         {
             RezervationInsert();
+
         }
 
         public void RezervationInsert()
@@ -121,15 +124,15 @@ namespace OSYS.Controls
 
         void CustomAppointmentServicePlan_Completed(object sender, EventArgs e)
         {
-            ServicePlan sp = new ServicePlan();
-            sp.BindSchedulerResource();
-            sp.BindGuestServicePlanList();
+            DSAtoz context = new DSAtoz();
+            ServisPlanClass.BindGuestServicePlanList();
+            ServisPlanClass.BindSchedulerResource();
             SchedulerFormBehavior.Close(this, false);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            SchedulerFormBehavior.SetTitle(this, GuestName+" "+TherapyName);
+            SchedulerFormBehavior.SetTitle(this, GuestName + " " + TherapyName);
         }
 
 

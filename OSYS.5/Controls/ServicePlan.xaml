@@ -2,7 +2,8 @@
     xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduler"  
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"  
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
-    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"  
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"  
     x:Class="OSYS.Controls.ServicePlan"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -30,7 +31,7 @@
             <Grid>
                 <Grid Width="auto">
                     <dx:DXTabControl x:Name="tcServisPlan">
-                        <dx:DXTabItem Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <dx:DXTabItem Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center" IsSelected="True">
                             <dx:DXTabItem.Header>
                                 <TextBlock Text=" Servis Plan" FontWeight="Bold" Foreground="DarkBlue"></TextBlock>
                             </dx:DXTabItem.Header>
@@ -102,12 +103,13 @@
                                 </dxe:ButtonEdit>
                             </Grid>
                         </dx:DXTabItem>
-                        <dx:DXTabItem x:Name="tbitemPrint" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <dx:DXTabItem x:Name="tbitemPrint" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center" IsSelected="True">
                             <dx:DXTabItem.Header>
                                 <TextBlock Text="Yazdır"  FontWeight="Bold" Foreground="DarkBlue"></TextBlock>
                             </dx:DXTabItem.Header>
-                            <Grid>
+                            <Grid Margin="2">
                                 <TextBlock Text="Raporlar"></TextBlock>
+                                <dxp:DocumentPreview></dxp:DocumentPreview>
                             </Grid>
                         </dx:DXTabItem>
                     </dx:DXTabControl>

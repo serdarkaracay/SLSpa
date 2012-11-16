@@ -637,7 +637,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-<my:String x:Key="DevExpress.Xpf.License">BE-E4-3A-13-8A-15-28-76-6B-A5-90-0C-8A-88-45-21-AC-3B-45-25</my:String>
+<my:String x:Key="DevExpress.Xpf.License">08-C4-E3-67-3C-44-A1-16-73-24-6F-BE-C5-13-6A-9F-D4-FF-6F-A9</my:String>
     </ResourceDictionary>
     </Application.Resources>
 </Application>

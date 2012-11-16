@@ -174,7 +174,7 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Vertical" Height="auto">
                                     <Border CornerRadius="3" Background="#FF135889">
-                                        <TextBlock Text="Fizyoterapist Kaydı" TextAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="9"></TextBlock>
+                                        <TextBlock Text="Rezervasyon Kayıt" TextAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="9"></TextBlock>
                                     </Border>
                                     <sdk:AutoCompleteBox x:Name="autoCompRoomNumber" Width="300" Margin="5" VerticalAlignment="Stretch" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch"
                                                         BorderThickness="2" BorderBrush="#FF4C4CDA" Height="25" IsDropDownOpen="True" Populating="autoCompRoomNumber_Populating"></sdk:AutoCompleteBox>

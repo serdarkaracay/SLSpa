@@ -97,7 +97,7 @@ namespace OSYS.Pages
         {
             if (e.Key == Key.Enter)
             {
-                Authenticate();
+                LoadData();
             }
         }
 
