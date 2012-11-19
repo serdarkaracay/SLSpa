@@ -1,275 +1,90 @@
-﻿   #region CustomQuerys
+﻿#region CustomQuery
 
-        //22.08.2012
-        public IQueryable<SPA_Therapy> GetTherapyByID(string ID)
+
+        Guid TKMBayanDepartman = Guid.Parse("80A41632-1815-46A4-8D46-0F70DB0CC2D0");
+        Guid TKMErkekDepartman = Guid.Parse("9E84B9A1-D5EF-4A20-BB46-3DFC39EF53EA");
+
+        public void LoginUser(string username, string password)
         {
-            Guid _id = Guid.Parse(ID);
-            return this.ObjectContext.SPA_Therapy.Where(t => t.ID == _id);
-        }
-
-        //27.08.2012
-        public IQueryable<View_SPA_GuestReservation> GetViewSpaGuestReservation(string roomNumber)
-        {
-            return this.ObjectContext.View_SPA_GuestReservation.Where(x => x.Number == roomNumber);
-
-        }
-
-        //31.08.2012
-        public IQueryable<DTO.DbPersonelJobDetail> GetResourcePersonel()
-        {
-            IQueryable<DTO.DbPersonelJobDetail> result = (from p in ObjectContext.SPA_PersonelJobDetail
-                                                          select new DTO.DbPersonelJobDetail()
-                                                          {
-                                                              PersonelID = p.PersonelID,
-                                                              Adi = p.Adi
-                                                          }).Distinct();
-            return result.AsQueryable();
-
-        }
-        //01.09.2013
-        public IQueryable<SPA_Therapy> GetFizyoterapistTherapy()
-        {
-            return ObjectContext.SPA_Therapy.Where(t => t.Price == 0 || t.Price == null);
-        }
-        //03.09.2013 -- Fizyoterapiste Kayıtlı Olan Misafirleri getirir.
-        public IQueryable<DTO.DbGuest> GetFizyoterapistGuest(string fizyoterapisID)
-        {
-            Guid _fizyoterapisID = Guid.Parse(fizyoterapisID);
-            IQueryable<DTO.DbGuest> result = from p in ObjectContext.SPA_GuestDiagnosisDetail
-                                             join c in ObjectContext.View_SPA_GuestReservation on p.GuestID equals c.ID
-                                             where (p.Completed == false && p.PersonelID==_fizyoterapisID)
-                                             select new DTO.DbGuest
-                                             {
-                                                 GuestID = p.GuestID,
-                                                 RoomNumber = c.Number,
-                                                 FirstName = c.FirstName,
-                                                 LastName = c.Name,
-                                                 GuestName = c.SearchName,
-                                                 Arrival = c.ArriveDate,
-                                                 Release = c.DepartureDate,
-                                                 ID = p.ID
-                                             };
-
-            return result.AsQueryable();
-        }
-
-        //03.09.2012
-        public IQueryable<DTO.DbGuest> GetFizyoterapistGuestByID(string ID)
-        {
-            Guid _id = Guid.Parse(ID);
-            IQueryable<DTO.DbGuest> result = from p in ObjectContext.SPA_GuestDiagnosisDetail
-                                             join c in ObjectContext.View_SPA_GuestReservation on p.GuestID equals c.ID
-                                             where p.GuestID == _id
-                                             select new DTO.DbGuest
-                                             {
-                                                 GuestID = p.GuestID,
-                                                 DiagnosisID = p.DiagnosisID,
-                                                 Desc = p.DescDiagnosis,
-                                                 RoomNumber = c.Number,
-                                                 FirstName = c.FirstName,
-                                                 LastName = c.Name,
-                                                 GuestName = c.SearchName,
-                                                 Arrival = c.ArriveDate,
-                                                 Release = c.DepartureDate,
-                                                 ID = p.ID
-
-                                             };
-
-            return result.AsQueryable();
-        }
-
-        //03.09.2012
-        public IQueryable<SPA_GuestDiagnosisDetail> GetFizyoterapistDia(string ID)
-        {
-            Guid _id = Guid.Parse(ID);
-            IQueryable<SPA_GuestDiagnosisDetail> result = from p in ObjectContext.SPA_GuestDiagnosisDetail
-                                                          where p.ID == _id
-                                                          select p;
-
-            return result.AsQueryable();
-        }
-
-        //05.09.2012
-        public IQueryable<SPA_GuestDiagnosisDetail> GetDiagnosisDetailUpdate(string ID)
-        {
-            Guid _id = Guid.Parse(ID);
-            IQueryable<SPA_GuestDiagnosisDetail> result = from p in ObjectContext.SPA_GuestDiagnosisDetail
-                                                          where p.ID == _id
-                                                          select p;
-            return result.AsQueryable();
-        }
-
-
-        //06.09.2012
-        public IQueryable<View_SPA_GuestDiagnosticDetail> GetFizyoterapistByGuestID(string GuestID)
-        {
-            Guid _guestID = Guid.Parse(GuestID);
-            return ObjectContext.View_SPA_GuestDiagnosticDetail.Where(g => g.GuestID == _guestID);
-        }
-
-        //10.09.2012
-        public IQueryable<DTO.DbPersonelTherapy> GetPersonelJobByAppointment(string PersonelID)
-        {
-            Guid _personelID = new Guid(PersonelID);
-            IQueryable<DTO.DbPersonelTherapy> results = from p in ObjectContext.SPA_PersonelJobDetail
-                                                        join c in ObjectContext.SPA_Therapy on p.TherapyID equals c.ID
-                                                        where p.PersonelID == _personelID
-                                                        select new DTO.DbPersonelTherapy
-                                                        {
-                                                            TherapyID = c.ID,
-                                                            TherapyName = c.TherapyName
-
-                                                        };
-            return results.AsQueryable();
-        }
-
-        //17.09.2012
-        public IQueryable<SPA_GuestTherapyDetail> GetSpaGuestTherapyDetail(string GuestID, string TherapyID)
-        {
-            Guid _guestID = Guid.Parse(GuestID);
-            Guid _therapyID = Guid.Parse(TherapyID);
-            return ObjectContext.SPA_GuestTherapyDetail.Where(x => x.GuestID == _guestID && x.TherapyID == _therapyID);
-        }
-
-        //24.09.2012 - Scheduler databinding
-        public IQueryable<SPA_RezervationSchedule> GetRezervationScheduleByDatetime(DateTime? dateTime)
-        {
-            return ObjectContext.SPA_RezervationSchedule.Where(r => r.StartDateTime == (dateTime ?? DateTime.Now.AddDays(1)));
-        }
-
-        //28.09.2012 - Izinli Personelleri Scheduler database kayıt eder.
-        public IQueryable<DTO.DBIzinPersonel> InsertIzinliPersonel()
-        {
-            Caprice_OfisEntities capriceOfis = new Caprice_OfisEntities();
-            Entities atoz = new Entities();
-
-
-            var resAtoz = new List<SPA_PersonelJobDetail>(atoz.SPA_PersonelJobDetail);
-            var resOfis = new List<View_SPA_PersonelIzin>(capriceOfis.View_SPA_PersonelIzin);
-            var resSch = new List<SPA_RezervationSchedule>(atoz.SPA_RezervationSchedule);//todo:gerçek ortama geçince-.Where(x=>x.StartDateTime>DateTime.Now)
-            /*select * from personeljobdetail p inner join View_SPA _PersonelIzin c on p.PersonelID = c.OID*/
-
-            var result = from p in resAtoz
-                         join c in resOfis on p.PersonelID equals c.OID
-                         where !resSch.Any(x => x.IzinID == c.IzinID)
-                         select new DTO.DBIzinPersonel
-                         {
-                             PersonelID = p.PersonelID,
-                             IzinID = c.IzinID,
-                             BaslangicTarihi = c.BaslangicTarihi ?? DateTime.Now,
-                             BitisTarihi = c.BitisTarihi ?? DateTime.Now
-                         };
-            var list = result.GroupBy(x => x.IzinID).Select(x => x.First()).ToList();
-
-
-            if (list.Count > 0)
-            {
-                foreach (var item in list)
-                {
-                    SPA_RezervationSchedule reservation = new SPA_RezervationSchedule();
-                    reservation.ID = Guid.NewGuid();
-                    reservation.PersonelID = item.PersonelID;
-                    reservation.StartDateTime = item.BaslangicTarihi;
-                    reservation.EndDateTime = item.BitisTarihi;
-                    reservation.StatusID = 5; //İzinli
-                    reservation.Subject = "İzinli Personel";
-                    reservation.GuestNote = "İzinli Personel";
-                    reservation.IzinID = item.IzinID;
-                    reservation.Location = "İzinli Personel";
-                    ObjectContext.AddToSPA_RezervationSchedule(reservation);
-                }
-                ObjectContext.SaveChanges();
-            }
-
-            return list.AsQueryable();
-        }
-
-        public IQueryable<SPA_PersonelJobDetail> GetPersonelDetailList(string ServisID)
-        {
-            Guid _servisID = Guid.Parse(ServisID);
-            return ObjectContext.SPA_PersonelJobDetail.Where(j => j.TherapyID == _servisID);
-        }
-
-        public IQueryable<DTO.DBGuestServicePlan> GetGuestServicePlan(string GuestID)
-        {
-            Guid _guestID = new Guid(GuestID);
-            IQueryable<DTO.DBGuestServicePlan> list = from gt in ObjectContext.SPA_GuestTherapyDetail
-                                                      join t in ObjectContext.SPA_Therapy on gt.TherapyID equals t.ID
-                                                      where gt.IsCompleted == false && gt.GuestID == _guestID
-                                                      select new DTO.DBGuestServicePlan
-                                                      {
-                                                          GuestTherapyID = gt.ID,
-                                                          TherapID = gt.TherapyID,
-                                                          TherapyName = t.TherapyName,
-                                                          TherapyDateTime = gt.TherapyDateTime,
-                                                          ServisDesc = gt.TherapyNote
-                                                      };
-
-            return list.AsQueryable();
-        }
-
-        /// <summary>
-        /// ServisID göre PersonelListesi 
-        /// </summary>
-        /// <param name="therapyID">ServisID</param>
-        /// <returns>PersonelList</returns>
-        public IQueryable<SPA_PersonelJobDetail> GetPersonelByTherapyID(string therapyID)
-        {
-            Guid _therapyID = Guid.Parse(therapyID);
-            return ObjectContext.SPA_PersonelJobDetail.Where(p => p.TherapyID == _therapyID);
-        }
-
-        public IQueryable<SPA_GuestTherapyDetail> GetTherapyGuestDetail(string id)
-        {
-            Guid _id = Guid.Parse(id);
-            return ObjectContext.SPA_GuestTherapyDetail.Where(t => t.ID == _id);
-        }
-
-        #region LoginRole
-        public int LoginRole(string username, string password, string menuAdi, string YetkiAdi)
-        {
-            int result = 0;
-            string AppName = "Spa";
-
-            NUtils.Login.Authentication newAuthentication = new NUtils.Login.Authentication(AppName);
-
+            string applicationName = "Spa";
+            NUtils.Login.Authentication newAuthentication = new NUtils.Login.Authentication(applicationName);
             Kullanici userLogin;
+
             try
             {
                 userLogin = newAuthentication.KullaniciKontrol(username, password);
-
-
             }
-            catch (Exception msg)
+            catch (Exception)
             {
-                //Şifre Yanlış
-                //Kullanıcı Adı Yanlış
-                if (msg.Message == "Şifre Yanlış")
-                {
-                    result = 1;//Şifre Yanlış
-                }
-
-                result = 2;//Kullanıcı Adı Yanlış
-                return result;
+                
             }
+            
 
-
-
-            NUtils.Login.Yetki yetkiDurum = new NUtils.Login.Yetki(userLogin.UserRights);
-
-
-            if (menuAdi != null && YetkiAdi != null)
-            {
-                if (!yetkiDurum.YetkiVarmi(menuAdi, YetkiAdi))
-                {
-                    result = 3; //Yetki Yok
-                    return result;
-                }
-                result = 4;//Yetki var.
-            }
-            return result;
         }
-        #endregion
 
 
+        public IQueryable<DTO.DbLogin> GetLogin(string userName, string password)
+        {
+            IQueryable<DTO.DbLogin> result = from p in ObjectContext.Personel
+                                             join u in ObjectContext.User on p.OID equals u.EmployeeId
+                                             where (u.LoginName == userName && u.Password == password ||
+                                             p.DepartmanID == TKMBayanDepartman && p.DepartmanID == TKMErkekDepartman)
+                                             select new DTO.DbLogin()
+                                             {
+                                                 PersonelID = p.OID,
+                                                 Username = u.LoginName,
+                                                 Password = u.Password,
+                                                 DepartmanID = p.DepartmanID ?? Guid.Empty,
+                                                 PersonelName = p.Adi,
+                                                 PersonelGorevID = p.GorevID
+                                             };
+            return result.AsQueryable();
+        }
+
+        DTO.DbLogin dl = new DTO.DbLogin();
+
+        public void UpdateDLogin(DTO.DbLogin login)
+        {
+            dl = login;
+        }
+
+        /// <summary>
+        /// AutoComplete için Kullanılan Methot
+        /// </summary>
+        /// <param name="personelAdi">Personel Adı</param>
+        /// <returns>List</returns>
+        public IQueryable<DTO.DbPersonel> GetPersonelByPersonelAdi(string personelAdi)
+        {
+            IQueryable<DTO.DbPersonel> result = from p in ObjectContext.Personel
+                                                where p.Adi.StartsWith(personelAdi) || p.DepartmanID == TKMBayanDepartman && p.DepartmanID == TKMErkekDepartman
+                                                select new DbPersonel()
+                                                {
+
+                                                    PersonelAdi = p.Adi,
+                                                    ID = p.OID
+
+                                                };
+            return result.AsQueryable();
+        }
+
+        DTO.DbPersonel dbPersonel = new DbPersonel();
+        public void UpdateDPersonel(DTO.DbPersonel Personel)
+        {
+            dbPersonel = Personel;
+        }
+
+        //27.08.2012
+        public IQueryable<Personel> GetPersonelByFizyoterapist()
+        {
+            string fizyo = "67CD2921-FE0B-48BA-B920-20BE504E5EC5";
+            Guid _fizyo = new Guid(fizyo);
+
+            return ObjectContext.Personel.Where(p => p.GorevID == _fizyo && p.Aktif==true);
+        }
+
+        //19.07.2012 Resimdosyaları için ve AutoComplete için ViewOluşturuldu.
+        public IQueryable<View_SPA_PersonelProfil> GetViewPersonelProfil(string Adi)
+        {
+            return ObjectContext.View_SPA_PersonelProfil.Where(p => p.Adi.StartsWith(Adi));
+        }
         #endregion

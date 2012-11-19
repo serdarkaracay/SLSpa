@@ -63,7 +63,8 @@ namespace OSYS.Pages
 
         public void LoadData()
         {
-            DLoginLoadOp = ds.Load(ds.GetLoginQuery(txtUserName.Text, txtPassword.Password), false);
+            //todo:Login için Menüleri göster,gösterme olayı yapmaya başladım.
+          //  DLoginLoadOp = ds.Load(ds.GetLoginQuery(txtUserName.Text, txtPassword.Password), false);
 
             DLoginLoadOp.Completed += new EventHandler(DLoginLoadOp_Completed);
         }

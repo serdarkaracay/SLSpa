@@ -23,5 +23,6 @@ namespace OSYS.Web.DTO
         public string Username { get; set; }
         public string Password { get; set; }
         public string PersonelName { get; set; }
+        public int DurumID { get; set; }
     }
 }

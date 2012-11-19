@@ -183,7 +183,7 @@
                                     <ListBox x:Name="listBoxMisafir" SelectionChanged="listBoxMisafir_SelectionChanged" Margin="5" Width="300" Height="100" BorderThickness="2" BorderBrush="#FF3978DE" 
                                              Foreground="Black" ItemTemplate="{StaticResource PersonelListBox}"></ListBox>
                                     <Button x:Name="btnMisafirYeni" Content="Fizyoterapist" VerticalAlignment="Bottom" Width="300" Margin="5" Click="btnMisafirYeni_Click"></Button>
-                                    <Button x:Name="btnMisafirGecmis" Content="Geçmiş" VerticalAlignment="Bottom" Width="300" Margin="5" Click="btnMisafirGecmis_Click"></Button>
+                                    <Button x:Name="btnMisafirGecmis" Visibility="Collapsed" Content="Geçmiş" VerticalAlignment="Bottom" Width="300" Margin="5" Click="btnMisafirGecmis_Click"></Button>
                                 </StackPanel>
                                 <StackPanel Grid.Row="1">
                                     <dxsch:ResourcesPopupCheckedListBoxControl x:Name="cbPersonelList" SchedulerControl="{Binding ElementName=schRezervasyon}" SelectedIndex="1" Width="295" Margin="2"
@@ -225,21 +225,16 @@
                                             <dxe:ComboBoxEdit x:Name="cbServisList" Margin="2" Background="White" NullText="Servis Seçiniz."></dxe:ComboBoxEdit>
                                         </StackPanel>
                                         <StackPanel Grid.Row="2" Grid.Column="1">
-                                            <!--<ComboBox Margin="5" x:Name="cbServisList"></ComboBox>-->
                                             <dxsch:ResourcesComboBoxControl Margin="2" x:Name="resCb" ShowAllResourcesItem="False" ShowNoneResourcesItem="False" 
                                                                             NullText="İşlemci" SchedulerControl="{Binding ElementName=schRezervasyon}" SelectedIndexChanged="resCb_SelectedIndexChanged" />
-
-
                                         </StackPanel>
                                         <StackPanel Grid.Row="4" Grid.Column="1">
                                             <dxe:MemoEdit x:Name="txtDesc" Margin="2" VerticalAlignment="Center" HorizontalAlignment="Left"
                                                           NullText="Misafire Özel" ShowIcon="False" TextWrapping="Wrap" 
                                                           PrintTextWrapping="Wrap" MemoTextWrapping="Wrap"></dxe:MemoEdit>
                                         </StackPanel>
-
                                     </Grid>
                                 </StackPanel>
-
                             </Grid>
                         </dxdo:LayoutPanel>
                     </dxdo:AutoHideGroup>
@@ -261,7 +256,6 @@
                                                  FontFamily="Calibri" Enabled="True" AppointmentToolTipVisibility="Never" DisplayName="Bugün" Visibility="Collapsed" ShowAllDayArea="False">
                                     <dxsch:DayView.VisibleTime>
                                         <dxschcore:TimeOfDayInterval Start="08:00:00" End="19:00:00"></dxschcore:TimeOfDayInterval>
-
                                     </dxsch:DayView.VisibleTime>
                                 </dxsch:DayView>
                             </dxsch:SchedulerControl.DayView>
@@ -274,7 +268,6 @@
                             <dxsch:SchedulerControl.TimelineView>
                                 <dxsch:TimelineView Enabled="False" FontSize="9" ShowMoreButtons="True" />
                             </dxsch:SchedulerControl.TimelineView>
-
                             <dxsch:SchedulerControl.OptionsCustomization>
                                 <dxsch:OptionsCustomization AllowDisplayAppointmentForm="Never" AllowAppointmentResize="None" AllowAppointmentMultiSelect="False" AllowAppointmentConflicts="Forbidden"></dxsch:OptionsCustomization>
                             </dxsch:SchedulerControl.OptionsCustomization>

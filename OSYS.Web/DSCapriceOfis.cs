@@ -613,7 +613,7 @@ namespace OSYS.Web
             string fizyo = "67CD2921-FE0B-48BA-B920-20BE504E5EC5";
             Guid _fizyo = new Guid(fizyo);
 
-            return ObjectContext.Personel.Where(p => p.GorevID == _fizyo);
+            return ObjectContext.Personel.Where(p => p.GorevID == _fizyo && p.Aktif==true);
         }
 
         //19.07.2012 Resimdosyaları için ve AutoComplete için ViewOluşturuldu.

@@ -718,9 +718,11 @@ namespace OSYS.Web
         }
 
         #region LoginRole
-        public int LoginRole(string username, string password, string menuAdi, string YetkiAdi)
+
+        List<DTO.DbLogin> loginList = new List<DTO.DbLogin>();
+        public List<DTO.DbLogin> LoginRole(string username, string password)
         {
-            int result = 0;
+            return loginList;
             string AppName = "Spa";
 
             NUtils.Login.Authentication newAuthentication = new NUtils.Login.Authentication(AppName);
@@ -730,36 +732,25 @@ namespace OSYS.Web
             {
                 userLogin = newAuthentication.KullaniciKontrol(username, password);
 
-
             }
             catch (Exception msg)
             {
                 //Şifre Yanlış
                 //Kullanıcı Adı Yanlış
-                if (msg.Message == "Şifre Yanlış")
-                {
-                    result = 1;//Şifre Yanlış
-                }
-
-                result = 2;//Kullanıcı Adı Yanlış
-                return result;
+                //if (msg.Message == "Şifre Yanlış")
+                //{
+                    
+                //}
             }
-
-
-
+            
             NUtils.Login.Yetki yetkiDurum = new NUtils.Login.Yetki(userLogin.UserRights);
-
-
-            if (menuAdi != null && YetkiAdi != null)
-            {
-                if (!yetkiDurum.YetkiVarmi(menuAdi, YetkiAdi))
+           
+                if (!yetkiDurum.YetkiVarmi("Rezervasyon", "HepsiniGor"))
                 {
-                    result = 3; //Yetki Yok
-                    return result;
+ 
                 }
-                result = 4;//Yetki var.
-            }
-            return result;
+                return loginList;
+                
         }
         #endregion
 

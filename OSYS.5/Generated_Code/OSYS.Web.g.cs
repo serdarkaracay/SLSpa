@@ -1244,6 +1244,17 @@ namespace OSYS.Web
         }
         
         /// <summary>
+        /// Gets the set of <see cref="DbLogin"/> entity instances that have been loaded into this <see cref="DSAtoz"/> instance.
+        /// </summary>
+        public EntitySet<DbLogin> DbLogins
+        {
+            get
+            {
+                return base.EntityContainer.GetEntitySet<DbLogin>();
+            }
+        }
+        
+        /// <summary>
         /// Gets an EntityQuery instance that can be used to load <see cref="SPA_GuestDiagnosisDetail"/> entity instances using the 'GetDiagnosisDetailUpdate' query.
         /// </summary>
         /// <param name="ID">The value for the 'ID' parameter of the query.</param>
@@ -1578,43 +1589,18 @@ namespace OSYS.Web
         }
         
         /// <summary>
-        /// Asynchronously invokes the 'LoginRole' method of the DomainService.
+        /// Gets an EntityQuery instance that can be used to load <see cref="DbLogin"/> entity instances using the 'LoginRole' query.
         /// </summary>
-        /// <param name="username">The value for the 'username' parameter of this action.</param>
-        /// <param name="password">The value for the 'password' parameter of this action.</param>
-        /// <param name="menuAdi">The value for the 'menuAdi' parameter of this action.</param>
-        /// <param name="YetkiAdi">The value for the 'YetkiAdi' parameter of this action.</param>
-        /// <param name="callback">Callback to invoke when the operation completes.</param>
-        /// <param name="userState">Value to pass to the callback.  It can be <c>null</c>.</param>
-        /// <returns>An operation instance that can be used to manage the asynchronous request.</returns>
-        public InvokeOperation<int> LoginRole(string username, string password, string menuAdi, string YetkiAdi, Action<InvokeOperation<int>> callback, object userState)
+        /// <param name="username">The value for the 'username' parameter of the query.</param>
+        /// <param name="password">The value for the 'password' parameter of the query.</param>
+        /// <returns>An EntityQuery that can be loaded to retrieve <see cref="DbLogin"/> entity instances.</returns>
+        public EntityQuery<DbLogin> LoginRoleQuery(string username, string password)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("username", username);
             parameters.Add("password", password);
-            parameters.Add("menuAdi", menuAdi);
-            parameters.Add("YetkiAdi", YetkiAdi);
-            this.ValidateMethod("LoginRole", parameters);
-            return ((InvokeOperation<int>)(this.InvokeOperation("LoginRole", typeof(int), parameters, true, callback, userState)));
-        }
-        
-        /// <summary>
-        /// Asynchronously invokes the 'LoginRole' method of the DomainService.
-        /// </summary>
-        /// <param name="username">The value for the 'username' parameter of this action.</param>
-        /// <param name="password">The value for the 'password' parameter of this action.</param>
-        /// <param name="menuAdi">The value for the 'menuAdi' parameter of this action.</param>
-        /// <param name="YetkiAdi">The value for the 'YetkiAdi' parameter of this action.</param>
-        /// <returns>An operation instance that can be used to manage the asynchronous request.</returns>
-        public InvokeOperation<int> LoginRole(string username, string password, string menuAdi, string YetkiAdi)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("username", username);
-            parameters.Add("password", password);
-            parameters.Add("menuAdi", menuAdi);
-            parameters.Add("YetkiAdi", YetkiAdi);
-            this.ValidateMethod("LoginRole", parameters);
-            return ((InvokeOperation<int>)(this.InvokeOperation("LoginRole", typeof(int), parameters, true, null, null)));
+            this.ValidateMethod("LoginRoleQuery", parameters);
+            return base.CreateQuery<DbLogin>("LoginRole", parameters, false, true);
         }
         
         /// <summary>
@@ -2175,21 +2161,20 @@ namespace OSYS.Web
             /// </summary>
             /// <param name="username">The value for the 'username' parameter of this action.</param>
             /// <param name="password">The value for the 'password' parameter of this action.</param>
-            /// <param name="menuAdi">The value for the 'menuAdi' parameter of this action.</param>
-            /// <param name="YetkiAdi">The value for the 'YetkiAdi' parameter of this action.</param>
             /// <param name="callback">Callback to invoke on completion.</param>
             /// <param name="asyncState">Optional state object.</param>
             /// <returns>An IAsyncResult that can be used to monitor the request.</returns>
             [FaultContract(typeof(DomainServiceFault), Action="http://tempuri.org/DSAtoz/LoginRoleDomainServiceFault", Name="DomainServiceFault", Namespace="DomainServices")]
             [OperationContract(AsyncPattern=true, Action="http://tempuri.org/DSAtoz/LoginRole", ReplyAction="http://tempuri.org/DSAtoz/LoginRoleResponse")]
-            IAsyncResult BeginLoginRole(string username, string password, string menuAdi, string YetkiAdi, AsyncCallback callback, object asyncState);
+            [WebGet()]
+            IAsyncResult BeginLoginRole(string username, string password, AsyncCallback callback, object asyncState);
             
             /// <summary>
             /// Completes the asynchronous operation begun by 'BeginLoginRole'.
             /// </summary>
             /// <param name="result">The IAsyncResult returned from 'BeginLoginRole'.</param>
-            /// <returns>The 'Int32' returned from the 'LoginRole' operation.</returns>
-            int EndLoginRole(IAsyncResult result);
+            /// <returns>The 'QueryResult' returned from the 'LoginRole' operation.</returns>
+            QueryResult<DbLogin> EndLoginRole(IAsyncResult result);
             
             /// <summary>
             /// Asynchronously invokes the 'SubmitChanges' operation.
@@ -2218,6 +2203,7 @@ namespace OSYS.Web
                 this.CreateEntitySet<DbGuest>(EntitySetOperations.None);
                 this.CreateEntitySet<DBGuestServicePlan>(EntitySetOperations.None);
                 this.CreateEntitySet<DBIzinPersonel>(EntitySetOperations.None);
+                this.CreateEntitySet<DbLogin>(EntitySetOperations.None);
                 this.CreateEntitySet<DbPersonelJobDetail>(EntitySetOperations.None);
                 this.CreateEntitySet<DbPersonelTherapy>(EntitySetOperations.None);
                 this.CreateEntitySet<SPA_Diagnosis>(EntitySetOperations.All);
@@ -13219,12 +13205,17 @@ namespace OSYS.Web.DTO
     
     /// <summary>
     /// The 'DbLogin' entity class.
+    /// This entity is shared between the following contexts:
+    /// The <see cref="DSAtoz"/> context.
+    /// The <see cref="DSCapriceOfis"/> context.
     /// </summary>
     [DataContract(Namespace="http://schemas.datacontract.org/2004/07/OSYS.Web.DTO")]
     public sealed partial class DbLogin : Entity
     {
         
         private Guid _departmanID;
+        
+        private int _durumID;
         
         private string _password;
         
@@ -13245,6 +13236,8 @@ namespace OSYS.Web.DTO
         partial void OnCreated();
         partial void OnDepartmanIDChanging(Guid value);
         partial void OnDepartmanIDChanged();
+        partial void OnDurumIDChanging(int value);
+        partial void OnDurumIDChanged();
         partial void OnPasswordChanging(string value);
         partial void OnPasswordChanged();
         partial void OnPersonelGorevIDChanging(Nullable<Guid> value);
@@ -13287,6 +13280,30 @@ namespace OSYS.Web.DTO
                     this._departmanID = value;
                     this.RaiseDataMemberChanged("DepartmanID");
                     this.OnDepartmanIDChanged();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets the 'DurumID' value.
+        /// </summary>
+        [DataMember()]
+        public int DurumID
+        {
+            get
+            {
+                return this._durumID;
+            }
+            set
+            {
+                if ((this._durumID != value))
+                {
+                    this.OnDurumIDChanging(value);
+                    this.RaiseDataMemberChanging("DurumID");
+                    this.ValidateProperty("DurumID", value);
+                    this._durumID = value;
+                    this.RaiseDataMemberChanged("DurumID");
+                    this.OnDurumIDChanged();
                 }
             }
         }

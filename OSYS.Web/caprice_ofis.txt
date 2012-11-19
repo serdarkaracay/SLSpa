@@ -1,0 +1,1 @@
+data source=10.9.0.6;initial catalog=Cpr_Ofis;persist security info=True;user id=sa;password=#4a10i63m52*

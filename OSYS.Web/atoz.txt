@@ -1,0 +1,1 @@
+data source=10.9.0.4;initial catalog=AtoZ_Caprice;persist security info=True;user id=sa;password=mymicros
