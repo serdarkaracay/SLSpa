@@ -82,11 +82,12 @@ namespace OSYS.Pages
 
             }
 
-            if (DLoginLoadOp.Entities.Count<OSYS.Web.DTO.DbLogin>() > 0)
+            if (UserSession.PersonelName!=null)
             {
+                Authenticate();
                 mainPage mp = new mainPage();
                 this.Content = mp;
-                Authenticate();
+               
             }
         }
 
