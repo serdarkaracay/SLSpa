@@ -20,7 +20,7 @@
             <Image x:Name="image"
                    Margin="103,0,2,7"
                    RenderTransformOrigin="0.5,0.5"
-                   Source="../Images/capricelogo.png" Height="34" VerticalAlignment="Bottom">
+                   Source="../Images/CapriceGroupLogo.png" Height="34" VerticalAlignment="Bottom">
                 <Image.Effect>
                     <DropShadowEffect />
                 </Image.Effect>
@@ -40,7 +40,7 @@
                            Text="Caprice SPA"
                            TextAlignment="Center"
                            TextWrapping="Wrap" Height="88" VerticalAlignment="Top" />
-                <Image x:Name="imageLogo" Source="/OSYS;component/Images/capricelogo.png" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Margin="39,192,35,0">
+                <Image x:Name="imageLogo" Source="/OSYS;component/Images/CapriceGroupLogo.png" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Margin="39,192,35,0">
                 	
                 </Image>
             </Grid>
