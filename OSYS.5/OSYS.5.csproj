@@ -477,8 +477,6 @@
     <Resource Include="Images\view.png" />
     <Resource Include="Images\w.png" />
     <Resource Include="Images\background.jpg" />
-    <Resource Include="Images\capricelogo.png" />
-    <Resource Include="Images\Doctor.png" />
     <Resource Include="Images\mainmenu.png" />
     <Resource Include="Images\add.png" />
     <Resource Include="Images\deleteu.png" />
@@ -487,6 +485,7 @@
     <Resource Include="Images\lq.png" />
     <Resource Include="Images\lw.png" />
     <Resource Include="Images\history.png" />
+    <Resource Include="Images\CapriceGroupLogo.png" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>
