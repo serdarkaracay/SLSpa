@@ -1600,7 +1600,7 @@ namespace OSYS.Web
             parameters.Add("username", username);
             parameters.Add("password", password);
             this.ValidateMethod("LoginRoleQuery", parameters);
-            return base.CreateQuery<DbLogin>("LoginRole", parameters, false, true);
+            return base.CreateQuery<DbLogin>("LoginRole", parameters, false, false);
         }
         
         /// <summary>
@@ -13215,8 +13215,6 @@ namespace OSYS.Web.DTO
         
         private Guid _departmanID;
         
-        private int _durumID;
-        
         private string _password;
         
         private Nullable<Guid> _personelGorevID;
@@ -13224,6 +13222,8 @@ namespace OSYS.Web.DTO
         private Guid _personelID;
         
         private string _personelName;
+        
+        private string _userGrup;
         
         private string _username;
         
@@ -13236,8 +13236,6 @@ namespace OSYS.Web.DTO
         partial void OnCreated();
         partial void OnDepartmanIDChanging(Guid value);
         partial void OnDepartmanIDChanged();
-        partial void OnDurumIDChanging(int value);
-        partial void OnDurumIDChanged();
         partial void OnPasswordChanging(string value);
         partial void OnPasswordChanged();
         partial void OnPersonelGorevIDChanging(Nullable<Guid> value);
@@ -13246,6 +13244,8 @@ namespace OSYS.Web.DTO
         partial void OnPersonelIDChanged();
         partial void OnPersonelNameChanging(string value);
         partial void OnPersonelNameChanged();
+        partial void OnUserGrupChanging(string value);
+        partial void OnUserGrupChanged();
         partial void OnUsernameChanging(string value);
         partial void OnUsernameChanged();
 
@@ -13280,30 +13280,6 @@ namespace OSYS.Web.DTO
                     this._departmanID = value;
                     this.RaiseDataMemberChanged("DepartmanID");
                     this.OnDepartmanIDChanged();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Gets or sets the 'DurumID' value.
-        /// </summary>
-        [DataMember()]
-        public int DurumID
-        {
-            get
-            {
-                return this._durumID;
-            }
-            set
-            {
-                if ((this._durumID != value))
-                {
-                    this.OnDurumIDChanging(value);
-                    this.RaiseDataMemberChanging("DurumID");
-                    this.ValidateProperty("DurumID", value);
-                    this._durumID = value;
-                    this.RaiseDataMemberChanged("DurumID");
-                    this.OnDurumIDChanged();
                 }
             }
         }
@@ -13402,6 +13378,30 @@ namespace OSYS.Web.DTO
                     this._personelName = value;
                     this.RaiseDataMemberChanged("PersonelName");
                     this.OnPersonelNameChanged();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets the 'UserGrup' value.
+        /// </summary>
+        [DataMember()]
+        public string UserGrup
+        {
+            get
+            {
+                return this._userGrup;
+            }
+            set
+            {
+                if ((this._userGrup != value))
+                {
+                    this.OnUserGrupChanging(value);
+                    this.RaiseDataMemberChanging("UserGrup");
+                    this.ValidateProperty("UserGrup", value);
+                    this._userGrup = value;
+                    this.RaiseDataMemberChanged("UserGrup");
+                    this.OnUserGrupChanged();
                 }
             }
         }
