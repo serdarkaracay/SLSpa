@@ -303,7 +303,7 @@ namespace OSYS.Web
         // To support paging you will need to add ordering to the 'SPA_Therapy' query.
         public IQueryable<SPA_Therapy> GetSPA_Therapy()
         {
-            return this.ObjectContext.SPA_Therapy.OrderBy(t => t.TherapyName);
+            return this.ObjectContext.SPA_Therapy.Where(t=>t.IsActive==true).OrderBy(t=>t.TherapyName);
         }
 
         public void InsertSPA_Therapy(SPA_Therapy sPA_Therapy)
