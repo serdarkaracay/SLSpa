@@ -141,7 +141,7 @@
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            FontSize="16"
-                           Foreground="#FFB8AF64"
+                           Foreground="#FFE2B751"
                            Text="Sayfa"
                            TextWrapping="Wrap" Width="255" IsHitTestVisible="True">
                     <TextBlock.Effect>
@@ -163,7 +163,7 @@
                                FontWeight="Bold"
                                Text="CAPRİCE SPA"
                                TextWrapping="Wrap"
-                               d:LayoutOverrides="Height" Foreground="#FFB8AF64" />
+                               d:LayoutOverrides="Height" Foreground="#FFE2B751" />
                 </Grid>
                 <Grid x:Name="gridiDealTelknoloji"
                       Height="38"
@@ -261,8 +261,8 @@
                                d:LayoutOverrides="Height">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="1" Color="#FF767676" />
-                                <GradientStop Color="#FFFDFF1E" />
+                                <GradientStop Offset="1" Color="#FFE2B751" />
+                                <GradientStop Color="#FFE2B751" />
                             </LinearGradientBrush>
                         </TextBlock.Foreground>
                         <TextBlock.Effect>
@@ -283,7 +283,7 @@
                                d:LayoutOverrides="Height">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="1" Color="#FF767676" />
+                                <GradientStop Offset="1" Color="#FFE2B751" />
                                 <GradientStop Color="#FFFDFF1E" />
                             </LinearGradientBrush>
                         </TextBlock.Foreground>
@@ -422,7 +422,7 @@
                            TextAlignment="Left"
                            FontSize="10.667"
                            Text="User Name"
-                           Foreground="#FFB8AF64">
+                           Foreground="#FFE2B751">
                     <TextBlock.Effect>
                         <DropShadowEffect BlurRadius="1"
                                           Direction="329"

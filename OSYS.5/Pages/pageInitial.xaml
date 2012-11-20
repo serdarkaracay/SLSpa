@@ -36,7 +36,7 @@
                            FontFamily="Arial Rounded MT Bold"
                            FontSize="36"
                            FontWeight="Normal"
-                           Foreground="#FFB8AF64"
+                           Foreground="#FFE2B751"
                            Text="Caprice SPA"
                            TextAlignment="Center"
                            TextWrapping="Wrap" Height="88" VerticalAlignment="Top" />
