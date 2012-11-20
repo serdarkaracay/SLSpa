@@ -121,6 +121,8 @@ namespace OSYS.Web
             }
         }
 
+
+
         public void UpdateSPA_GuestTherapyDetail(SPA_GuestTherapyDetail currentSPA_GuestTherapyDetail)
         {
             this.ObjectContext.SPA_GuestTherapyDetail.AttachAsModified(currentSPA_GuestTherapyDetail, this.ChangeSet.GetOriginal(currentSPA_GuestTherapyDetail));
