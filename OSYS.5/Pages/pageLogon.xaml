@@ -97,7 +97,7 @@
     				KeyDown="txtPassword_KeyDown"
     				TabIndex="2" HorizontalAlignment="Right" Margin="5,0,0,0" GotFocus="txtPassword_GotFocus" />
     		</StackPanel>
-    		<Image HorizontalAlignment="Left" Width="66" Source="/OSYS;component/Images/doctor.png" Margin="8,26,0,88"/>
+            <Image HorizontalAlignment="Left" Width="66" Source="/OSYS;component/Images/User-Managment.png" Margin="8,26,0,88"/>
     		<Border x:Name="borderMessage"
     			Height="36"
     			Margin="0,145,0,0"
