@@ -38,7 +38,7 @@ namespace OSYS
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-
+            //this.RootVisual = new pageLogon();
             this.RootVisual = new mainPage();
             // this.RootVisual = new test();
         }
