@@ -31,24 +31,10 @@ namespace OSYS.Pages
         public mainPage()
         {
             InitializeComponent();
-            //stackPanelMainMenu.Visibility = Visibility.Collapsed;
             txtUserName.Text = "";
             btnMenuEffect.Opacity = 0;
             spTrayMessage.Opacity = 0;
-            //c1Accordion1.Visibility = System.Windows.Visibility.Collapsed;
-
-
-
-            //if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
-            //{
-            //    return;
-            //}
-
-            //btnVessels.Visibility = btnOperations.Visibility =
-            //    btnSettings.Visibility = btnUserProfile.Visibility =
-            //    btnReports.Visibility = btnLogoff.Visibility = Visibility.Collapsed;
-            //btnLogon.Visibility = Visibility.Visible;
-
+            MenuControl();
 
             Loaded += new RoutedEventHandler(mainPage_Loaded);
         }
@@ -191,6 +177,7 @@ namespace OSYS.Pages
         {
             cMessageBox1.Show(msg, b, r);
         }
+
         public void MsgBox(Control control, EButtons b, DialogResultHandler r)
         {
             cMessageBox1.Show(control, b, r);
@@ -380,6 +367,67 @@ namespace OSYS.Pages
         //}
 
         #region MENU CONTROL
+
+        public void MenuControl()
+        {
+            switch (UserSession.Role)
+            {
+                case "Fizyoterapist": this.MenuFizyoterapist(); break;
+                case "Resepsiyonsit": this.MenuResepsiyonist(); break;
+                default:
+                    break;
+            }
+        }
+
+        public void MenuFizyoterapist()
+        {
+            #region FizyoterapistGosterilecekMenuler
+
+            c1AccordionItem2.IsExpanded = true;
+            c1AccordionItem2.IsExpandable = true;
+            c1AccordionItem2.IsEnabled = true;
+            btnFizyoterapistRe.IsEnabled = true;
+
+            #endregion
+
+            #region FizyoterapistGösterilmeyecekMenuler
+
+            c1AccordionItem1.IsExpanded = false;
+            c1AccordionItem1.IsExpandable = false;
+            btnGroup.Visibility = System.Windows.Visibility.Collapsed;   //Servisler
+            btnCustomer.Visibility = System.Windows.Visibility.Collapsed;//ServisTanımlama
+            btnPaket.Visibility = System.Windows.Visibility.Collapsed; //Paketler
+            btnFizyoterapist.Visibility = System.Windows.Visibility.Collapsed;
+            btnRezervasyon.Visibility = System.Windows.Visibility.Collapsed;
+            btnAyarlar.Visibility = System.Windows.Visibility.Collapsed;
+            btnOdeme.Visibility = System.Windows.Visibility.Collapsed;
+            c1AccordionItem3.IsExpandable = false;
+            c1AccordionItem3.IsExpanded = false;
+
+            #endregion
+        }
+
+        public void MenuResepsiyonist()
+        {
+            #region ResepsiyonGosterilecekMenuler
+
+            c1AccordionItem2.IsExpanded = true;
+            c1AccordionItem2.IsExpandable = true;
+            c1AccordionItem2.IsEnabled = true;
+            btnRezervasyon.IsEnabled = true;
+
+            #endregion
+
+            #region ResepsiyonGosterilmeyecekMenuler
+
+            c1AccordionItem1.IsEnabled = false;
+            c1AccordionItem1.IsExpandable = false;
+            c1AccordionItem1.IsExpanded = false;
+            c1AccordionItem3.IsEnabled = false;
+            c1AccordionItem3.IsExpandable = false;
+            c1AccordionItem3.IsExpanded = false;
+            #endregion
+        }
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
@@ -582,7 +630,6 @@ namespace OSYS.Pages
         private int _serviceID;
         public int ServiceID { get { return _serviceID; } set { _serviceID = value; } }
 
-
         private void btnCustomerMeter_Click(object sender, RoutedEventArgs e)
         {
             ServiceListControl serviceListModel = new ServiceListControl();
@@ -631,18 +678,6 @@ namespace OSYS.Pages
             CloseMenu();
 
         }
-
-        //private void button1_Click_1(object sender, RoutedEventArgs e)
-        //{
-        //MsgBox("Çıkmak istiyormusunuz ?", EButtons.YesNo, EIcon.Question, (r) =>
-        //    {
-        //        if (r == EButton.Yes)
-        //        {
-        //            uiDriver.Activate(EPages.Logon);
-        //            CloseMenu();
-        //        }
-        //    });
-        //}
 
         private void btnlogOut_Click(object sender, RoutedEventArgs e)
         {

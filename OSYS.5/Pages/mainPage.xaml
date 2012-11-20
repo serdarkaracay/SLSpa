@@ -161,7 +161,7 @@
                                FontFamily="Arial Rounded MT Bold"
                                FontSize="24"
                                FontWeight="Bold"
-                               Text="S.P.A YÖNETİM SİSTEMİ"
+                               Text="CAPRİCE SPA"
                                TextWrapping="Wrap"
                                d:LayoutOverrides="Height" Foreground="#FFB8AF64" />
                 </Grid>
@@ -256,7 +256,7 @@
                     <TextBlock x:Name="txtFooter"
                                Margin="4,3,175,2"
                                FontSize="10"
-                               Text="S.P.A Yönetim Sistemi v.{0} © Caprice Gold 2012"
+                               Text="Caprice SPA v.{0} © Caprice Gold 2012"
                                TextWrapping="Wrap"
                                d:LayoutOverrides="Height">
                         <TextBlock.Foreground>
@@ -334,7 +334,7 @@
                                 Orientation="Vertical">
 
                         <c1:C1Accordion  Name="c1Accordion1" VerticalAlignment="Top" ExpandedBackground="#FF78AA78">
-                            <c1:C1AccordionItem   Header="Tanımlamalar" Name="c1AccordionItem1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="13.333" HeaderFontSize="12" FontFamily="Arial" ExpandedBackground="#FF3280BA" HeaderForeground="#FFFFF964" HeaderBackground="#FF2F5277" BorderBrush="#FF0F0F10" MouseOverBrush="#FF5397C9" HeaderPadding="10,0,0,0" HeaderFontFamily="Portable User Interface" Background="#FF0E3A5A" >
+                            <c1:C1AccordionItem   Header="Tanımlamalar" Name="c1AccordionItem1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="13.333" HeaderFontSize="12" FontFamily="Arial" ExpandedBackground="#FF3280BA" HeaderForeground="#FFFFF964" HeaderBackground="#FF2F5277" BorderBrush="#FF0F0F10" MouseOverBrush="#FF5397C9" HeaderPadding="10,0,0,0" HeaderFontFamily="Portable User Interface" Background="#FF0E3A5A" IsExpanded="True" >
                                 <c1:C1AccordionItem.Content>
                                     <StackPanel>
                                         <Button x:Name="btnGroup"

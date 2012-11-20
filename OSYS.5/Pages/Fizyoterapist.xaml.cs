@@ -38,8 +38,22 @@ namespace OSYS.Pages
 
         public void BindGuestList()
         {
-            loadOpGuest = context.Load(context.GetFizyoterapistGuestQuery(UserSession.UserID.ToString()));
-            loadOpGuest.Completed += loadOpGuest_Completed;
+
+            if (UserSession.UserID == new Guid("3559AC54-223C-4FFB-9D84-139738F503D4"))
+            {
+                FizyoterapistID = "C684C293-89A8-4CC7-882A-7BA9F41050F9";
+            }
+            if (UserSession.UserID == new Guid("51874429-D10F-43F9-92A1-E159991D12BF"))
+            {
+                FizyoterapistID = "8B514F25-D621-43F0-9DAB-CED1D3F955D1";
+            }
+
+            if (FizyoterapistID != null)
+            {
+                loadOpGuest = context.Load(context.GetFizyoterapistGuestQuery(FizyoterapistID));
+                loadOpGuest.Completed += loadOpGuest_Completed;
+            }
+
         }
 
         void loadOpGuest_Completed(object sender, EventArgs e)
@@ -50,6 +64,7 @@ namespace OSYS.Pages
 
         public Guid GuestID { get; set; }
         public Guid ID { get; set; }
+        public string FizyoterapistID { get; set; }
         bool dataform = false;
 
         private void listboxGuest_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -127,7 +142,7 @@ namespace OSYS.Pages
 
         void Fizyoterapist_Completed(object sender, EventArgs e)
         {
-           
+
             this.BindGuestServicePlan(GuestID);
             txtDesc.Text = string.Empty;
             cbeServisList.Clear();
@@ -136,7 +151,7 @@ namespace OSYS.Pages
             {
                 uiDriver.Activate(EPages.Fizyoterapist);
             }
-           
+
         }
 
         bool refresh = false;
@@ -160,15 +175,15 @@ namespace OSYS.Pages
             db.Completed = true;
             //context.SubmitChanges();
             context.SubmitChanges().Completed += Fizyoterapist_Completed;
-            
+
 
         }
 
-     
+
         private void btnServisListPlan_Click(object sender, RoutedEventArgs e)
         {
 
-          
+
             SPA_GuestTherapyDetail guestTherapy = new SPA_GuestTherapyDetail();
             guestTherapy.ID = Guid.NewGuid();
             guestTherapy.GuestID = GuestID;
@@ -177,9 +192,9 @@ namespace OSYS.Pages
             guestTherapy.TherapyNote = txtDesc.Text;
             guestTherapy.IsCompleted = false;
             context.SPA_GuestTherapyDetails.Add(guestTherapy);
-            context.SubmitChanges().Completed+=Fizyoterapist_Completed;
+            context.SubmitChanges().Completed += Fizyoterapist_Completed;
 
-           
+
 
             //if (!guestListRefresh)
             //{

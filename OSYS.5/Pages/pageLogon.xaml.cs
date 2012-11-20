@@ -64,9 +64,10 @@ namespace OSYS.Pages
         public void LoadData()
         {
             //todo:Login için Menüleri göster,gösterme olayı yapmaya başladım.
-          //  DLoginLoadOp = ds.Load(ds.GetLoginQuery(txtUserName.Text, txtPassword.Password), false);
+            //DLoginLoadOp = ds.Load(ds.GetLoginQuery(txtUserName.Text, txtPassword.Password), false);
+            DLoginLoadOp = context.Load(context.LoginRoleQuery(txtUserName.Text, txtPassword.Password), true);
+            DLoginLoadOp.Completed += DLoginLoadOp_Completed;
 
-            DLoginLoadOp.Completed += new EventHandler(DLoginLoadOp_Completed);
         }
 
         void DLoginLoadOp_Completed(object sender, EventArgs e)
@@ -77,18 +78,21 @@ namespace OSYS.Pages
             {
                 UserSession.PersonelName = item.PersonelName;
                 UserSession.UserID = item.PersonelID;
+                UserSession.Role = item.UserGrup;
+
             }
 
             if (DLoginLoadOp.Entities.Count<OSYS.Web.DTO.DbLogin>() > 0)
             {
-                this.Content = new mainPage();
+                mainPage mp = new mainPage();
+                this.Content = mp;
                 Authenticate();
             }
         }
 
         public void SetFocus()
         {
-            container.Focus();
+           // container.Focus();
             this.Focus();
             txtUserName.Focus();
 
@@ -104,7 +108,7 @@ namespace OSYS.Pages
 
         void AuthenticateUser(string userName, string password)
         {
-            container.BusyStart("Checking security...");
+            //container.BusyStart("Checking security...");
 
             CUser AuthenticatedUser = new CUser();
             AuthenticatedUser.ID = 1;
@@ -114,10 +118,10 @@ namespace OSYS.Pages
             CProfile cp = new CProfile();
             cp.ProfileItems.Add("UTC", new object());
             AuthenticatedUser.Profile = new CProfile();
-                        
-            //  AuthenticatedUser = AuthenticatedUser as CUser;
+
+            AuthenticatedUser = AuthenticatedUser as CUser;
             AuthenticationSucceded(this, new AuthenticationEventArgs(AuthenticatedUser));
-            container.BusyEnd();
+            //container.BusyEnd();
 
         }
 
@@ -176,7 +180,7 @@ namespace OSYS.Pages
 
         private void btnForgottenPassword_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            container.NotImplemented();
+            //container.NotImplemented();
         }
 
         private void txtUserName_GotFocus(object sender, RoutedEventArgs e)

@@ -12,11 +12,13 @@ namespace OSYS.Classes
 
     public static class UserSession
     {
-        public static string UserName { get; set; }
+       
+         public static string UserName { get; set; }
         public static Guid UserID { get; set; }
         public static string PersonelName { get; set; }
         public static string Role { get; set; }
         public static string Phone { get; set; }
         public static string Email { get; set; }
+        
     }
 }
