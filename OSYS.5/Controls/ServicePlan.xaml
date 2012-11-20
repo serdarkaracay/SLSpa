@@ -103,13 +103,15 @@
                                 </dxe:ButtonEdit>
                             </Grid>
                         </dx:DXTabItem>
-                        <dx:DXTabItem x:Name="tbitemPrint" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center" IsSelected="True">
+                        <dx:DXTabItem x:Name="tbitemPrint" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <dx:DXTabItem.Header>
                                 <TextBlock Text="Yazdır"  FontWeight="Bold" Foreground="DarkBlue"></TextBlock>
                             </dx:DXTabItem.Header>
                             <Grid Margin="2">
                                 <TextBlock Text="Raporlar"></TextBlock>
-                                <dxp:DocumentPreview></dxp:DocumentPreview>
+                                <dxp:DocumentPreview>
+                                    
+                                </dxp:DocumentPreview>
                             </Grid>
                         </dx:DXTabItem>
                     </dx:DXTabControl>
