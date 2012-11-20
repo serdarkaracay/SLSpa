@@ -18,11 +18,14 @@ namespace OSYS.Web.DTO
 
         [Key]
         public Guid PersonelID { get; set; }
-        public Guid DepartmanID { get; set; }
-        public Guid? PersonelGorevID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string PersonelName { get; set; }
-        public int DurumID { get; set; }
+        public string UserGrup { get; set; }
+
+
+        public Guid DepartmanID { get; set; }
+
+        public Guid? PersonelGorevID { get; set; }
     }
 }

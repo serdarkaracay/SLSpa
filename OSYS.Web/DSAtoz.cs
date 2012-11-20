@@ -526,10 +526,11 @@ namespace OSYS.Web
         //03.09.2013 -- Fizyoterapiste Kayıtlı Olan Misafirleri getirir.
         public IQueryable<DTO.DbGuest> GetFizyoterapistGuest(string fizyoterapisID)
         {
+
             Guid _fizyoterapisID = Guid.Parse(fizyoterapisID);
             IQueryable<DTO.DbGuest> result = from p in ObjectContext.SPA_GuestDiagnosisDetail
                                              join c in ObjectContext.View_SPA_GuestReservation on p.GuestID equals c.ID
-                                             where (p.Completed == false && p.PersonelID==_fizyoterapisID)
+                                             where (p.Completed == false && p.PersonelID == _fizyoterapisID)
                                              select new DTO.DbGuest
                                              {
                                                  GuestID = p.GuestID,
@@ -541,7 +542,6 @@ namespace OSYS.Web
                                                  Release = c.DepartureDate,
                                                  ID = p.ID
                                              };
-
             return result.AsQueryable();
         }
 
@@ -719,38 +719,29 @@ namespace OSYS.Web
 
         #region LoginRole
 
-        List<DTO.DbLogin> loginList = new List<DTO.DbLogin>();
-        public List<DTO.DbLogin> LoginRole(string username, string password)
+
+        public DTO.DbLogin LoginRole(string username, string password)
         {
-            return loginList;
+
+            DTO.DbLogin dbLogin = new DTO.DbLogin();
+            Kullanici userLogin;
             string AppName = "Spa";
 
             NUtils.Login.Authentication newAuthentication = new NUtils.Login.Authentication(AppName);
 
-            Kullanici userLogin;
             try
             {
                 userLogin = newAuthentication.KullaniciKontrol(username, password);
-
+                dbLogin.PersonelName = userLogin.AdSoyad;
+                dbLogin.PersonelID = userLogin.KullaniciID;
+                dbLogin.UserGrup = userLogin.UserRoleAD;
             }
             catch (Exception msg)
             {
-                //Şifre Yanlış
-                //Kullanıcı Adı Yanlış
-                //if (msg.Message == "Şifre Yanlış")
-                //{
-                    
-                //}
+
             }
-            
-            NUtils.Login.Yetki yetkiDurum = new NUtils.Login.Yetki(userLogin.UserRights);
-           
-                if (!yetkiDurum.YetkiVarmi("Rezervasyon", "HepsiniGor"))
-                {
- 
-                }
-                return loginList;
-                
+            return dbLogin;
+
         }
         #endregion
 
